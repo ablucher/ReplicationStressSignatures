@@ -20,4 +20,4 @@ Peng, et al. homologous repair signature.
 GSVA Gene Set Variation Analysis using the MSIGDB Cancer Hallmars. 
 
 ## Contact
-Please email [!Aurora Blucher](blucher@ohsu.edu) for questions, comments, or inquirues about internal dataset access. 
+Please email [Aurora Blucher](blucher@ohsu.edu) for questions, comments, or inquirues about internal dataset access. 
