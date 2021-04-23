@@ -1,0 +1,56 @@
+---
+title: "RepStress Project - Select Cell Lines"
+author: "Aurora S Blucher"
+date: "2/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(here)
+library(caret)
+```
+
+## Split DepMap/CCLE Lines -> Training/Test Sets
+
+This script reads in the DepMap/CCLE data that we have and splits into an 80/20 training and test set. Write sets to different files. 
+For breast, ovarian, endometrial, and pancreatic lines (n=244 total). Split and keep an equal proportion of each disease type. 
+
+Notes
+02/02/21 - read in and split
+
+Citations
+-tidyverse; Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+-here
+-readxl
+-caret; https://topepo.github.io/caret/data-splitting.html
+
+```{r}
+#Cell lines 01/28/20 file from DDR-Pathway-Resources>output>depmap>queriese
+Lines_FullSet<-read_tsv(here("data", "DepMap_forRepStress_BrEndoOvPancr_012821.txt"))
+View(Lines_FullSet) #244 lines total
+
+#random seed
+set.seed(020221)
+
+#split data into 80/20; with respect to CancerType; list = FALSE = don't return data as a ilist
+#use createResampple to do bootstraps; createFolds to to do balanced cross-validation groupings
+#cite: Max Kuhn/ caret package https://topepo.github.io/caret/data-splitting.html
+trainIndex<-createDataPartition(Lines_FullSet$Cancer_Type, p=.8, list = FALSE, times = 1)
+head(trainIndex)
+
+Lines_Training<-Lines_FullSet[trainIndex,] #take rows from our index, all columns
+Lines_Test<-Lines_FullSet[-trainIndex, ] #take all other rows, all columns
+
+#quick check #s
+#TRAINING = 197
+View(Lines_Training)
+write_tsv(Lines_Training, here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+#TEST = 47
+View(Lines_Test)
+write_tsv(Lines_Test, here("data", "CCLE_Test", "DepMap_forRepStress_BrEndoOvPanc_TEST_020221.tsv"))
+
+
+```

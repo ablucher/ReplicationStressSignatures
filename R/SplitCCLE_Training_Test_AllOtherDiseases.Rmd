@@ -1,0 +1,297 @@
+---
+title: "SplitCCLE_Training_Test_AllOtherDiseases"
+author: "Aurora S Blucher"
+date: "4/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(here)
+library(caret)
+```
+
+## Splitting Full CCLE (All Diseases) -> Training and Test
+
+This is an additional script for splitting the full CCLE data into training and test sets. First we need to pull off breast/ovarian/endometrial/pancreatic lines, which have previously been split; then select a random 80% of the lines for training.  Require an equal distribution by disease type. 
+
+Notes
+04/20/20 - split other diseases into training/ test, run the McGrail RSR RNA signature
+
+
+```{r}
+#read in the full list of cell lines
+
+CCLE_all<-read_csv(here("data", "DepMapCCLE_data", "sample_info_cleaned_021521.csv"))
+View(CCLE_all)
+
+ExcludeDiseases<-as.data.frame(c("Breast Cancer", "Ovarian Cancer", "Endometrial/Uterine Cancer", "Pancreatic Cancer"))
+colnames(ExcludeDiseases)<-c("Disease")
+#remove any without disease or more information
+#remove breast, ovarian, endo, pancreatic
+CCLE_additionalDiseases<-CCLE_all %>%
+  filter(!primary_disease %in% ExcludeDiseases$Disease) %>%
+  filter( !is.na(cell_line_name)) %>%
+  filter(primary_disease!="Unknown")
+View(CCLE_additionalDiseases)
+
+#random seed
+set.seed(042021)
+
+#SPLIT INTO TRAINING/TEST SETS
+#split data into 80/20; with respect to CancerType; list = FALSE = don't return data as a ilist
+#use createResampple to do bootstraps; createFolds to to do balanced cross-validation groupings
+#cite: Max Kuhn/ caret package https://topepo.github.io/caret/data-splitting.html
+trainIndex<-createDataPartition(CCLE_additionalDiseases$primary_disease, p=.8, list = FALSE, times = 1)
+head(trainIndex)
+
+#subset
+Lines_Training<-CCLE_additionalDiseases[trainIndex,] #take rows from our index, all columns
+Lines_Test<-CCLE_additionalDiseases[-trainIndex, ] #take all other rows, all columns
+
+#quick check #s
+#TRAINING =1150
+View(Lines_Training)
+#write_tsv(Lines_Training, here("data", "CCLE_Training", "DepMap_forRepStress_OtherDiseasess_TRAINING_210421.tsv"))
+#TEST = 274
+View(Lines_Test)
+#write_tsv(Lines_Test, here("data", "CCLE_Test", "DepMap_forRepStress_OtherDiseases_TEST_210421.tsv"))
+
+```
+
+```{r}
+#TRAINING only
+CCLE_allOtherDiseases<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_OtherDiseasess_TRAINING_210421.tsv")) %>%
+  select(DepMapID=DepMap_ID, CellLine_Name = cell_line_name, CellLine_Name_Cleaned = stripped_cell_line_name, 
+         Cancer_Type = primary_disease, Cancer_Subtype = Subtype, DerivedFrom_Primary_or_Met=primary_or_metastasis )
+View(CCLE_allOtherDiseases)
+#TRAINING - breast, ov, endo, pancreatic from main scripting work
+#merge
+CCLE_BrOvEndPanc<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+View(CCLE_BrOvEndPanc)
+
+mergedFrames<-rbind(CCLE_allOtherDiseases, CCLE_BrOvEndPanc)
+View(mergedFrames)
+
+#RNASeq data
+#go back to full CCLE file
+DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
+View(DepMap_RNASeq)
+
+#Filter RNASeq data down to our cell lines; 
+#cell lines
+DepMap_TrainingLines_RNASeq_All<-DepMap_RNASeq %>%
+  pivot_longer(-X1, names_to = "Gene", values_to = "Log2_TPM") %>%
+  select(DepMap_ID = X1, Gene, Log2_TPM) %>%
+  filter(DepMap_ID %in% mergedFrames$DepMapID) %>% #need to use DepMapID across data types
+  separate(Gene, c("Name", "ID_ToClean"), " ") %>%
+  mutate(ID = str_sub(ID_ToClean, 2, -2)) %>%#start at second char, end on 2nd to last chat -> remove "()"
+  select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
+dim(DepMap_TrainingLines_RNASeq_All) #20371284 x 4
+#View(DepMap_TrainingLines_RNASeq)
+#intermediate, output to file
+write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_AllDiseases_RNASeq_LONG.tsv"))
+
+
+#McGrail RSR Genes and Coefficients
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(RSRSignatureGenes)
+
+#now need to clean the Gene field and filter to our genes
+DepMap_RNASeq_RSRGenes<-DepMap_TrainingLines_RNASeq_All %>%
+ filter( Gene %in% RSRSignatureGenes$Gene) 
+dim(DepMap_RNASeq_RSRGenes)
+View(unique(DepMap_RNASeq_RSRGenes$Gene)) #580 genes
+#View(DepMap_RNASeq_RSRGenes)
+
+RSRSignatureGenes_filtered<-RSRSignatureGenes %>%
+   filter(Gene %in% DepMap_RNASeq_RSRGenes$Gene)
+#View(RSRSignatureGenes_filtered)
+
+#re-structure, then run against corelation of RSR
+DepMap_RNASeq_RSRGenes_cleaned_dataframe<-DepMap_RNASeq_RSRGenes %>%
+  select(DepMapID = DepMap_ID, Gene, Log2_TPM ) %>%
+  arrange(Gene) 
+#View(DepMap_RNASeq_RSRGenes_cleaned_dataframe)
+
+#join with our gene co-efficients  
+Joined_DepMapRNASeq_RSRCoefficients<-left_join(DepMap_RNASeq_RSRGenes_cleaned_dataframe,RSRSignatureGenes_filtered )
+#View(Joined_DepMapRNASeq_RSRCoefficients)
+
+#run correlations on full data frame
+dataFrame_corr_all<-Joined_DepMapRNASeq_RSRCoefficients %>%
+  group_by(DepMapID) %>%
+  summarize(correlation = cor(Log2_TPM, Coefficient )) 
+View(dataFrame_corr_all)
+#intermediate output correlations; these can go in the intermediate files
+#write_tsv(dataFrame_corr_all, here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_AllDiseases_RSR.tsv"))
+
+#join back with cell line info
+joinRSRCorr_CellLineInfo<-left_join(dataFrame_corr_all, mergedFrames) %>%
+  select(DepMapID, correlation, CellLine_Name_Cleaned, Cancer_Type, Cancer_Subtype, DerivedFrom_Primary_or_Met)
+View(joinRSRCorr_CellLineInfo)
+#write_tsv(joinRSRCorr_CellLineInfo, here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_AllDiseases_RSR_JoinedCellLineInfo.tsv"))
+
+```
+
+```{r}
+#Split into separate script with clean up*
+#Read in data and run the McGrail RSR
+readInData<-read_tsv(here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_AllDiseases_RSR_JoinedCellLineInfo.tsv"))
+View(readInData)
+
+#z-score transform
+BindScores<-readInData %>%
+  mutate(Score = "McGrail_RSR") %>%
+  group_by(Score) %>%
+  filter(!is.na(correlation)) %>% #make sure to remove the NAs
+  mutate(Mean = mean(correlation), SD = sd(correlation), ZScore= (correlation- Mean)/SD) %>%
+  dplyr::select(-Mean, -SD, -correlation) %>%
+  pivot_wider(names_from = Score, values_from = ZScore) #checked, looks good
+View(BindScores)
+
+#graph all diseases RSR McGrail - distribution here
+plotSubtype<- BindScores%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
+  geom_bar(stat="identity", aes(fill=Cancer_Type)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank()) 
+plotFinal
+ggsave(here("output", "TestHeatmap_All.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
+#zoom in to just the high scoring RSR scores
+#zscore over 2
+plotSubtype<- BindScores%>%
+  filter(McGrail_RSR>=2.0) %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
+  geom_bar(stat="identity", aes(fill=Cancer_Type)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank()) 
+plotFinal
+ggsave(here("output", "TestHeatmap_All_HighRSR.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
+#z-score over 1.5
+plotSubtype<- BindScores%>%
+  filter(McGrail_RSR>=1.5) %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
+  geom_bar(stat="identity", aes(fill=Cancer_Type)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank()) +
+  facet_wrap(~Cancer_Type)
+plotFinal
+ggsave(here("output", "TestHeatmap_All_HighRSR_1Pt5_Facet.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
+
+
+```
+
+```{r}
+#EXAMINE A FEW DISEASES OF INTERESET
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Breast Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Breast") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+#ovarian
+#EXAMINE A FEW DISEASES OF INTERESET
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Ovarian Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Ovarian") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+#endo
+#EXAMINE A FEW DISEASES OF INTERESET
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Endometrial/Uterine Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Endometrial") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Pancreatic Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Pancreatic") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Head and Neck Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Head and Neck") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+plotSubtype<- BindScores%>%
+  filter(Cancer_Type== "Bladder Cancer") %>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Bladder") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
