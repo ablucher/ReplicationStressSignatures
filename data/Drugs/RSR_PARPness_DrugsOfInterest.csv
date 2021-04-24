@@ -1,0 +1,18 @@
+﻿DepMap_Compound_Name,Synonyms,Class,DrugName_Class,Notes,Broad_ID,GDSC1_ID (deprecated),GDSC2_ID,PRISM_ID,CTRP_ID
+Olaparib,,PARP inhibitor,PARPi (Olaparib),,BRD-K02113016,1017; 1495,1017,BRD:BRD-K02113016-001-15-4,411867
+Niraparib,,PARP inhibitor,PARPi (Niraparib),,BRD-K54955827,,1177,BRD:BRD-K54955827-001-02-2,
+Rucaparib,,PARP inhibitor,PARPi (Rucaparib),older screens only,,1175,,BRD:BRD-K88560311-011-06-3,
+Veliparib,,PARP inhibitor,PARPi (Veliparib),older screens only,,1018,,BRD:BRD-K12737986-001-01-4,
+Talazoparib,BMN-673; LT-673,PARP inhibitor,PARPi (Talazoparib) ,,BRD-K95142244,1259,1259,BRD:BRD-K95142244-001-01-5,
+Wee1 Inhibitor,681640,Wee1 inhibitor,Wee1i (681640),name blinded in depmap?,NA,,1046,,
+MK-1775,,Wee1 inhibitor,Wee1i (MK-1775),,,,1179,BRD:BRD-K54256913-001-08-7,
+KU-55933,,ATM inhibitor,ATMi (KU-55933),,BRD-K25311561,1030,1030,BRD:BRD-K25311561-001-10-7,
+KU-60019,,ATM inhibitor,ATMi (KU-60019),,NA,NA,NA,BRD:BRD-K36016295-001-04-5,660411
+VE-821,,ATR inhibitor,ATRi (VE-821),ATR and ATM?,BRD-K26756394,,2111,BRD:BRD-K26756394-001-02-2,
+AZD7762,,CHEK1/CHEK2 inhibitor,CHEK1/2i (AZD7762),,BRD-K86525559,1022,1022,BRD:BRD-K86525559-001-07-8,
+MK-8776,SCH900776,CHEK1 inhibitor,CHEK1i (MK-8776),,NA,,2046,,
+LY2603618,,CHEK1 inhibitor,CHEK1i (LY2603618),,,,,BRD:BRD-K14109347-001-03-4,
+PF-477736,,CHEK1/CHEK2 inhibitor,CHEK1/2i (PF-477736),,,,,BRD:BRD-K03063480-001-06-6,
+CHIR-124,,CHEK1 inhibitor,CHEK1i (CHIR-124),,,,,BRD:BRD-K02241333-001-02-7,
+AZD6738,Ceralasertib,ATR inhibitor,ATRi (AZD6738),RPPA data Mills Lab,,,1917,,
+Gemcitabine,,Rep stress,RSRi (Gemcitabine),Mills Lab - pure RSR inhibitor,,135,1190,,
