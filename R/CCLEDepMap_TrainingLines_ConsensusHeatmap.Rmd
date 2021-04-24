@@ -1,0 +1,600 @@
+---
+title: "DepMapCCLE_ConsensusHeatmap"
+author: "Aurora S Blucher"
+date: "2/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(ComplexHeatmap)
+library(circlize) #color scale for heatmaps
+```
+
+## R Markdown
+
+Read in the correlation data frames we ran for: McGrail RSR, Peng HRD, McGrail PARPness
+Create consensus heatemaps - by disease; across all
+
+Notes
+Sun 02/14/21 
+-new script just for heatmaps; uses input from Run_RNSSig scripts; cleaned up heatmaps
+Mon 02/15/21 
+-cleaned up consensus heatmap; z-score, added bar graphs
+-parsed subtypes, joined back with our training set (use updated file here*) so we can add to our heatmaps
+Tues 02/16/21
+-add in BRCA1/2 annotation to heatmap
+Fri 02/19/21
+-finish BRCA1/2 for ov/panc/end
+
+Sun 04/04/21
+-add in a section for RSR Z-score bar plot, where Z-score is across all 4 diseases*
+ b/c we need an idea of relative strength here
+-fix z-score legends plots - use scale_fill_continuous**
+
+```{r}
+#read in correlations for each signature; from other scripts
+#add indicator for score type; then go long
+RSRScores<-read_tsv(here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_RSR.tsv")) %>%
+  mutate(Score = "McGrail_RSR") 
+HRDScores<-read_tsv(here("data_intermediate", "Peng_HRD", "CCLEDepMap_TrainingLines_PengHRD.tsv")) %>%
+  mutate(Score = "Peng_HRD") 
+PARPnessScores<-read_tsv(here("data_intermediate", "McGrail_PARPness", "CCLEDepMap_TrainingLines_McGrailPARPness.tsv")) %>%
+  mutate(Score = "McGrail_PARPness")
+View(RSRScores)
+
+#bind rows above with Score column then go wide
+##add z-score transformation for heatmap, need to scale
+#saves us from multiple join and select statements
+BindScores<-bind_rows(RSRScores, HRDScores, PARPnessScores) %>%
+  group_by(Score) %>%
+  mutate(Mean = mean(correlation), SD = sd(correlation), ZScore= (correlation- Mean)/SD) %>%
+  dplyr::select(-Mean, -SD, -correlation) %>%
+  pivot_wider(names_from = Score, values_from = ZScore) #checked, looks good
+View(BindScores)
+
+#read in cell lines - our training set
+CCLE_Lines<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+#read in our updated file - need the subtype information; added 02/15/20
+#left join so we pull in subtypes for our training set ONLY
+CCLE_Lines_AddSubtype<-read_tsv(here("data", "DepMap_forRepStress_BrEndoOvPancr_AddSubtypes_021521.txt")) %>%
+  dplyr::select(DepMapID, Cancer_Subtype_Specific, Cancer_Molecular_Subtype)
+CCLE_LinesJoin_Subtype<-left_join(CCLE_Lines, CCLE_Lines_AddSubtype)
+
+#read in our BRCA1/2 annotation file
+CCLE_Lines_BRCA<-read_tsv(here("data_intermediate", "CCLEDepMap_TrainingLines_BRCA_Annotation.tsv")) %>%
+  dplyr::select(DepMapID, BRCA_Status_12)
+
+CCLE_LinesJoin<-left_join(CCLE_LinesJoin_Subtype, CCLE_Lines_BRCA)
+View(CCLE_LinesJoin)
+
+
+
+##BREAST CANCER ONLY
+#join with cell line info; updated 02/15 to use
+BindScores_CellLineInfo_Br<-left_join(BindScores,CCLE_LinesJoin ) %>% 
+  filter(Cancer_Type=="Breast Cancer")
+##View(BindScores_CellLineInfo_Br)
+#03/14/21- output
+write_tsv(BindScores_CellLineInfo_Br, here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Breast_BRCA.tsv"))
+
+#set up for heatmap
+removeCellLines<-BindScores_CellLineInfo_Br %>%
+  dplyr::select(-DepMapID, -CellLine_Name, -CellLine_Name_Cleaned, -Cancer_Type, -Cancer_Subtype,       
+        -DerivedFrom_Primary_or_Met, -Cancer_Subtype_Specific, -Cancer_Molecular_Subtype, -BRCA_Status_12)
+#View(removeCellLines)
+matrix_forHeatMap<-as.matrix(removeCellLines)
+rownames(matrix_forHeatMap)<-BindScores_CellLineInfo_Br$CellLine_Name_Cleaned
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = BindScores_CellLineInfo_Br$Cancer_Type, 
+                       Derived_from = BindScores_CellLineInfo_Br$DerivedFrom_Primary_or_Met,
+                       Subtype = BindScores_CellLineInfo_Br$Cancer_Molecular_Subtype,
+                       BRCA_Status = BindScores_CellLineInfo_Br$BRCA_Status_12,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype = c("basal" = "royalblue2", "basal_A" = "royalblue2", "basal_B" = "royalblue2", 
+                                            "HER2_amp" ="springgreen4", "luminal"="goldenrod2"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ))
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "Consensus_RSR_HRD_PARPness_Breast_Zscore.png"), width = 600, height = 1400)
+#works but branches small
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Z-Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        #column_dend_height = unit(6, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#add bar chart - for RSR signature
+#idea from McGrail RSR I/O 2021 preprint
+#View(BindScores_CellLineInfo_Br)
+#02/16/21 - add some modifications to we can add BRCA1/2 status to our barplots
+BindScores_CellLineInfo_Br_Annotated<-BindScores_CellLineInfo_Br %>%
+  mutate(BRCA_Status = ifelse((BRCA_Status_12=="No"), "No", "Yes"))
+#View(BindScores_CellLineInfo_Br_Annotated)
+
+#bar plot for RSR scores
+plot<- BindScores_CellLineInfo_Br_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + #, color=BRCA_Status)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato")
+plot + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Breast") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  
+#add a version of bargraph to show the subtype information
+cols<-c("basal" = "royalblue2", "basal_A" = "royalblue2", "basal_B" = "royalblue2", "HER2_amp" ="springgreen4", "luminal"="goldenrod2") 
+#bar plot for RSR scores
+plotSubtype<- BindScores_CellLineInfo_Br_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
+  geom_bar(stat="identity", aes(fill=Cancer_Molecular_Subtype, color=BRCA_Status)) + 
+  scale_fill_manual(values = cols, na.value = "grey")  +
+  scale_color_manual(values = c("No"=NA, "Yes"="orangered2"))
+plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Breast") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  
+
+```
+
+
+```{r}
+#Repeat for Ovarian
+BindScores_CellLineInfo_Ov<-left_join(BindScores,CCLE_LinesJoin  ) %>% 
+  filter(Cancer_Type=="Ovarian Cancer")
+##View(BindScores_CellLineInfo_Ov)
+#03/14/21- output
+write_tsv(BindScores_CellLineInfo_Ov, here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Ov_BRCA.tsv"))
+
+#set up for heatmap
+removeCellLines<-BindScores_CellLineInfo_Ov %>%
+  dplyr::select(-DepMapID, -CellLine_Name, -CellLine_Name_Cleaned, -Cancer_Type, -Cancer_Subtype, 
+         -DerivedFrom_Primary_or_Met, -Cancer_Subtype_Specific, -Cancer_Molecular_Subtype,-BRCA_Status_12)
+
+matrix_forHeatMap<-as.matrix(removeCellLines)
+rownames(matrix_forHeatMap)<-BindScores_CellLineInfo_Ov$CellLine_Name_Cleaned
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = BindScores_CellLineInfo_Ov$Cancer_Type, 
+                       Derived_from = BindScores_CellLineInfo_Ov$DerivedFrom_Primary_or_Met,
+                       Subtype = BindScores_CellLineInfo_Ov$Cancer_Subtype_Specific,
+                       BRCA_Status = BindScores_CellLineInfo_Ov$BRCA_Status_12,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Utering Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype = c("clear_cell"="thistle2", "endometrioid"="springgreen4", "high_grade_serous"="royalblue2", "low_grade_serous"="steelblue2", "mixed_endometrioid_clear_cell"="plum1", "mixed_serous_clear_cell"="plum1", "mucinous" ="darkgoldenrod2" , "serous"="tan"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ))
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "Consensus_RSR_HRD_PARPness_Ovarian_Zscore.png"), width = 600, height = 1400)
+#size to show dendograms and labels, make sure resolution is good when you zoom
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Z-Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        #column_dend_height = unit(6, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#02/19/21 - add some modifications to we can add BRCA1/2 status to our barplots
+BindScores_CellLineInfo_Ov_Annotated<-BindScores_CellLineInfo_Ov %>%
+  mutate(BRCA_Status = ifelse((BRCA_Status_12=="No"), "No", "Yes"))
+#View(BindScores_CellLineInfo_Br_Annotated)
+
+plotOv<- BindScores_CellLineInfo_Ov%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato") 
+plotOv + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Ovarian") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+#add ovarian subtype  
+#add a version of bargraph to show the subtype information
+cols<-c("clear_cell"="thistle2", "endometrioid"="springgreen4", "high_grade_serous"="royalblue2", "low_grade_serous"="steelblue2", "mixed_endometrioid_clear_cell"="plum1", "mixed_serous_clear_cell"="plum1", "mucinous" ="darkgoldenrod2" , "serous"="tan" )
+#bar plot for RSR scores
+plotSubtypeOv<- BindScores_CellLineInfo_Ov_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=Cancer_Subtype_Specific, color=BRCA_Status)) + 
+  scale_fill_manual(values = cols, na.value = "grey")  +
+  scale_color_manual(values = c("No"=NA, "Yes"="orangered2"))
+plotSubtypeOv + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Ovarian") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="subtype")) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 8))
+ 
+
+```
+
+
+```{r}
+#Repeat for Endometrial
+BindScores_CellLineInfo_Endo<-left_join(BindScores,CCLE_LinesJoin  ) %>% 
+  filter(Cancer_Type=="Endometrial/Uterine Cancer")
+#View(BindScores_CellLineInfo_Endo)
+#03/14/21- output
+#write_tsv(BindScores_CellLineInfo_Endo, here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Endo_BRCA.tsv"))
+
+
+#set up for heatmap
+removeCellLines<-BindScores_CellLineInfo_Endo%>%
+  dplyr::select(-DepMapID, -CellLine_Name, -CellLine_Name_Cleaned, -Cancer_Type, -Cancer_Subtype, -DerivedFrom_Primary_or_Met,
+         -Cancer_Subtype_Specific, -Cancer_Molecular_Subtype, -BRCA_Status_12)
+
+matrix_forHeatMap<-as.matrix(removeCellLines)
+rownames(matrix_forHeatMap)<-BindScores_CellLineInfo_Endo$CellLine_Name_Cleaned
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = BindScores_CellLineInfo_Endo$Cancer_Type, 
+                       Derived_from = BindScores_CellLineInfo_Endo$DerivedFrom_Primary_or_Met,
+                       Subtype= BindScores_CellLineInfo_Endo$Cancer_Subtype,
+                       BRCA_Status = BindScores_CellLineInfo_Endo$BRCA_Status_12,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype=c("Choriocarcinoma"="lightsalmon1", "Clear Cell Carcinoma"="orange2",
+                                          "Endometrial Adenocarcinoma"="royalblue2" ,
+                                          "Endometrial Adenosquamous Carcinoma"="springgreen2",
+                                          "Endometrial Squamous Cell Carcinoma"="springgreen4",
+                                          "Endometrial Stromal Sarcoma"="maroon1",
+                                          "Mullerian Carcinoma"="goldenrod2",
+                                          "Uterine Carcinosarcoma"="slateblue1"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ) )
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "Consensus_RSR_HRD_PARPness_Endometrial_ZScore.png"), width = 800, height = 1400)
+#size to show dendograms and labels, make sure resolution is good when you zoom
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Z-Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        #column_dend_height = unit(6, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#add BRCA status
+BindScores_CellLineInfo_Endo_Annotated<-BindScores_CellLineInfo_Endo %>%
+  mutate(BRCA_Status = ifelse((BRCA_Status_12=="No"), "No", "Yes"))
+#View(BindScores_CellLineInfo_Endo_Annotated)
+
+plotEndo<- BindScores_CellLineInfo_Endo%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) + 
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotEndo + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Endometrial") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  
+#add endometrial subtype barplot
+#add a version of bargraph to show the subtype information
+cols<-c("Choriocarcinoma"="lightsalmon1", "Clear Cell Carcinoma"="orange2",
+                                          "Endometrial Adenocarcinoma"="royalblue2" ,
+                                          "Endometrial Adenosquamous Carcinoma"="springgreen2",
+                                          "Endometrial Squamous Cell Carcinoma"="springgreen4",
+                                          "Endometrial Stromal Sarcoma"="maroon1",
+                                          "Mullerian Carcinoma"="goldenrod2",
+                                          "Uterine Carcinosarcoma"="slateblue1")
+#bar plot for RSR scores
+plotSubtypeEndo<- BindScores_CellLineInfo_Endo_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=Cancer_Subtype, color=BRCA_Status)) + 
+  scale_fill_manual(values = cols, na.value = "grey") +
+  scale_color_manual(values = c("No"=NA, "Yes"="orangered2"))
+plotSubtypeEndo + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Endometrial") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 8))
+ 
+
+```
+
+```{r}
+#Repeat for Pancreatic
+##no subtype breakoutneeded - all are Ductal Adenocarcinoma_exocrine
+##except for QGP1(ACH-000347) = Somatostatinoma
+BindScores_CellLineInfo_Panc<-left_join(BindScores, CCLE_LinesJoin) %>% 
+  filter(Cancer_Type=="Pancreatic Cancer")
+#View(BindScores_CellLineInfo_Panc)
+#03/14/21- output
+#write_tsv(BindScores_CellLineInfo_Panc, here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Panc_BRCA.tsv"))
+
+
+#set up for heatmap
+removeCellLines<-BindScores_CellLineInfo_Panc%>%
+  dplyr::select(-DepMapID, -CellLine_Name, -CellLine_Name_Cleaned, -Cancer_Type, -Cancer_Subtype,-Cancer_Subtype_Specific, -Cancer_Molecular_Subtype, -DerivedFrom_Primary_or_Met, -BRCA_Status_12)
+View(removeCellLines)
+
+matrix_forHeatMap<-as.matrix(removeCellLines)
+rownames(matrix_forHeatMap)<-BindScores_CellLineInfo_Panc$CellLine_Name_Cleaned
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = BindScores_CellLineInfo_Panc$Cancer_Type, 
+                       Derived_from = BindScores_CellLineInfo_Panc$DerivedFrom_Primary_or_Met,
+                       BRCA_Status = BindScores_CellLineInfo_Panc$BRCA_Status_12,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ))
+                       )
+```
+
+```{r}
+#add BRCA status
+BindScores_CellLineInfo_Panc_Annotated<-BindScores_CellLineInfo_Panc %>%
+  mutate(BRCA_Status = ifelse((BRCA_Status_12=="No"), "No", "Yes"))
+#View(BindScores_CellLineInfo_Panc_Annotated)
+
+plotPanc<- BindScores_CellLineInfo_Panc_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR)) +
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotPanc + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Pancreatic") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+#add BRCA annotation
+plotPanc<- BindScores_CellLineInfo_Panc_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=McGrail_RSR, color=BRCA_Status)) +
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotPanc + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Pancreatic") +
+  xlab("") +
+  ylab("Z-Score") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "Consensus_RSR_HRD_PARPness_Panc_ZScore.png"), width = 800, height = 1400)
+#size to show dendograms and labels, make sure resolution is good when you zoom
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Z-Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        #column_dend_height = unit(6, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#HEATMAP OF CONSENSUS ACROSS ALL
+#Reviewed 04/04/21
+# Our Z-score was calculated across ALL diseases, so this is relative
+# Add barplots for within-calculated z-scores below
+BindScores_CellLineInfo_All<-left_join(BindScores,CCLE_LinesJoin ) 
+#View(BindScores_CellLineInfo_All)
+
+#set up for heatmap
+removeCellLines<-BindScores_CellLineInfo_All %>%
+  dplyr::select(-DepMapID, -CellLine_Name, -CellLine_Name_Cleaned, -Cancer_Type, -Cancer_Subtype, -DerivedFrom_Primary_or_Met,
+         -Cancer_Subtype_Specific, -Cancer_Molecular_Subtype, -BRCA_Status_12)
+
+matrix_forHeatMap<-as.matrix(removeCellLines)
+rownames(matrix_forHeatMap)<-BindScores_CellLineInfo_All$CellLine_Name_Cleaned
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = BindScores_CellLineInfo_All$Cancer_Type, 
+                       Derived_from = BindScores_CellLineInfo_All$DerivedFrom_Primary_or_Met,
+                       BRCA_Status = BindScores_CellLineInfo_All$BRCA_Status_12,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ))
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "Consensus_RSR_HRD_PARPness_All_Zscore_AddBRCA.png"), width = 1000, height = 2400)
+#size to show dendograms and labels, make sure resolution is good when you zoom
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Z-Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        #column_dend_height = unit(6, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+plotAll<- BindScores_CellLineInfo_All%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=Cancer_Type))  
+  #scale_fill_gradient(low = "dodgerblue2", high = "tomato") 
+plotAll + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Br/Ov/Endo/Panc") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Subtype")) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))
+  
+#Show BRCA1/2 status
+BindScores_CellLineInfo_All_Annotated<-BindScores_CellLineInfo_All %>%
+  mutate(BRCA_Status = ifelse((BRCA_Status_12=="No"), "No", "Yes"))
+View(BindScores_CellLineInfo_All_Annotated)
+
+plotAll<- BindScores_CellLineInfo_All_Annotated%>%
+  arrange(desc(McGrail_RSR)) %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR),
+         color="black") +
+  geom_bar(stat="identity", aes(fill=BRCA_Status))+
+  scale_fill_manual(values = c("No"="grey75", "Yes"="orangered2"))
+plotAll + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE Br/Ov/Endo/Panc") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="BRCA Mutated")) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))
+ 
+```
+```{r}
+#Add section for disease-relative z-scores
+#and run the bar plots again
+BindScores_forZScoreRelative<-bind_rows(RSRScores, HRDScores, PARPnessScores)
+#View(BindScores_forZScoreRelative)
+  
+#join with the cell line info
+BindScores_CellLineInfo_forZScoreRelative<-left_join(BindScores_forZScoreRelative,CCLE_LinesJoin)
+BindScores_CellLineInfo_forZScoreRelative_RSR<-BindScores_CellLineInfo_forZScoreRelative %>%
+  filter(Score=="McGrail_RSR")
+#View(BindScores_CellLineInfo_forZScoreRelative_RSR)
+
+RSR_ZScore_WithinDiseaseGroup<-BindScores_CellLineInfo_forZScoreRelative_RSR %>%
+  group_by(Cancer_Type) %>%
+  mutate(Mean = mean(correlation), SD = sd(correlation), ZScore= (correlation- Mean)/SD) %>%
+  dplyr::select(-Mean, -SD, -correlation)
+View(RSR_ZScore_WithinDiseaseGroup)
+  
+#now add barplots for each disease - relative here
+#note how the shape of the distribution changes
+#because it is calculated within group
+plotBr_Relative<- RSR_ZScore_WithinDiseaseGroup%>%
+  filter(Cancer_Type=="Breast Cancer") %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -ZScore), y=ZScore, fill=ZScore),
+         color="black") +
+  geom_bar(stat="identity")+#, aes(fill=Cancer_Type))  
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotBr_Relative + labs(title = "Distribution of McGrail RSR Score (Z-Scores) Calculated WITHIN Disease Group", subtitle = "CCLE Breast") +
+  xlab("") +
+  ylab("Z-Score") +  
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))#+
+  #facet_wrap(~Cancer_Type, nrow=2, ncol=2)
+
+plotOv_Relative<- RSR_ZScore_WithinDiseaseGroup%>%
+  filter(Cancer_Type=="Ovarian Cancer") %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -ZScore), y=ZScore, fill=ZScore),
+         color="black") +
+  geom_bar(stat="identity")+#, aes(fill=Cancer_Type))  
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotOv_Relative + labs(title = "Distribution of McGrail RSR Score (Z-Scores) Calculated WITHIN Disease Group", subtitle = "CCLE Ovarian") +
+  xlab("") +
+  ylab("Z-Score") +  
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))#+
+  #facet_wrap(~Cancer_Type, nrow=2, ncol=2)
+
+plotEnd_Relative<- RSR_ZScore_WithinDiseaseGroup%>%
+  filter(Cancer_Type=="Endometrial/Uterine Cancer") %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -ZScore), y=ZScore, fill=ZScore),
+         color="black") +
+  geom_bar(stat="identity")+#, aes(fill=Cancer_Type))  
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotEnd_Relative + labs(title = "Distribution of McGrail RSR Score (Z-Scores) Calculated WITHIN Disease Group", subtitle = "CCLE Endometrial") +
+  xlab("") +
+  ylab("Z-Score") +  
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))#+
+  #facet_wrap(~Cancer_Type, nrow=2, ncol=2)
+
+plotPanc_Relative<- RSR_ZScore_WithinDiseaseGroup%>%
+  filter(Cancer_Type=="Pancreatic Cancer") %>%
+  ggplot(aes(x=reorder(CellLine_Name_Cleaned, -ZScore), y=ZScore, fill=ZScore),
+         color="black") +
+  geom_bar(stat="identity")+#, aes(fill=Cancer_Type))  
+  scale_fill_continuous(low = "dodgerblue2", high = "tomato", name="Z-Score") 
+plotPanc_Relative + labs(title = "Distribution of McGrail RSR Score (Z-Scores) Calculated WITHIN Disease Group", subtitle = "CCLE Pancreatic") +
+  xlab("") +
+  ylab("Z-Score") +  
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=2.5))#+
+  #facet_wrap(~Cancer_Type, nrow=2, ncol=2)
+
+```
