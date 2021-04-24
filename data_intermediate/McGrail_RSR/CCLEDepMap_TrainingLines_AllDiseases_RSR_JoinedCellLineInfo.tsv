@@ -1,0 +1,1063 @@
+DepMapID	correlation	CellLine_Name_Cleaned	Cancer_Type	Cancer_Subtype	DerivedFrom_Primary_or_Met
+ACH-000001	-0.0643692139120104	NIHOVCAR3	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000002	-0.08233049732905937	HL60	Leukemia	Acute Myelogenous Leukemia (AML)_M3 (Promyelocytic)	Primary
+ACH-000003	-0.0613826992409376	CACO2	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000004	-0.036524440440118516	HEL	Leukemia	Acute Myelogenous Leukemia (AML)_M6 (Erythroleukemia)	NA
+ACH-000005	-0.010982438049423057	HEL9217	Leukemia	Acute Myelogenous Leukemia (AML)_M6 (Erythroleukemia)	NA
+ACH-000007	-0.16581506852547162	LS513	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000008	0.004127687138189115	A101D	Skin Cancer	Melanoma	NA
+ACH-000009	-0.0366624463280904	C2BBE1	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000010	-0.03438662807937264	NCIH2077	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	NA
+ACH-000011	-0.09254773467253906	253J	Bladder Cancer	Carcinoma	Metastasis
+ACH-000017	-0.2410514816513024	SKBR3	Breast Cancer	Carcinoma	Metastasis
+ACH-000018	0.2139379455128578	T24	Bladder Cancer	Carcinoma	Primary
+ACH-000020	-0.016199213415097936	MHHCALL2	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000022	-0.20567412984570432	PATU8988S	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000023	0.02575330359881161	PATU8988T	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000026	-0.05527681578559656	253JBV	Bladder Cancer	Carcinoma	Metastasis
+ACH-000028	-0.22238828700162255	KPL1	Breast Cancer	Carcinoma	Metastasis
+ACH-000029	-0.13974500876416648	HCC827GR5	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000030	-0.1879145413409818	PC14	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000031	0.023764993522993653	PANC0213	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000032	0.006009510679490913	MHHCALL3	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000033	-0.0771292918598079	NCIH1819	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000035	-0.16750036222228945	NCIH1650	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000036	-0.02299247762950054	U343	Brain Cancer	Glioblastoma	NA
+ACH-000038	-0.011731521293762757	EHEB	Lymphoma	B-cell	NA
+ACH-000039	-0.02285960557433615	SKNMC	Bone Cancer	Ewings Sarcoma	Metastasis
+ACH-000041	-0.02350575762781616	RDES	Bone Cancer	Ewings Sarcoma	Primary
+ACH-000042	-0.12278202466605655	PANC0203	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000043	0.11187431967763155	HS895T	Fibroblast	Skin	Metastasis
+ACH-000044	-0.18595462185490355	MDAMB134VI	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000045	-0.08669709000423617	MV411	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-000048	-0.001077628894987817	TOV112D	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-000049	0.0498614080353372	HEKTE	Engineered	NA	NA
+ACH-000050	-0.06445383054554857	NCIH929	Myeloma	Multiple Myeloma_plasmacytoma	Metastasis
+ACH-000051	0.009091249147991125	TE617T	Sarcoma	Rhabdomyosarcoma	Primary
+ACH-000052	-0.025299990866857136	A673	Bone Cancer	Ewings Sarcoma	Primary
+ACH-000053	-0.05885316694925867	KARPAS299	Lymphoma	T-cell_Non-Hodgkins_Anaplastic Large Cell (ALCL)	NA
+ACH-000054	0.13854614405104398	HT1080	Sarcoma	Fibrosarcoma	Metastasis
+ACH-000055	-0.011210869992811932	D283MED	Brain Cancer	Medulloblastoma	Metastasis
+ACH-000056	-0.05694932333358292	DOHH2	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000057	-0.0411443925410769	OPM1	Myeloma	Multiple Myeloma	NA
+ACH-000058	-0.07365302186746996	ML1	Thyroid Cancer	Carcinoma_follicular	NA
+ACH-000059	0.03175144729720722	SUPB15	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-000060	-0.06457983803929795	PANC1005	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000061	-0.023793131894120582	HH	Lymphoma	T-cell_Non-Hodgkins_Cutaneous	NA
+ACH-000062	-0.07861405769068004	RERFLCMS	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000064	0.2530220850796488	SALE	Engineered	NA	NA
+ACH-000065	-0.039605097313316386	OCIAML5	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-000066	-0.07008343243891899	HCC4006	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000067	0.061583558810760754	HS683	Brain Cancer	Oligodendroglioma	Primary
+ACH-000068	-0.057586598731419296	REC1	Lymphoma	B-cell_Non-Hodgkins_Mantle Cell	NA
+ACH-000069	-0.006214519335681265	HS611T	Lymphoma	B-cell_Hodgkins	NA
+ACH-000072	-0.01957167165320471	MEG01	Leukemia	Chronic Myelogenous Leukemia (CML)	NA
+ACH-000074	-0.06292503675000685	KU812	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000075	0.0363687126150682	U87MG	Brain Cancer	Astrocytoma	Primary
+ACH-000076	-0.040004194538771874	NCO2	Leukemia	Chronic Myelogenous Leukemia (CML)	NA
+ACH-000077	-0.04749317910255803	MJ	Lymphoma	T-cell_Non-Hodgkins_Cutaneous	NA
+ACH-000079	0.07775032801478038	TE125T	Fibroblast	Soft tissue	NA
+ACH-000081	-0.023114583040323107	GDM1	Leukemia	Acute Myelogenous Leukemia (AML)	NA
+ACH-000085	0.11913320777961488	T3M4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000086	0.03755931116755737	ACCMESO1	Lung Cancer	Mesothelioma	NA
+ACH-000087	-0.0235141869479502	SKES1	Bone Cancer	Ewings Sarcoma	Primary
+ACH-000090	0.08216873177216327	PC3	Prostate Cancer	Adenocarcinoma	Metastasis
+ACH-000091	-0.0694117702036145	OV56	Ovarian Cancer	Adenocarcinoma_serous	Metastasis
+ACH-000094	-0.11975607517129971	HPAFII	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000095	-0.02769384616423152	D341	Brain Cancer	Medulloblastoma	NA
+ACH-000096	1.9407383825358477e-4	G401	Rhabdoid	Malignant Rhabdoid Tumor	Primary
+ACH-000097	-0.24711192281990613	ZR751	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000098	0.11779890220758005	GAMG	Brain Cancer	Glioblastoma	Primary
+ACH-000099	9.873001481403218e-4	SIMA	Neuroblastoma	NA	NA
+ACH-000100	0.056120912654500324	RH41	Sarcoma	Rhabdomyosarcoma_alveolar	Metastasis
+ACH-000102	0.04336551566605784	GMS10	Brain Cancer	Glioblastoma	Primary
+ACH-000104	-0.008195351314812062	LOUCY	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000105	-0.024278202203190276	ALLSIL	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	Primary
+ACH-000106	-0.027666633272932006	JVM2	Lymphoma	B-cell_Non-Hodgkins_Mantle Cell	NA
+ACH-000107	-0.12609531425336992	CAPAN2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000109	-0.12279254743626307	NCIH3255	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000110	-0.020803919870424292	NCCSTCK140	Gastric Cancer	Adenocarcinoma	NA
+ACH-000112	-0.04662826489371647	SIGM5	Leukemia	Acute Myelogenous Leukemia (AML)_M5 (Eosinophilic/Monocytic)	NA
+ACH-000113	-0.06561225774370079	OCIAML2	Leukemia	Acute Myelogenous Leukemia (AML)_M4 (Myelomonocytic)	Primary
+ACH-000114	-0.12914031854165264	SU8686	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000117	-0.261493762449654	EFM192A	Breast Cancer	Adenocarcinoma	Metastasis
+ACH-000118	-0.08623259000664527	HUPT3	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000119	0.10460403788829961	HS863T	Fibroblast	Bone	NA
+ACH-000120	0.019002987459612108	CHP212	Neuroblastoma	NA	NA
+ACH-000121	-0.08483975380106179	NCIH2405	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000122	-0.05990408333634986	SUPT11	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000123	-0.02421750138247638	COV434	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-000124	4.1608113538210115e-4	OCILY19	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Primary
+ACH-000125	0.032874090222789726	TO175T	Fibroblast	Lymphoma	Metastasis
+ACH-000126	0.07083966212972186	KG1C	Brain Cancer	Oligodendroglioma	Primary
+ACH-000127	0.11522595098911502	SLR20	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000128	0.05702264475418028	LN319	Brain Cancer	Astrocytoma	NA
+ACH-000129	-0.0779928203618526	NCIH1341	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000130	-0.024389173037043122	NALM19	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000131	0.14981214036094695	HS229T	Fibroblast	Lung	Primary
+ACH-000132	-0.0786155703991762	JHOS2	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000134	0.0941960693534898	HS274T	Fibroblast	Breast	NA
+ACH-000135	0.06739431426687581	HS940T	Fibroblast	Skin	Primary
+ACH-000137	-0.023186120187246997	8MGBA	Brain Cancer	Astrocytoma	Primary
+ACH-000138	-0.09060864582338385	CFPAC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000140	-0.0721133305127048	PFEIFFER	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000141	0.016622794271417024	SNU308	Gallbladder Cancer	Adenocarcinoma	NA
+ACH-000142	0.0653313876656149	CAL29	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000144	-0.008300233968041977	RERFGC1B	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000148	0.0522090218043887	HS578T	Breast Cancer	Carcinoma	Primary
+ACH-000149	0.08326762629244565	SKNSH	Neuroblastoma	NA	Metastasis
+ACH-000150	-0.1270436554452674	HCC2935	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000151	0.005961782960736288	JM1	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000152	0.09926472235369092	M059K	Brain Cancer	Glioblastoma	Primary
+ACH-000153	0.18530759794657548	NCIH2052	Lung Cancer	Mesothelioma	Metastasis
+ACH-000154	0.09761530964796315	HS888T	Fibroblast	Bone	NA
+ACH-000156	-0.0019510683080492574	MHHCALL4	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000157	-0.056287497125080715	A4FUK	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Primary
+ACH-000159	-0.030031790988550088	OSRC2	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000160	-0.10306536612874533	BT12	Rhabdoid	Atypical Teratoid Rhabdoid Tumor (ATRT)	NA
+ACH-000161	-0.12586402463664106	CORL105	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000162	-0.04243534690018867	GA10	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000163	0.08993304733483075	SW579	Thyroid Cancer	Squamous Cell Carcinoma	Primary
+ACH-000164	-0.0062785103831166375	PANC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000166	-0.06444629635248626	KASUMI6	Leukemia	Acute Myelogenous Leukemia (AML)_M2 (Myeloblastic)	Primary
+ACH-000168	-0.13460507456160156	NOMO1	Leukemia	Acute Myelogenous Leukemia (AML)_M5 (Eosinophilic/Monocytic)	Primary
+ACH-000169	0.08546141023244021	RD	Sarcoma	Rhabdomyosarcoma_embryonal	Primary
+ACH-000170	0.3256953187512572	PRECLH	Engineered	NA	NA
+ACH-000171	-0.11292023466492615	VMRCRCZ	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000172	-0.006085839945179765	TM87	Rhabdoid	Malignant Rhabdoid Tumor	Metastasis
+ACH-000173	-0.08542295518418681	JHUEM3	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	NA
+ACH-000174	0.07465475377337194	CAL62	Thyroid Cancer	Carcinoma_anaplastic	Primary
+ACH-000176	-0.020531373523946034	LOUNH91	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000177	-0.0928663333843998	NCIH660	Prostate Cancer	Small Cell Carcinoma	Metastasis
+ACH-000178	0.15198176343598274	HS766T	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000179	-0.04489617790721809	NCIH1618	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000180	0.052641984031513156	HS839T	Fibroblast	Skin	NA
+ACH-000181	0.11618193942194419	SCC9	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-000182	-0.16842018097354816	SNU869	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	NA
+ACH-000184	0.0931261409661033	HS343T	Fibroblast	Breast	NA
+ACH-000186	0.002715611310906122	NCIH2444	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Primary
+ACH-000187	-0.024329309063191435	CORL311	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000188	0.31293489532040725	SCC25	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-000189	-0.04897506133990692	RCC10RGB	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000190	0.12210495259055586	HDMYZ	Lymphoma	B-cell_Hodgkins	NA
+ACH-000191	-0.1014677223486781	BHT101	Thyroid Cancer	Carcinoma_papillary	Metastasis
+ACH-000192	-0.055870464003344215	MFE280	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000193	-0.04060210612859199	KARPAS620	Myeloma	Multiple Myeloma	Primary
+ACH-000194	0.0668195860286765	HS934T	Fibroblast	Skin	Primary
+ACH-000195	-0.056535371500375756	SET2	Leukemia	Acute Myelogenous Leukemia (AML)	NA
+ACH-000196	-0.15665120738871854	HCC1599	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000197	-0.03977518848295117	TALL1	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	Primary
+ACH-000198	-0.09152896509765875	EOL1	Leukemia	Acute Myelogenous Leukemia (AML)_M5 (Eosinophilic/Monocytic)	NA
+ACH-000199	-0.0036322483514713683	HS255T	Fibroblast	Colorectal	NA
+ACH-000201	-0.04821853085466413	A204	Rhabdoid	Malignant Rhabdoid Tumor	Primary
+ACH-000202	-0.04301243689217121	COLO320	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000204	-0.05967059893866026	LP1	Myeloma	Multiple Myeloma	Primary
+ACH-000205	0.0038917720021581746	PK59	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000207	0.09214762615462933	DETROIT562	Head and Neck Cancer	Squamous Cell Carcinoma_pharynx	Metastasis
+ACH-000208	0.08464064971586226	U178	Brain Cancer	Glioblastoma	NA
+ACH-000209	-0.13120236358232973	SNU1079	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-000210	-0.08029209468260255	CADOES1	Bone Cancer	Ewings Sarcoma	Metastasis
+ACH-000211	0.09790519235496188	DAOY	Brain Cancer	Medulloblastoma	Primary
+ACH-000212	-0.03974144490603566	CAL120	Breast Cancer	Carcinoma	Metastasis
+ACH-000213	-0.12386340096814345	HUPT4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000217	-0.01146740495048246	JHH6	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000218	-0.0798743938306692	PL21	Leukemia	Acute Myelogenous Leukemia (AML)_M3 (Promyelocytic)	NA
+ACH-000219	0.022431154142270874	A375	Skin Cancer	Melanoma	Primary
+ACH-000220	-0.06878526987642512	MINO	Lymphoma	B-cell_Non-Hodgkins_Mantle Cell	NA
+ACH-000221	0.018739069262035498	SNU398	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000222	-0.20480505848462965	ASPC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000223	-0.2693913896874449	HCC1937	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000225	-0.10896234076953494	ECC12	Gastric Cancer	Small Cell Carcinoma	NA
+ACH-000227	-0.0024641162989354464	KPNYN	Neuroblastoma	NA	Metastasis
+ACH-000228	-0.02369379850001242	BICR31	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000230	0.04730740884516211	HS742T	Fibroblast	Breast	NA
+ACH-000231	0.038110467854184475	KALS1	Brain Cancer	Glioblastoma	Primary
+ACH-000232	-0.02010910862532288	U251MG	Brain Cancer	Astrocytoma	Primary
+ACH-000233	-0.046245157232032576	DEL	Lymphoma	T-cell_Non-Hodgkins_Anaplastic Large Cell (ALCL)	NA
+ACH-000234	-0.13180119203840585	CAKI2	Kidney Cancer	Renal Carcinoma_clear cell	Primary
+ACH-000236	-0.06767340954635645	SW1417	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000237	-0.11033771306137995	JHOM1	Ovarian Cancer	Adenocarcinoma_mucinous	Primary
+ACH-000238	0.16869396204334053	SCC4	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000242	-0.06358388030945207	RT4	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000243	0.24567242966381964	DANG	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-000245	-0.031164472126570336	BL41	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000246	-0.003853496641825115	SLR23	Kidney Cancer	Renal Cell Carcinoma	Metastasis
+ACH-000247	-0.18633627746360468	OCUM1	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000248	-0.2803043611067828	AU565	Breast Cancer	Adenocarcinoma	Metastasis
+ACH-000249	-0.04388913845977845	CL11	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000250	-0.13928836644415338	KMRC20	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000252	-0.10677212004105249	LS1034	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000253	-0.08841913191247412	COLO201	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000254	0.12218046523543549	SCC15	Head and Neck Cancer	Squamous Cell Carcinoma	NA
+ACH-000256	-0.03564773636939959	COV318	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000259	-0.012001314292154536	KELLY	Neuroblastoma	NA	Primary
+ACH-000260	0.05730716105609225	SKNAS	Neuroblastoma	NA	Metastasis
+ACH-000262	0.0354545431191907	UOK101	Kidney Cancer	Renal Cell Carcinoma	NA
+ACH-000263	-0.020218261358980364	KASUMI1	Leukemia	Acute Myelogenous Leukemia (AML)_M2 (Myeloblastic)	Primary
+ACH-000264	-0.07885527521332364	CALU6	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Metastasis
+ACH-000265	-0.053405646417874264	KP4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000266	-0.10460071930635748	SNU213	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-000267	-0.03840641359893673	HDLM2	Lymphoma	B-cell_Hodgkins	NA
+ACH-000269	0.2339744748895396	AM38	Brain Cancer	Glioblastoma	Primary
+ACH-000270	-0.19785516521545687	HPAC	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000271	-0.07675151178256612	SUDHL10	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000272	-0.03619050237530384	SLR24	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000273	0.00697998195685779	SF539	Brain Cancer	Glioma	Primary
+ACH-000274	0.03129454887280063	HS852T	Skin Cancer	Melanoma	NA
+ACH-000277	-0.23757929348497545	HCC1419	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000278	-0.031392134297398545	COV362	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000279	-0.003282107892978427	EWS502	Bone Cancer	Ewings Sarcoma	NA
+ACH-000281	-0.0748811972439093	KP2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000282	-0.11582749214339168	NCIH1755	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000283	0.19590858084081791	A1207	Brain Cancer	Glioblastoma	NA
+ACH-000286	-0.06937096045918045	SNU1033	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000287	-0.021448979400733596	NUDUL1	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	NA
+ACH-000289	0.026962946712682716	SNU466	Brain Cancer	Glioblastoma	NA
+ACH-000291	-0.08410263386874672	OV90	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000292	-0.02730326841342516	NCIH841	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000293	-0.01956902095234597	KLE	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000294	-0.05470806206721226	NB4	Leukemia	Acute Myelogenous Leukemia (AML)_M3 (Promyelocytic)	Primary
+ACH-000295	-0.08017350268333005	EM2	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000296	-0.12036477497051391	OUMS23	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000297	0.0015431002520671525	NCIH889	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000301	-0.06021579317131639	LAMA84	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	Primary
+ACH-000302	-0.02510010042743322	SNU1077	Endometrial/Uterine Cancer	Mullerian Carcinoma	Primary
+ACH-000303	-0.09528199768563052	SNU5	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000304	0.04448936505999331	WM115	Skin Cancer	Melanoma	Metastasis
+ACH-000305	0.0805278235515683	ECGI10	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000306	0.011787147881861608	HS688AT	Fibroblast	Skin	Primary
+ACH-000307	0.13327607825244614	PK1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000308	-0.05859914628998236	EFO21	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000312	-0.012636454881636715	SKNBE2	Neuroblastoma	NA	Metastasis
+ACH-000313	-0.053202366688707196	KMRC3	Kidney Cancer	Renal Carcinoma_clear cell	Primary
+ACH-000314	-0.02047891923852717	HCC2108	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000315	-0.03988218453300003	KARPAS422	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000316	-0.05952553666593627	SNU886	Liver Cancer	Hepatocellular Carcinoma	NA
+ACH-000317	-0.08529351897113875	TUHR14TKB	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000318	0.06153508540349981	TE10	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000319	-0.02821449015517929	MPP89	Lung Cancer	Mesothelioma	NA
+ACH-000320	-0.0057827096206204	PSN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000322	0.0353955671986121	HT144	Skin Cancer	Melanoma	Metastasis
+ACH-000325	-0.15112588545822347	SNU620	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000326	-0.05728633437260035	JURLMK1	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000327	-0.20123102586043928	NCIH1395	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000328	0.005362952324691722	LN215	Brain Cancer	Glioblastoma	NA
+ACH-000330	-0.2498052288044296	EFM19	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000331	-0.006625138134724542	ISTMES2	Lung Cancer	Mesothelioma	NA
+ACH-000332	-0.0438346203036414	YAPC	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000334	-0.05052543424639655	DB	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000335	0.12352493945668795	MSTO211H	Lung Cancer	Mesothelioma	Metastasis
+ACH-000336	-0.10816686069733797	OCIAML3	Leukemia	Acute Myelogenous Leukemia (AML)_M4 (Myelomonocytic)	Primary
+ACH-000337	-0.08862992540265453	NCIH3122	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	NA
+ACH-000340	0.09272780571546432	HS870T	Fibroblast	Bone	NA
+ACH-000342	-0.1471995648153832	CL14	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000343	-0.06539973130637265	NCIH522	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000344	-0.2828581515689086	SNU668	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000345	0.008504801447344492	KPNRTBM1	Neuroblastoma	NA	Metastasis
+ACH-000346	-0.03258772829000014	JVM3	Leukemia	Chronic Lymphoblastic Leukemia (CLL)_B-cell	NA
+ACH-000347	-0.12277893029144446	QGP1	Pancreatic Cancer	Somatostatinoma	Primary
+ACH-000348	0.05621895796634396	RPMI7951	Skin Cancer	Melanoma	Metastasis
+ACH-000349	-0.18196792777700055	HCC1500	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000350	-0.16902861306776867	COLO678	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000352	-0.19434885481314096	HCC1428	Breast Cancer	Carcinoma	Metastasis
+ACH-000353	0.09346354728504128	TE15	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000354	-0.2479580068004789	CAPAN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000355	0.02717105371548251	NCIH82	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000356	-0.14608204604805627	MKN45	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000357	-0.05039064009856404	JEKO1	Lymphoma	B-cell_Non-Hodgkins_Mantle Cell	NA
+ACH-000358	-0.010240831999270639	NCIH69	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000359	0.02013237253976091	MG63	Bone Cancer	Osteosarcoma	Primary
+ACH-000363	-0.07180954994732655	SKMM2	Myeloma	Multiple Myeloma	Primary
+ACH-000364	0.04174656193587474	U2OS	Bone Cancer	Osteosarcoma	Primary
+ACH-000365	-0.084019706555009	SUDHL4	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000366	0.0023461110156414804	SKNDZ	Neuroblastoma	NA	Metastasis
+ACH-000368	0.04567575446982352	SNU1105	Brain Cancer	Glioblastoma	Primary
+ACH-000369	-0.04130351789809107	MOLM16	Leukemia	Acute Myelogenous Leukemia (AML)	NA
+ACH-000370	-0.026293196409727743	SNU626	Brain Cancer	Glioblastoma	NA
+ACH-000372	-0.060112602292973244	P12ICHIKAWA	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000373	-0.07002676062750034	SKM1	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-000374	-0.09009379297921895	HCC1143	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000375	-0.0858257297008574	G402	Kidney Cancer	Renal Leiomyoblastoma	Primary
+ACH-000376	0.07536586669786603	SF295	Brain Cancer	Glioblastoma	Primary
+ACH-000377	-0.0933754967481094	SNU478	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	NA
+ACH-000379	-0.1829091597864933	NCIH1781	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000380	-0.07844269931948684	KMS12BM	Myeloma	Multiple Myeloma	Primary
+ACH-000382	-0.0272744978921918	CORL24	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000383	-0.020670705651337978	OE33	Esophageal Cancer	Adenocarcinoma	Primary
+ACH-000384	-0.07547501749839958	SW780	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000385	-0.0741354799164545	SKRC20	Kidney Cancer	Renal Cell Carcinoma	NA
+ACH-000386	-0.04535272178990617	KG1	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-000388	-0.08883503641612028	NUDHL1	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000389	-0.07549400959622943	H4	Brain Cancer	Glioma	Primary
+ACH-000390	-0.13429997700038315	LUDLU1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000391	-0.02762369626334991	MHHES1	Bone Cancer	Ewings Sarcoma	Metastasis
+ACH-000392	-0.16827370741600214	CALU3	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000393	0.1271609104031566	HLF	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000394	-0.05500474219706389	NCIH2081	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000395	-0.08827351549074916	NCIH520	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000397	-0.13601287736229478	TEN	Endometrial/Uterine Cancer	Clear Cell Carcinoma	Primary
+ACH-000398	-0.07745972133060022	RI1	Lymphoma	B-cell_Non-Hodgkins	NA
+ACH-000401	0.04447811601055488	COLO800	Skin Cancer	Melanoma	Metastasis
+ACH-000402	-0.03883437013226333	BL70	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000403	-0.06578596158029013	NCIH747	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000404	-0.028605854578612484	K029AX	Skin Cancer	Melanoma	Primary
+ACH-000408	0.014875839483167268	TE5	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000412	8.558656546070337e-4	SNU1197	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000414	-0.2895880701177671	NCIH1944	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000415	0.004570072114965435	BICR6	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000418	0.044100445585000626	SW1353	Bone Cancer	Chondrosarcoma	Primary
+ACH-000419	-0.09620202226813485	KMS28BM	Myeloma	Multiple Myeloma	Primary
+ACH-000420	-0.05474917359536487	SNU449	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000421	-0.11779098644500237	SW837	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000425	-0.024844548720853597	UACC62	Skin Cancer	Melanoma	NA
+ACH-000427	-0.14556733280330114	NCIN87	Gastric Cancer	Adenocarcinoma_tubular	Metastasis
+ACH-000428	0.08851245590983949	UO31	Kidney Cancer	Renal Cell Carcinoma	NA
+ACH-000429	-0.13048439731660103	A704	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000430	0.11134307692099564	TYKNU	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000431	0.01880436376248024	NCIH1694	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000433	-0.11328205303011199	CAKI1	Kidney Cancer	Renal Carcinoma_clear cell	Metastasis
+ACH-000434	0.11306272842708005	NCIH1915	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000435	-0.06086878004652122	EFE184	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-000436	-0.04826894148695616	OCIMY7	Myeloma	Multiple Myeloma	NA
+ACH-000437	-0.028475343523560077	SW1088	Brain Cancer	Astrocytoma	Primary
+ACH-000439	0.004556845528909255	ME1	Leukemia	Acute Myelogenous Leukemia (AML)_M4 (Myelomonocytic)	NA
+ACH-000440	-0.06449565825562216	CA46	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000442	0.048244991719710806	RERFLCSQ1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000443	-0.19393096622327763	OVKATE	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000444	0.13322951117940676	LU99	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000445	0.03190119214200145	KNS60	Brain Cancer	Glioblastoma	Primary
+ACH-000446	-0.008539083927028996	KPNSI9S	Neuroblastoma	NA	Metastasis
+ACH-000447	-0.185663919300345	NCIH2228	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000448	-0.09238352141227048	NCIH1666	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000449	-0.13023350821069915	MESSA	Sarcoma	Uterine Sarcoma	Primary
+ACH-000451	0.05726212625556351	NCIH2085	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000452	0.05751673355037692	TE8	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000453	-0.09205047010677689	MOLP2	Myeloma	Multiple Myeloma	Primary
+ACH-000454	0.12272209363622555	HCC95	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000457	-0.07670721325034313	CAL54	Kidney Cancer	Renal Cell Carcinoma	Metastasis
+ACH-000458	0.29695609603975714	CJM	Skin Cancer	Melanoma	Metastasis
+ACH-000459	-0.022317396095944332	TUHR10TKB	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000460	-0.007160754271946102	SNU8	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000462	0.002351945576946142	NALM1	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000463	-0.14417580038625355	NCIH460	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000464	0.05840730895658249	CAS1	Brain Cancer	Glioblastoma	Primary
+ACH-000465	-0.03767433214580549	SKMEL1	Skin Cancer	Melanoma	Metastasis
+ACH-000466	-0.16279376997462358	SNU216	Gastric Cancer	Adenocarcinoma_tubular	Metastasis
+ACH-000467	-0.15002483341395842	HCC56	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000469	0.020250092606791798	YH13	Brain Cancer	Glioblastoma	Primary
+ACH-000470	-0.13278492703460937	SW1463	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000471	-0.15160177493238033	LI7	Liver Cancer	NA	NA
+ACH-000472	0.28348798769997413	HSC2	Head and Neck Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-000473	-0.02257513945615784	RT112	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000475	-0.2101035275282967	HUH1	Liver Cancer	Hepatocellular Carcinoma_HBs-antigen carrier	Primary
+ACH-000476	-0.002908229814829853	JHH4	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000478	-0.003727743436911915	SNU387	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000479	0.042720889768368984	KNS81	Brain Cancer	Glioblastoma	Primary
+ACH-000481	-0.2259962855795223	NCIH2170	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000482	-0.27031602499504415	RERFLCKJ	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000483	0.006687962629252344	SNU182	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000484	-0.08342709310681087	VMRCRCW	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000485	-0.19990721161665267	GSU	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000486	0.2219662035764889	KU1919	Bladder Cancer	Transitional Cell Carcinoma	NA
+ACH-000487	-0.07650748785855067	F36P	Leukemia	Acute Myelogenous Leukemia (AML)_M6 (Erythroleukemia)	Metastasis
+ACH-000488	0.1041157754290337	TE11	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000489	-0.13182440542390716	SW1116	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000491	-0.13287859252947415	NCIH716	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000492	-0.002137490407801512	MUTZ5	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000493	0.11715153120295005	SNU423	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000494	0.04697638310448421	OELE	Engineered	NA	NA
+ACH-000495	-0.030487380156874615	TUHR4TKB	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000496	-0.04960322045147287	NCIH1792	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000498	-0.03987355074583696	KO52	Leukemia	Acute Myelogenous Leukemia (AML)_M2 (Myeloblastic)	NA
+ACH-000499	-0.01959564723277236	EW8	Bone Cancer	Ewings Sarcoma	NA
+ACH-000502	-0.1946793073523472	TCCPAN2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000503	0.09431552522254347	BICR16	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000504	0.012653829153147486	SNB75	Brain Cancer	Glioma	Primary
+ACH-000505	0.22316724462830964	RKN	Sarcoma	Leiomyosarcoma	Primary
+ACH-000506	-0.014947779206187936	NCIH146	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000507	-0.16237000086046566	KE39	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000508	-0.07891160221109221	CORL88	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000509	-0.04283503310528907	HUT78	Lymphoma	T-cell_Non-Hodgkins_Cutaneous	NA
+ACH-000510	0.05990806957994799	NCIH1299	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000511	0.15056474405382653	CALU1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000513	-0.01673760076949048	SNU1272	Kidney Cancer	Renal Carcinoma_clear cell	NA
+ACH-000515	-0.060003184558489166	HCC33	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000517	-0.05987205830441771	SNU410	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000518	0.04745785947544559	CAL33	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000519	-0.050976002933855936	PEER	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000520	0.003622277511376483	59M	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000521	-0.10118880245193257	NCIH2030	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000524	-0.07400531634885048	KURAMOCHI	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000525	-0.031704377500931163	NCIH2171	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000526	0.03669073942634244	HS821T	Fibroblast	Bone	Primary
+ACH-000527	-0.1267316532509327	OVISE	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000529	0.06634816607242117	T173	Fibroblast	Bone	NA
+ACH-000530	-0.04542213423730963	DMS114	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000532	-0.16019793384439177	SNU61	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000533	0.003922770186094044	NCIH2004RT	Rhabdoid	Malignant Rhabdoid Tumor	NA
+ACH-000534	-0.08925514399020722	WSUDLCL2	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000535	0.11498863495613228	BXPC3	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000536	-0.28250130339298063	BT20	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000538	-0.004423014037441927	HUTU80	Gastric Cancer	Duodenal Adenocarcinoma	Primary
+ACH-000539	0.10044558525471327	HS618T	Fibroblast	Lung	Primary
+ACH-000540	0.032558735679499136	HS606T	Fibroblast	Breast	NA
+ACH-000541	-0.0604462470949192	KMS34	Myeloma	Multiple Myeloma	Primary
+ACH-000542	0.13929933985461865	HEYA8	Ovarian Cancer	Adenocarcinoma_low grade serous	Metastasis
+ACH-000543	0.007163064547106353	SNU489	Brain Cancer	Glioblastoma	NA
+ACH-000544	0.14593336094313336	OE21	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000545	0.1520040880163539	VMCUB1	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000546	0.06909105409780211	HSC4	Head and Neck Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-000547	0.08471530454525099	HT1197	Bladder Cancer	Carcinoma	Primary
+ACH-000548	0.2961372823577806	BHY	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000549	0.017958393707965585	SNU1076	Head and Neck Cancer	Squamous Cell Carcinoma_laryngeal	NA
+ACH-000551	-0.11964065283018005	K562	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	Metastasis
+ACH-000552	-0.2067338542971861	HT29	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000553	-0.03502952765525763	SQ1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000554	-0.2947496811720501	UACC893	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000555	-0.1361984140936967	A498	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000556	-0.1884916903594532	SIHA	Cervical Cancer	Carcinoma	NA
+ACH-000557	-0.03565068285072879	AML193	Leukemia	Acute Myelogenous Leukemia (AML)_M5 (Eosinophilic/Monocytic)	Primary
+ACH-000559	-0.035485975000758584	NCIH1836	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000560	-0.0971345134717332	ECC10	Gastric Cancer	Small Cell Carcinoma	NA
+ACH-000561	NA	TDOTT	Esophageal Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-000562	-0.1080948063941952	HCC78	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000563	0.005689494328263507	EBC1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000564	-0.07905422475963242	KHM1B	Myeloma	Multiple Myeloma	Primary
+ACH-000565	-0.13058730376765124	RCM1	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000566	-0.036657953538101314	SW1710	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000568	-0.27587987963779864	UACC812	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000569	0.006753827941894351	ISTMES1	Lung Cancer	Mesothelioma	Primary
+ACH-000570	-0.0035939400261539895	YKG1	Brain Cancer	Glioblastoma	Primary
+ACH-000572	-0.00689869394747257	G361	Skin Cancer	Melanoma	Primary
+ACH-000573	-0.08294208662454072	MDAMB436	Breast Cancer	Carcinoma	Metastasis
+ACH-000574	-0.05274640606049875	FUOV1	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000576	-0.05191413836432926	KMS27	Myeloma	Multiple Myeloma	Primary
+ACH-000577	-0.040998617643578886	JHH2	Liver Cancer	Hepatocellular Carcinoma	Metastasis
+ACH-000578	0.03918403673876797	HCC1171	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000579	-0.016376299826971984	UACC257	Skin Cancer	Melanoma	Primary
+ACH-000580	-0.019110485788435952	C32	Skin Cancer	Melanoma_amelanotic	Primary
+ACH-000581	-0.2231567077789094	SNU16	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000582	-0.054202319869013166	COLO741	Skin Cancer	Melanoma	Metastasis
+ACH-000583	-0.05699450062816862	MC116	Lymphoma	B-cell_Non-Hodgkins	NA
+ACH-000584	-0.13427243436304379	JHOS4	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000585	0.21282431537592567	EPLC272H	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000586	-0.014525539697161303	NCIH1876	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000589	-0.3464255047766901	NCIH1437	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000590	-0.1222531293332133	NCIH2073	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000592	0.13616256521297168	TM31	Brain Cancer	Glioma	NA
+ACH-000594	-0.07164234425665393	DMS153	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000595	0.027711364410705396	LN229	Brain Cancer	Glioblastoma	Primary
+ACH-000596	-0.12268769939319991	LCLC97TM1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Primary
+ACH-000598	-0.07486389452470264	KMS21BM	Myeloma	Multiple Myeloma	Primary
+ACH-000600	-0.020963015720944316	SLR26	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-000602	-0.03673667860807588	M07E	Leukemia	Acute Myelogenous Leukemia (AML)_M7 (Megakaryoblastic)	NA
+ACH-000603	-0.21399912978216082	BEN	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Metastasis
+ACH-000604	-0.1002131277759406	KYO1	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000605	-0.00954979586043248	TE6	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000606	0.16013808300966206	PECAPJ34CLONEC12	Head and Neck Cancer	Squamous Cell Carcinoma_basaloid	Primary
+ACH-000607	-0.036695215950178654	KYM1	Rhabdoid	Malignant Rhabdoid Tumor	Primary
+ACH-000608	-0.11290428013772148	COV644	Ovarian Cancer	Adenocarcinoma_mucinous	Primary
+ACH-000609	0.02718571446096278	SF126	Brain Cancer	Astrocytoma	Primary
+ACH-000610	-0.01161989665757667	NCIH2227	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000611	-0.04028731942199195	SUDHL6	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000614	-0.01773344997190329	RVH421	Skin Cancer	Melanoma	Metastasis
+ACH-000615	-0.009217739023286708	SKMEL28	Skin Cancer	Melanoma	NA
+ACH-000616	0.16749440905333365	HS746T	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000618	0.15528687052775672	SNU1041	Head and Neck Cancer	Squamous Cell Carcinoma_hypopharyngeal	NA
+ACH-000619	-0.04489478735859114	PECAPJ15	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000620	-0.08870017119648539	JHH1	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000621	-0.021121943487425212	MDAMB157	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000622	0.003352647148692878	KNS42	Brain Cancer	Glioblastoma	Primary
+ACH-000623	-0.03159913112087692	SNU201	Brain Cancer	Glioblastoma	Primary
+ACH-000624	-0.009844725664203012	HCC1806	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000625	-0.0930076806824302	HEP3B217	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000626	-0.10383934601997201	U266B1	Myeloma	Multiple Myeloma_plasmacytoma	NA
+ACH-000628	-0.08339639237296523	NCIH596	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenosquamous Carcinoma	Primary
+ACH-000630	-0.0010201644965202523	YD8	Head and Neck Cancer	Squamous Cell Carcinoma_tongue	NA
+ACH-000631	0.03757699372561262	KS1	Brain Cancer	Astrocytoma	Primary
+ACH-000632	0.09200419058605135	HS944T	Skin Cancer	Melanoma	Metastasis
+ACH-000634	0.026548846832031958	LN340	Brain Cancer	Glioblastoma	NA
+ACH-000635	-0.1517822178037967	SNU119	Ovarian Cancer	Cystadenocarcinoma_high grade serous	Metastasis
+ACH-000636	-0.047504488743260735	RPMI8402	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000637	0.025792022285171915	KYSE520	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000638	-0.15015200596465775	NCIH441	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000640	0.012098170753811945	SKMEL31	Skin Cancer	Melanoma	Primary
+ACH-000641	-0.02944865059300106	CMK	Leukemia	Acute Myelogenous Leukemia (AML)_M7 (Megakaryoblastic)	NA
+ACH-000642	0.2880218947061782	HMEL	Engineered	NA	NA
+ACH-000643	-0.22465806698882118	HDQP1	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000644	-0.0013896327220719133	COLO829	Skin Cancer	Melanoma	Primary
+ACH-000645	-0.01712828401613149	JL1	Lung Cancer	Mesothelioma	Primary
+ACH-000646	-0.17667063866934993	OVMANA	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000648	-0.11776496624232868	NCIH28	Lung Cancer	Mesothelioma	Metastasis
+ACH-000650	-0.02299427069158222	IGR37	Skin Cancer	Melanoma	Metastasis
+ACH-000651	-0.11588771189423132	SW620	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000652	-0.07941460795231474	SUIT2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000653	-0.07073350941562696	JJN3	Myeloma	Multiple Myeloma	Primary
+ACH-000654	-0.04791274825050589	RAJI	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000655	0.11527379072677973	SF268	Brain Cancer	Glioma	Primary
+ACH-000656	-1.7499548462607983e-4	SUDHL8	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Metastasis
+ACH-000657	0.02597055425010933	A2780	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-000658	-0.10493953381824592	KMS18	Myeloma	Multiple Myeloma	Primary
+ACH-000659	-0.07793020983859646	SCLC21H	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000660	-0.039949893707723505	SUDHL5	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Primary
+ACH-000661	0.06155739779432196	WM1799	Skin Cancer	Melanoma	NA
+ACH-000663	-0.028705164617905045	OVTOKO	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000664	-0.033668000831459904	SUDHL1	Lymphoma	T-cell_Non-Hodgkins_Anaplastic Large Cell (ALCL)	NA
+ACH-000667	-0.03792844639642438	HCC44	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000669	0.011758916066276805	SW900	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000670	-0.05142831494329709	SBC5	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000671	-0.05203433153846241	HUH6	Liver Cancer	Hepatoblastoma	NA
+ACH-000672	0.08918934584956013	IALM	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000673	0.12310437083898794	LN443	Brain Cancer	Glioblastoma	NA
+ACH-000674	-0.2624137751229289	NUGC4	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000676	0.003015795534236336	LN464	Brain Cancer	Glioblastoma	NA
+ACH-000677	0.03466219544339756	SW1573	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000679	-0.22488474345829337	OE19	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000680	-0.18020405550163332	SW948	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000681	-0.11129849436228464	A549	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000682	0.04178832934954583	SNU1066	Head and Neck Cancer	Squamous Cell Carcinoma	NA
+ACH-000683	0.04748021826440355	SNU503	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000684	0.020646909898776208	KMRC1	Kidney Cancer	Renal Carcinoma_clear cell	Primary
+ACH-000686	-0.18480300153784945	SNU878	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000687	-0.0333959488002208	CI1	Lymphoma	B-cell_Non-Hodgkins	NA
+ACH-000688	0.051309810604290386	OV7	Ovarian Cancer	Adenocarcinoma_mixed	Primary
+ACH-000690	0.11150659314440885	HCC2814	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	NA
+ACH-000691	-0.18474546477487222	HCC2157	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000692	0.1028024936080549	SNU899	Head and Neck Cancer	Squamous Cell Carcinoma_laryngeal	Primary
+ACH-000693	0.15471236998380183	KYSE180	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000695	-0.07620836837654107	CORL47	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000696	0.0599885282088346	OVCAR8	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000697	-0.11755035917783481	A3KAW	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Primary
+ACH-000698	-0.06581795086081085	DMS53	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000699	-0.15351291951812981	HCC1395	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000701	-0.19415027194580609	RMUGS	Ovarian Cancer	Cystadenocarcinoma_mucinous	Primary
+ACH-000702	-0.008820022687027572	L1236	Lymphoma	B-cell_Hodgkins	NA
+ACH-000703	-0.05711241858908404	DMS79	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000704	-0.16366381100873287	OAW42	Ovarian Cancer	Carcinoma	Metastasis
+ACH-000706	-0.15463927286238163	EKVX	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000707	-0.04115956137872855	P3HR1	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000708	-0.15298175499152036	SNU283	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000709	-0.023815240465902818	KMRC2	Kidney Cancer	Renal Carcinoma_clear cell	Primary
+ACH-000710	-0.09411648039277623	NCIH854	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000711	-0.04317896902465615	JIMT1	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000712	-0.11540667749482221	HCC1833	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000715	0.15348035764217413	SNU1214	Head and Neck Cancer	Squamous Cell Carcinoma_laryngeal	NA
+ACH-000717	-0.02455728922183549	COLO680N	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000719	-0.07832311316821683	RMGI	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000721	-0.1130096438961448	HMC18	Breast Cancer	Carcinoma	Metastasis
+ACH-000722	-0.20494838274955987	SNUC1	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000723	0.3032495607065787	YD10B	Head and Neck Cancer	Squamous Cell Carcinoma_tongue	NA
+ACH-000724	-0.008081944738257713	HT1376	Bladder Cancer	Carcinoma	Primary
+ACH-000725	-0.2689581831306455	HCC202	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000726	-0.027960541904822136	TE14	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000728	0.028702259033348984	KASUMI2	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000730	-0.04888061249030479	SKMEL5	Skin Cancer	Melanoma	Metastasis
+ACH-000731	-0.031024212977688863	HCC2279	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000732	0.205526335050919	PECAPJ41CLONED2	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000733	-0.019510204068682854	NCIH1838	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000734	-0.2293911481260859	JHH5	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000735	0.169067798188936	PECAPJ49	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000736	-0.12839424098994498	SNU601	Gastric Cancer	Adenocarcinoma_signet ring cell	Metastasis
+ACH-000737	-0.1302503450880028	NCIH1385	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000738	0.10030063016251076	GB1	Brain Cancer	Glioblastoma	Primary
+ACH-000739	-0.1521286836836922	HEPG2	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000741	0.023800436738143242	UBLC1	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000743	-0.036688022767173485	CORL95	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000744	-0.28588076185021344	NCIH1623	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000745	-0.08596707685244809	MOLP8	Myeloma	Multiple Myeloma	Primary
+ACH-000746	-0.10855363720905022	GSS	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000747	0.0016299487017625695	NCIH1703	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000748	0.07954271386838103	SJSA1	Bone Cancer	Osteosarcoma	Primary
+ACH-000749	-0.04071958873495263	DMS273	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000750	0.139100525930279	LOXIMVI	Skin Cancer	Melanoma	Metastasis
+ACH-000751	-0.04504060895039429	OCIM1	Leukemia	Acute Myelogenous Leukemia (AML)_M6 (Erythroleukemia)	NA
+ACH-000752	0.01273694420906592	NCIH196	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000753	0.08189604282035888	JMSU1	Bladder Cancer	Carcinoma	Metastasis
+ACH-000754	-4.264612070964001e-4	L428	Lymphoma	B-cell_Hodgkins	NA
+ACH-000755	-0.2438945552517603	HCC2218	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000756	0.037709194526471854	GI1	Brain Cancer	Glioblastoma	Primary
+ACH-000757	-0.019600209950516898	A427	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	NA
+ACH-000758	0.008067997644294849	MKN74	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000759	-0.33878808206902233	MDAMB175VII	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000761	0.08986135339363578	NUGC2	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000762	0.2581511751475363	YD38	Head and Neck Cancer	Squamous Cell Carcinoma	NA
+ACH-000763	-0.05599102912885935	MM1S	Myeloma	Multiple Myeloma	Primary
+ACH-000765	0.051550031181692074	WM983B	Skin Cancer	Melanoma	Metastasis
+ACH-000766	-0.04718894515834215	NCIH1648	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000767	-0.047198198643364095	NCIH526	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000768	0.053009638872855626	MDAMB231	Breast Cancer	Carcinoma	Metastasis
+ACH-000769	-0.05953004156181577	LK2	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-000770	-0.03141604040921132	P31FUJ	Leukemia	Acute Myelogenous Leukemia (AML)_M5 (Eosinophilic/Monocytic)	NA
+ACH-000771	0.016217838908347156	BICR56	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-000774	0.030045150539488436	RERFLCAD2	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000775	-0.09403883406009227	NCIH727	Lung Cancer	Carcinoid	Primary
+ACH-000776	0.14013222708619072	ONS76	Brain Cancer	Medulloblastoma	Primary
+ACH-000778	0.42660377238959074	HSC3	Head and Neck Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-000780	-0.03526102833270446	NCIH1105	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000781	-0.24816506731546825	NCIH2023	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000782	-0.001906037628541635	SEM	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-000783	-0.22808329590094903	CAMA1	Breast Cancer	Carcinoma	Metastasis
+ACH-000785	-0.30588066216283033	NCIH2126	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000786	-0.044033353084924565	DAUDI	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000787	-0.032441332254862336	LXF289	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000789	-0.13522828241341167	NCIH810	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Primary
+ACH-000790	-0.07045125649210013	SHP77	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000791	-0.011421738304571022	RERFLCAD1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000792	0.009034174441188413	BFTC909	Kidney Cancer	Renal Carcinoma_transitional cell	Primary
+ACH-000793	-0.14057222035698824	KATOIII	Gastric Cancer	Adenocarcinoma_signet ring cell	Metastasis
+ACH-000794	0.032650787077874395	BICR22	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Metastasis
+ACH-000796	0.04742084842219593	MCAS	Ovarian Cancer	Cystadenocarcinoma_mucinous	Primary
+ACH-000798	-0.1633155593297374	CL40	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000799	-0.020724173458701832	HS695T	Skin Cancer	Melanoma_amelanotic	Metastasis
+ACH-000800	-0.013006347905342375	NCIH446	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000801	-0.029572424057724606	HS936T	Skin Cancer	Melanoma	NA
+ACH-000802	0.12044769332364585	BFTC905	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000804	0.009337291185970958	NB1	Neuroblastoma	NA	Metastasis
+ACH-000805	-0.017006656776827903	COLO679	Skin Cancer	Melanoma	Metastasis
+ACH-000806	-0.017398102571449216	L540	Lymphoma	B-cell_Hodgkins	NA
+ACH-000807	-0.01477398305030397	SNU738	Brain Cancer	Oligodendroglioma	NA
+ACH-000808	-0.0286310330134621	HUH28	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	Primary
+ACH-000809	0.06304749422625214	KYSE410	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000810	0.02242237206843926	SKMEL30	Skin Cancer	Melanoma	Metastasis
+ACH-000811	-0.03311740395084151	SKOV3	Ovarian Cancer	Cystadenocarcinoma_endometrioid	Metastasis
+ACH-000812	0.017116330646580538	COLO783	Skin Cancer	Melanoma	Metastasis
+ACH-000813	-0.08158033074089621	T3M10	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000814	0.06569292900828774	HS939T	Skin Cancer	Melanoma	NA
+ACH-000816	-0.0021209996954620514	NCIH524	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000817	-0.11020098311352515	RPMI8226	Myeloma	Multiple Myeloma_plasmacytoma	Primary
+ACH-000818	-0.26873208852238895	BT483	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000819	-0.014631085072630336	LN18	Brain Cancer	Glioblastoma	Primary
+ACH-000820	-0.21411490527159655	SW403	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000821	-0.05145837208271345	EJM	Myeloma	Multiple Myeloma	Primary
+ACH-000823	0.14749391545135612	KYSE140	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000824	-0.12284069554530624	KYSE510	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000826	-0.0025776983269715638	CAL12T	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Primary
+ACH-000829	-0.011132668282376345	HUNS1	Myeloma	Multiple Myeloma	NA
+ACH-000830	-0.05572477869667946	NCIH1436	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-000831	-0.0068991961142881985	HEC50B	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-000832	0.06553362756785666	CAL27	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-000833	0.10246472616281901	RH30	Sarcoma	Rhabdomyosarcoma_alveolar	Metastasis
+ACH-000834	-0.028769414850155647	UMUC1	Bladder Cancer	Transitional Cell Carcinoma	Metastasis
+ACH-000835	0.14797298627832464	GCT	Sarcoma	Pleomorphic Sarcoma	Metastasis
+ACH-000837	-0.03784991789838018	NCIH322	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000838	-0.054230955690824145	AMO1	Myeloma	Multiple Myeloma_plasmacytoma	Primary
+ACH-000839	0.26569262898933443	SCABER	Bladder Cancer	Squamous Cell Carcinoma	Primary
+ACH-000840	0.01595751796789914	HCC366	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenosquamous Carcinoma	Primary
+ACH-000842	-0.020327446815976702	SW480	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000843	0.1421277097867773	HARA	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000844	-0.1677356387204146	DMS454	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000845	0.009818741838918768	NCIH1373	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000846	0.005412815708381758	FADU	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-000847	-0.0781944858138278	HGC27	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000848	-0.11428306915895989	JHH7	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-000849	-0.2657078153183146	MDAMB468	Breast Cancer	Carcinoma	Metastasis
+ACH-000851	-0.26734232786102374	MORCPR	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000852	-0.14815310031926743	NCIH1435	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000853	0.07577220247007742	NCIH661	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000854	-0.06917005396427378	OCIMY5	Myeloma	Multiple Myeloma	NA
+ACH-000855	0.13484139224527852	KYSE150	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000856	-0.13451431555837395	CAL51	Breast Cancer	Carcinoma	Metastasis
+ACH-000857	-0.18106010524407937	CAL851	Breast Cancer	Carcinoma	Primary
+ACH-000858	0.17975293428527886	KNS62	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000859	-0.21697188034554915	HCC1954	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000860	-0.08557761567743499	NCIH358	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000861	0.0509167411729179	HOP62	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000862	-0.10774775269381624	KMBC2	Bladder Cancer	Carcinoma	Primary
+ACH-000863	0.04667381910745495	DBTRG05MG	Brain Cancer	Glioblastoma	Primary
+ACH-000864	-0.04071050080709489	COLO684	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000865	0.1320947524015372	KYSE450	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000867	-0.26123080036940727	CHAGOK1	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Metastasis
+ACH-000868	-0.053850960225260265	HCC1195	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenosquamous Carcinoma	Primary
+ACH-000873	0.13022410363773756	KYSE270	Esophageal Cancer	Squamous Cell Carcinoma	Primary
+ACH-000874	-0.0634283232090613	RS411	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-000877	-0.032239176068443315	EB1	Lymphoma	B-cell_Non-Hodgkins_Burkitts	Primary
+ACH-000879	-0.04451489706177921	MFE296	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000880	-0.036950567391716156	AGS	Gastric Cancer	Adenocarcinoma	Primary
+ACH-000881	0.03469582381971707	MELJUSO	Skin Cancer	Melanoma	Primary
+ACH-000885	-0.11685859436944518	TOV21G	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000886	6.500421082756928e-4	NCIH2009	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000887	-0.01691331032842019	SF172	Brain Cancer	Glioblastoma	NA
+ACH-000888	-0.13837312127880178	NCIH1793	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000889	-0.052021351612334815	KMM1	Myeloma	Multiple Myeloma	Primary
+ACH-000890	0.07794133345494923	SW1271	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000891	-0.013456463236134598	HCC1438	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Primary
+ACH-000892	-0.20650111508111726	NCIH1563	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000893	-0.14764639332144033	NCIH1651	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000894	-0.14761302483396715	NCIH1869	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Metastasis
+ACH-000895	-0.17063773902637627	CL34	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000897	0.08006742266395174	FTC238	Thyroid Cancer	Carcinoma_follicular	Metastasis
+ACH-000899	-0.03115281836688985	WM88	Skin Cancer	Melanoma	Metastasis
+ACH-000900	0.01259337134722573	NCIH23	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000901	0.122306351232847	HCC1359	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Primary
+ACH-000903	-0.013522058278544365	FTC133	Thyroid Cancer	Carcinoma_anaplastic	Metastasis
+ACH-000904	-0.13073091047197194	NCIH2106	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000905	0.2858557261002119	5637	Bladder Cancer	NA	NA
+ACH-000906	0.22212482726657004	ES2	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000908	-0.23492138814159472	SNU520	Gastric Cancer	Adenocarcinoma	Primary
+ACH-000909	0.022284849300130593	JHUEM2	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000910	-0.21953454592048904	MDAMB453	Breast Cancer	Carcinoma	Metastasis
+ACH-000911	0.053979232977174614	NUGC3	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000912	-0.025192305857124845	NCIH2286	Lung Cancer	Small Cell Lung Cancer (SCLC)	Primary
+ACH-000913	0.056455341515963195	ESS1	Endometrial/Uterine Cancer	Endometrial Stromal Sarcoma	Primary
+ACH-000914	-0.04101498012611537	HT	Lymphoma	B-cell_Non-Hodgkins	NA
+ACH-000915	0.04445552469543125	IPC298	Skin Cancer	Melanoma	Primary
+ACH-000916	-0.2588347723614991	NCIH1573	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000917	-0.14117259066531124	TE4	Esophageal Cancer	Squamous Cell Carcinoma	NA
+ACH-000918	-0.04142450458664858	MOLT16	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000919	-0.24607976507518356	IM95	Gastric Cancer	Adenocarcinoma	Primary
+ACH-000920	-0.07381238574884413	CMLT1	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000922	0.0031772107202340475	RCHACV	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-000924	-0.1817434615641243	NCIH2172	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Primary
+ACH-000925	-0.14235173687269423	DV90	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000926	-0.1644140826652058	HT55	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000929	-0.22637139169666398	NCIH2110	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_unspecified	Metastasis
+ACH-000931	-0.003527985263318717	HMCB	Skin Cancer	Melanoma	Primary
+ACH-000932	-0.0913078554832632	SNU1	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000933	-0.16878138449297292	SNU324	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-000934	-0.15666066767262796	MDAMB361	Breast Cancer	Carcinoma	Metastasis
+ACH-000935	0.1576302466768128	MDST8	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000936	-0.020036964250031892	EFO27	Ovarian Cancer	Adenocarcinoma_endometrioid	Metastasis
+ACH-000937	-0.039164921878329796	PF382	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000938	-0.005897554269411442	NALM6	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-000939	0.08950855105092553	SKUT1	Sarcoma	Leiomyosarcoma	Primary
+ACH-000940	-0.08199348506950917	AN3CA	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-000941	-0.1325332653001811	HEC1B	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000942	-0.014064150089679674	HPBALL	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	Primary
+ACH-000943	0.03491215424788047	RKO	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000944	-0.04652181146871004	NAMALWA	Lymphoma	B-cell_Non-Hodgkins_Burkitts	NA
+ACH-000945	0.11505068488886057	NCIH650	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-000946	-0.016543217784678054	HEC265	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000947	-0.04979713887880955	OVK18	Ovarian Cancer	Adenocarcinoma_endometrioid	Metastasis
+ACH-000948	-0.24608945365173537	2313287	Gastric Cancer	Adenocarcinoma	Primary
+ACH-000949	-0.1259681535734925	TGBC11TKB	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-000950	-0.11424955541692944	LOVO	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000951	-0.21650561489461573	NCIH2342	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Primary
+ACH-000952	-0.15934585112431549	MDAPCA2B	Prostate Cancer	Adenocarcinoma	Metastasis
+ACH-000953	-0.04015525977635664	SUPT1	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	Metastasis
+ACH-000954	-0.07359454849292085	HEC1A	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000956	-0.12883821493705674	22RV1	Prostate Cancer	Adenocarcinoma	Primary
+ACH-000957	-0.16548250738731524	LS180	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000958	-0.06376850282151622	SW48	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000959	-0.13289150859651724	SNUC4	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000960	-0.0272250411049896	REH	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-000961	-0.07624491560740426	ISHIKAWAHERAKLIO02ER	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000963	-0.1471849023806965	CCK81	Colon/Colorectal Cancer	Adenocarcinoma	Metastasis
+ACH-000964	-0.04555151364323128	MOLT3	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-000965	-0.07539596613782695	RL952	Endometrial/Uterine Cancer	Endometrial Adenosquamous Carcinoma	Primary
+ACH-000966	-0.0634346552153089	IGROV1	Ovarian Cancer	Adenocarcinoma_mixed	Primary
+ACH-000967	-0.2565067760046552	SNUC2A	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000968	-0.012958981817197845	COLO792	Skin Cancer	Melanoma	Metastasis
+ACH-000969	-0.1239070772106981	KM12	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000971	-1.678969109750209e-4	HCT116	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000972	-0.05643169093158994	HEC151	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000973	0.07601544444328541	639V	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-000974	-0.051363011890704774	SNGM	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-000976	0.10655811733163306	HUCCT1	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	Metastasis
+ACH-000977	-0.1485827461015357	LNCAPCLONEFGC	Prostate Cancer	Adenocarcinoma	Metastasis
+ACH-000978	-0.06774956942773575	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000980	-0.012525250599734045	NCIH1155	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Large Cell Carcinoma	Metastasis
+ACH-000981	-0.01628921879048869	DND41	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	Primary
+ACH-000982	-0.17438553516568406	GP2D	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000983	-0.05222382617159975	KCL22	Leukemia	Chronic Myelogenous Leukemia (CML)_blast crisis	NA
+ACH-000984	0.018710207237610247	HEC6	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000986	-0.1574854593164152	HT115	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000987	-0.04044582949771843	MEWO	Skin Cancer	Melanoma	Metastasis
+ACH-000988	0.02104530341295634	MFE319	Endometrial/Uterine Cancer	NA	NA
+ACH-000989	-0.16295981739093338	SNU175	Colon/Colorectal Cancer	Adenocarcinoma_mucinous	Metastasis
+ACH-000990	-0.09066415463609279	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000991	-0.153263387864109	SNU81	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-000993	-0.03142380404499618	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000996	-0.04827872359732227	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000998	-0.11837218326585355	CW2	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-000999	-0.1373609245311736	SNU1040	Colon/Colorectal Cancer	Adenocarcinoma	NA
+ACH-001001	0.12137671206218549	143B	Bone Cancer	Osteosarcoma	Primary
+ACH-001020	-0.07612976227361658	BT16	Rhabdoid	Atypical Teratoid Rhabdoid Tumor (ATRT)	NA
+ACH-001022	-0.009721208596757057	CBAGPN	Bone Cancer	Ewings Sarcoma	NA
+ACH-001028	-0.03943558288914434	CHLA06ATRT	Rhabdoid	Atypical Teratoid Rhabdoid Tumor (ATRT)	NA
+ACH-001031	0.0036407557776245133	CHLA266	Rhabdoid	Atypical Teratoid Rhabdoid Tumor (ATRT)	NA
+ACH-001032	0.0015401699747044177	CHLA32	Bone Cancer	Ewings Sarcoma	NA
+ACH-001033	-0.0954041907398414	CHLA57	Bone Cancer	Ewings Sarcoma	NA
+ACH-001034	-0.03658187747797601	CHLA9	Bone Cancer	Ewings Sarcoma	NA
+ACH-001035	-0.007212738091287286	CHLA99	Bone Cancer	Ewings Sarcoma	NA
+ACH-001036	-0.02348936836123074	CMK115	Leukemia	Acute Myelogenous Leukemia (AML)	NA
+ACH-001041	-0.021829236039620295	COLO699	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Adenocarcinoma	Metastasis
+ACH-001048	0.05805272193826322	COV504	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-001050	0.1358819582251405	CW9019	Sarcoma	Rhabdomyosarcoma_alveolar	NA
+ACH-001053	0.01896229250578599	D425	Brain Cancer	Medulloblastoma	NA
+ACH-001061	-0.12911545516288636	DLD1	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001067	0.016783326119366473	F5	Brain Cancer	Meningioma	NA
+ACH-001075	0.13511214878803532	NCIH292	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Mucoepidermoid Carcinoma	Metastasis
+ACH-001096	0.04324342794771251	JR	Sarcoma	Rhabdomyosarcoma	NA
+ACH-001098	-0.19001807202780271	KCIMOH1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-001099	-0.06587614088220001	KD	Rhabdoid	Malignant Rhabdoid Tumor	NA
+ACH-001106	7.230201417320991e-4	KOPN8	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-001109	-0.017536936874403705	KPMRTRY	Rhabdoid	Malignant Rhabdoid Tumor	NA
+ACH-001111	-0.04752626352214368	L82	Lymphoma	T-cell	NA
+ACH-001113	-0.008085056751108018	LC1SQSF	Lung Cancer	Non-Small Cell Lung Cancer (NSCLC)_Squamous Cell Carcinoma	Primary
+ACH-001119	-0.029749732275112857	MAC2A	Lymphoma	T-cell	NA
+ACH-001129	-0.10473576006434313	MONOMAC1	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-001134	-0.06308998604573494	MYLA	Lymphoma	T-cell	NA
+ACH-001142	0.11445727966325672	NHAHTDD	Engineered	NA	NA
+ACH-001145	0.012571259144493788	OC316	Ovarian Cancer	Adenocarcinoma_serous	Metastasis
+ACH-001148	-0.04539596595860895	OCILY132	Lymphoma	T-cell	NA
+ACH-001151	-0.1477956583636369	OVCAR5	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-001164	-0.08315582889975368	CCLFPEDS0003T	Sarcoma	Undifferentiated	NA
+ACH-001184	0.002552941045795173	SCMCRM2	Sarcoma	Rhabdomyosarcoma	Metastasis
+ACH-001190	0.01653397828601435	SKMEL2	Skin Cancer	Melanoma	Metastasis
+ACH-001192	-0.005660285050051995	SKNEP1	Bone Cancer	Ewings Sarcoma	Metastasis
+ACH-001193	-0.011219663929181565	SKPNDW	Bone Cancer	Ewings Sarcoma	NA
+ACH-001194	-0.08003296378609073	SKRC31	Kidney Cancer	Renal Cell Carcinoma	Metastasis
+ACH-001200	-0.028610485605892945	STM9101	Rhabdoid	Malignant Rhabdoid Tumor	Metastasis
+ACH-001207	0.10988858685256336	TIG3TD	Fibroblast	Lung	NA
+ACH-001210	0.018862731802952618	TTC1240	Rhabdoid	Malignant Rhabdoid Tumor	Metastasis
+ACH-001212	-0.08026500577100049	TTC642	Rhabdoid	Malignant Rhabdoid Tumor	NA
+ACH-001229	0.0799311610524581	UPCISCC154	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-001239	-0.005888893502224597	WM2664	Skin Cancer	Melanoma	Metastasis
+ACH-001270	-0.004464017838644875	127399	Sarcoma	Synovial	NA
+ACH-001274	0.05978393659013265	SW982	Sarcoma	Synovial	NA
+ACH-001275	0.0033767888621151665	SYO1	Sarcoma	Synovial	NA
+ACH-001277	0.011291829132244208	YAMATO	Sarcoma	Synovial	Metastasis
+ACH-001278	-0.024493035399897587	BIN67	Ovarian Cancer	Small Cell Carcinoma of the Ovary Hypercalcemic Type (SCCOHT)	Metastasis
+ACH-001279	-0.016232790737056368	SCCOHT1	Ovarian Cancer	Small Cell Carcinoma of the Ovary Hypercalcemic Type (SCCOHT)	NA
+ACH-001280	-0.012614401978064021	SCS214	Sarcoma	Synovial	NA
+ACH-001283	-0.044307281426590676	TC106	Bone Cancer	Ewings Sarcoma	Metastasis
+ACH-001289	0.058974352745171876	COGAR359	Rhabdoid	Atypical Teratoid Rhabdoid Tumor (ATRT)	NA
+ACH-001295	-0.017950122291168918	Y79	Eye Cancer	Retinoblastoma	NA
+ACH-001300	-0.023609900609802538	CHLA15	Neuroblastoma	NA	NA
+ACH-001301	0.0022892011359930873	COGN278	Neuroblastoma	NA	NA
+ACH-001303	-0.009673703908703354	NB1643	Neuroblastoma	NA	NA
+ACH-001306	0.22382572934414705	8305C	Thyroid Cancer	Carcinoma	Primary
+ACH-001307	0.20577162477891633	8505C	Thyroid Cancer	Carcinoma	Primary
+ACH-001310	0.0620311735443314	HA1E	Engineered	NA	NA
+ACH-001318	-0.09632305343421484	PLCPRF5	Liver Cancer	Hepatocellular Carcinoma	Primary
+ACH-001321	-0.0698875210838707	TT	Thyroid Cancer	Squamous Cell Carcinoma	Primary
+ACH-001322	-0.0321605958600947	CME1	Sarcoma	Synovial	NA
+ACH-001328	0.06542145499217394	A431	Skin Cancer	Squamous Cell Carcinoma	Primary
+ACH-001329	0.058419257089533286	ANGMCSS	Brain Cancer	Glioblastoma	Primary
+ACH-001332	0.060861969145991304	BICR78	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-001333	0.006883338226170252	C33A	Cervical Cancer	Carcinoma	Primary
+ACH-001334	-0.037102555911665794	C4I	Cervical Cancer	Carcinoma	Primary
+ACH-001335	-0.21173045158331455	C4II	Cervical Cancer	Carcinoma	Primary
+ACH-001336	0.12323384277371308	CASKI	Cervical Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-001339	0.05579565841755293	COLO794	Skin Cancer	Melanoma	Primary
+ACH-001340	-0.16837516976127678	COV413A	Ovarian Cancer	Carcinoma	Metastasis
+ACH-001341	-0.016020507164843125	DOTC24510	Cervical Cancer	Cervical Adenocarcinoma	Primary
+ACH-001344	0.044626636751524285	GIMEN	Neuroblastoma	NA	Metastasis
+ACH-001346	0.09059565158787197	H103	Head and Neck Cancer	Squamous Cell Carcinoma_buccal mucosa	Primary
+ACH-001347	0.015781170144365298	H157	Head and Neck Cancer	Squamous Cell Carcinoma_buccal mucosa	Primary
+ACH-001356	0.03305273893489312	MB1	Thyroid Cancer	Carcinoma_anaplastic	Primary
+ACH-001366	-0.008029920837807623	NGP	Neuroblastoma	NA	Metastasis
+ACH-001367	-0.016121898649921432	NMB	Neuroblastoma	NA	Metastasis
+ACH-001368	-0.14633786787231	OACM51	Esophageal Cancer	Adenocarcinoma	Metastasis
+ACH-001370	0.03288605694782673	OCIP5X	Ovarian Cancer	Adenocarcinoma_serous	Primary
+ACH-001374	0.05837526666232899	PA1	Ovarian Cancer	NA	Metastasis
+ACH-001375	-0.20519903130602332	PACADD119	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-001376	-0.21292012059332371	PACADD135	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001377	-0.1562656143322181	PACADD137	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-001378	-0.062290903350790947	PACADD159	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-001379	-0.11558582083302345	PACADD161	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001380	-0.10004703548703446	PACADD165	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001382	-0.1706775932148061	PACADD188	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001386	-0.10742461139873914	SCLC22H	Lung Cancer	Small Cell Lung Cancer (SCLC)	Metastasis
+ACH-001388	-0.06723210563921202	SUM102PT	Breast Cancer	Carcinoma	Primary
+ACH-001389	-0.03278993294820472	SUM1315MO2	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001390	-0.16847253830748601	SUM149PT	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-001391	-0.048108518120088095	SUM159PT	Breast Cancer	Carcinoma	Primary
+ACH-001392	-0.24872360938241606	SUM185PE	Breast Cancer	Carcinoma	Metastasis
+ACH-001394	-0.09229528834862216	SUM229PE	Breast Cancer	Carcinoma	Metastasis
+ACH-001395	-0.26359529439131946	SUM44PE	Breast Cancer	Carcinoma	Metastasis
+ACH-001398	-0.10251778037473527	SW156	Kidney Cancer	Renal Cell Carcinoma	Primary
+ACH-001400	-0.0016492610954823635	SW954	Cervical Cancer	Squamous Cell Carcinoma	Primary
+ACH-001401	-0.0034845600428690623	SW13	Adrenal Cancer	Carcinoma	Primary
+ACH-001403	0.012059748135627843	TO14	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-001407	0.09445846963191852	UMUC13	Bladder Cancer	Transitional Cell Carcinoma	Metastasis
+ACH-001409	0.06472351481097066	UMUC16	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-001410	-0.13558046075675345	UMUC4	Bladder Cancer	Transitional Cell Carcinoma	Metastasis
+ACH-001411	-0.022735706857199802	UMUC5	Bladder Cancer	Squamous Cell Carcinoma	Primary
+ACH-001412	-0.0614481464384212	UMUC10	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-001413	0.13121565188122575	UMUC11	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-001414	-0.023801272136084423	UMUC6	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-001416	-0.2811220401026086	UMUC9	Bladder Cancer	Transitional Cell Carcinoma	Primary
+ACH-001418	-0.010392300485959774	UWB1289	Ovarian Cancer	Adenocarcinoma_serous	Primary
+ACH-001421	-0.039432608231585176	WERIRB1	Eye Cancer	Retinoblastoma	Primary
+ACH-001422	0.048276087154301546	WPE1NA22	Prostate Cancer	Adenocarcinoma	Primary
+ACH-001430	-0.04018467371538366	TC138	Bone Cancer	Ewings Sarcoma	NA
+ACH-001431	-0.08038683780588697	TC205	Bone Cancer	Ewings Sarcoma	NA
+ACH-001433	-0.011055323841704219	CCLFPEDS0008T	Sarcoma	Epithelioid	Metastasis
+ACH-001441	-0.049595261211011175	921	Eye Cancer	Uveal Melanoma	Metastasis
+ACH-001442	0.15029297742276246	A388	Skin Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-001443	0.147758856137856	ASH3	Thyroid Cancer	Carcinoma	Primary
+ACH-001450	-0.04460551238659164	BLUE1	Lymphoma	B-cell_Non-Hodgkins_Burkitts	Primary
+ACH-001453	0.18904748495438922	BPH1	Prostate Cancer	Prostate Hyperplasia	Primary
+ACH-001456	-0.1884686370392563	C125PM	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001458	-0.21073576911603206	C75	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001460	-0.14868501191949665	C84	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001461	-0.17992233306149094	C99	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001485	-0.01413376587019149	CII	Leukemia	B-cell_unspecified	Primary
+ACH-001494	-0.18607623803927678	EGI1	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	Primary
+ACH-001495	-0.001294474702290361	EMTOKA	Endometrial/Uterine Cancer	Uterine Carcinosarcoma	Primary
+ACH-001496	-0.19034841515199963	ESO26	Esophageal Cancer	Adenocarcinoma	Primary
+ACH-001497	-0.1476016979609392	ESO51	Esophageal Cancer	Adenocarcinoma	Primary
+ACH-001500	-0.0971128281901751	FLO1	Esophageal Cancer	Adenocarcinoma	Primary
+ACH-001511	-0.05710865156464743	H413	Head and Neck Cancer	Squamous Cell Carcinoma_buccal mucosa	Primary
+ACH-001513	-0.1460809307106819	HCA1	Cervical Cancer	Endocervical Adenocarcinoma	Metastasis
+ACH-001515	-0.07571415864027259	HCS2	Cervical Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-001519	-0.00929060822470246	HEMCSS	Bone Cancer	Chondrosarcoma	Primary
+ACH-001521	0.13568543736544547	HKA1	Skin Cancer	Squamous Cell Carcinoma	Primary
+ACH-001522	-0.0279323202139244	HMY1	Skin Cancer	Melanoma	Metastasis
+ACH-001523	0.059500474287330324	HSC1	Skin Cancer	Squamous Cell Carcinoma	Primary
+ACH-001525	-0.06731092022446658	HT3	Cervical Cancer	Carcinoma	Metastasis
+ACH-001528	0.01900515744690649	IHH4	Thyroid Cancer	Carcinoma_papillary	Metastasis
+ACH-001529	-0.10213488667641944	JAR	Endometrial/Uterine Cancer	Choriocarcinoma	Primary
+ACH-001532	0.025552387769384538	JMURTK2	Rhabdoid	Malignant Rhabdoid Tumor	Metastasis
+ACH-001536	-0.20471967917197056	KKU100	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	Primary
+ACH-001539	-0.07188360084946488	KML1	Lymphoma	B-cell_Non-Hodgkins	Primary
+ACH-001541	-0.11807383853653691	KMS28PE	Myeloma	Multiple Myeloma	Primary
+ACH-001543	0.11253428122522573	KOSC2CL343	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-001548	1.781159116011764e-5	LS	Neuroblastoma	NA	Metastasis
+ACH-001550	0.07362114015470363	MCC13	Skin Cancer	Merkel Cell Carcinoma	Metastasis
+ACH-001551	0.033222732487535975	MCC142	Skin Cancer	Merkel Cell Carcinoma	Metastasis
+ACH-001552	0.06393678547333577	MCC26	Skin Cancer	Merkel Cell Carcinoma	Primary
+ACH-001554	-0.05493449326528408	MEL202	Eye Cancer	Uveal Melanoma	Primary
+ACH-001555	0.00804768537217614	MERO14	Lung Cancer	Mesothelioma	Primary
+ACH-001556	0.03797284389678684	MERO25	Lung Cancer	Mesothelioma	Primary
+ACH-001557	-0.061090056647145057	MERO41	Lung Cancer	Mesothelioma	Primary
+ACH-001558	0.0395807538719928	MERO48A	Lung Cancer	Mesothelioma	Primary
+ACH-001559	0.04268979215653091	MERO82	Lung Cancer	Mesothelioma	Primary
+ACH-001560	0.011946986338200445	MERO83	Lung Cancer	Mesothelioma	Primary
+ACH-001566	-0.08313497923310124	MM370	Skin Cancer	Melanoma	Metastasis
+ACH-001567	-0.02261423034906448	MM383	Skin Cancer	Melanoma	Metastasis
+ACH-001568	-0.08740033846858199	MM386	Skin Cancer	Melanoma	Metastasis
+ACH-001569	0.011352790784167378	MM415	Skin Cancer	Melanoma	Metastasis
+ACH-001573	-0.007063609879001144	MOLM1	Leukemia	Chronic Myelogenous Leukemia (CML)	Metastasis
+ACH-001574	-0.10748927647144474	MOLM14	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-001578	0.048946744855630976	NCCIT	Embryonal Cancer	Carcinoma	Primary
+ACH-001603	0.020806326920899548	NH12	Neuroblastoma	NA	Primary
+ACH-001605	0.030413055915779426	NO10	Brain Cancer	Glioblastoma	Primary
+ACH-001607	0.04805954054029873	NOZ	Gallbladder Cancer	Adenocarcinoma	Metastasis
+ACH-001608	-0.01053438112138259	NP2	Brain Cancer	Glioblastoma	Primary
+ACH-001609	0.10518086882196191	NP3	Brain Cancer	Glioblastoma	Primary
+ACH-001610	0.038325059720330935	NP5	Brain Cancer	Glioblastoma	Primary
+ACH-001613	-0.026925182955873386	OCIAML4	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-001616	-0.012550457996807127	OCILY18	Lymphoma	Diffuse Large B-cell Lymphoma (DLBCL)	Primary
+ACH-001618	-0.005641538243446209	OCIM2	Leukemia	Acute Myelogenous Leukemia (AML)	Primary
+ACH-001619	-0.17609604793409403	OCUG1	Gallbladder Cancer	Adenocarcinoma	Metastasis
+ACH-001622	0.031634353084958454	ONDA7	Brain Cancer	Glioblastoma	Primary
+ACH-001623	0.06743629878913536	ONDA8	Brain Cancer	Glioblastoma	Primary
+ACH-001624	0.03256513333010813	ONDA9	Brain Cancer	Glioblastoma	Primary
+ACH-001625	0.2584807431281504	OSC19	Head and Neck Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-001626	0.18517882829609003	OSC20	Head and Neck Cancer	Squamous Cell Carcinoma	Metastasis
+ACH-001627	0.1042271148386218	P4E6	Prostate Cancer	Adenocarcinoma	Primary
+ACH-001630	-0.14110715587464853	PEO1	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-001632	-0.14902302065773065	PEO4	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-001634	-0.05145206704315393	PGA1	Leukemia	Chronic Lymphoblastic Leukemia (CLL)_B-cell	Primary
+ACH-001638	-0.048598637542118434	RCK8	Lymphoma	B-cell	Primary
+ACH-001645	0.022258388832092295	SEKI	Skin Cancer	Melanoma	Primary
+ACH-001647	-0.07562420189591851	SHI1	Leukemia	Acute Myelogenous Leukemia (AML)	Metastasis
+ACH-001648	0.13366268882198473	SHMAC4	Prostate Cancer	Adenocarcinoma	Primary
+ACH-001649	0.04319956282497637	SHMAC5	Prostate Cancer	Adenocarcinoma	Primary
+ACH-001650	-0.20239762569035427	SISO	Cervical Cancer	Cervical Adenocarcinoma	Primary
+ACH-001651	0.012933919056176649	SKGI	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-001652	0.08089273834120184	SKGII	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-001654	0.01075487152800797	SKGT4	Esophageal Cancer	Adenocarcinoma	Primary
+ACH-001655	0.027137735598369295	SKN	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-001656	0.03154609392460048	SKNO1	Leukemia	Acute Myelogenous Leukemia (AML)	Metastasis
+ACH-001668	0.012968030768073138	SUSA	Teratoma	Testicular	Primary
+ACH-001670	-0.0464512164139137	TASK1	Brain Cancer	Primitive Neuroectodermal Tumor (PNET)	Primary
+ACH-001673	-0.25705671645889017	TFK1	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	Primary
+ACH-001674	0.015659489618325834	TGW	Neuroblastoma	NA	Primary
+ACH-001677	-0.013514904026416997	U2904	Lymphoma	B-cell	Primary
+ACH-001685	-0.02667100398406036	UHO1	Lymphoma	Hodgkins	Primary
+ACH-001687	-0.02268455582002223	UMRC3	Kidney Cancer	Carcinoma	Primary
+ACH-001688	-0.07928259770576473	UMRC7	Kidney Cancer	Carcinoma	Primary
+ACH-001690	0.15526535920395546	UPCISCC026	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-001698	0.16635198890794783	UPCISCC116	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-001699	0.012474207190468524	UPCISCC131	Head and Neck Cancer	Squamous Cell Carcinoma	Primary
+ACH-001702	-0.013393396647389633	VAESBJ	Sarcoma	Epithelioid	Metastasis
+ACH-001711	-0.005620933076067769	PFSK1	Brain Cancer	Primitive Neuroectodermal Tumor (PNET)	Primary
+ACH-001712	0.01233508230273068	HS860T	Bone Cancer	Osteosarcoma	NA
+ACH-001719	-0.01068986238408614	OCIC4P	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-001735	-0.030801166709559225	SEMK2	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-001736	-0.021072793781610474	HB1119	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-001737	-0.05018778864813643	HSB2	Leukemia	Acute Lymphoblastic Leukemia (ALL)_T-cell	NA
+ACH-001740	0.0016242817942115303	RH28	Sarcoma	Rhabdomyosarcoma_alveolar	Metastasis
+ACH-001743	0.02681336768172199	RC2	Sarcoma	Rhabdomyosarcoma_alveolar	Metastasis
+ACH-001745	-0.0012577094552852857	RHJT	Sarcoma	Rhabdomyosarcoma_alveolar	NA
+ACH-001750	0.07743203995992934	TTC442	Sarcoma	Rhabdomyosarcoma_embryonal	NA
+ACH-001751	0.04325888502312854	RH36	Sarcoma	Rhabdomyosarcoma_embryonal	NA
+ACH-001765	0.002093741658504273	RH4	Sarcoma	Rhabdomyosarcoma_alveolar	Metastasis
+ACH-001786	-0.06235240206023788	SNU1544	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-001790	0.03981598404223258	RH18DM	Sarcoma	Rhabdomyosarcoma_embryonal	NA
+ACH-001791	0.06549399246912681	LPS6	Liposarcoma	NA	NA
+ACH-001793	0.131973506779989	LPS27	Liposarcoma	NA	NA
+ACH-001794	0.018903032479597636	93T449	Liposarcoma	WDLPS	Primary
+ACH-001795	0.08341109572628545	94T778	Liposarcoma	WDLPS	NA
+ACH-001796	0.11620850403183415	95T1000	Liposarcoma	WDLPS	NA
+ACH-001799	0.11238561222045564	LPS141	Liposarcoma	DDLPS	NA
+ACH-001802	0.043790211007645886	LPS853	Liposarcoma	DDLPS	NA
+ACH-001804	0.061804152323960845	LPS510	Liposarcoma	WD/DDLPS	NA
+ACH-001814	0.07663393095117088	OS252	Bone Cancer	Osteosarcoma	Primary
+ACH-001818	-0.04205073198199833	C396	Bone Cancer	Osteosarcoma	Metastasis
+ACH-001819	-0.17747694233079264	MFM223	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001820	-0.1221377067090593	COLO824	Breast Cancer	NA	Metastasis
+ACH-001834	-0.07528802312945651	ICC10	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001835	-0.14898039608832656	ICC106	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001838	0.03172224125059425	ICC12	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001839	-0.2442509086519267	ICC137	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001841	0.04685838949666987	ICC15	Bile Duct Cancer	Cholangiocarcinoma_extrahepatic	NA
+ACH-001843	0.027637455294265447	ICC3	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001844	-0.21999415512719114	ICC4	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001845	-0.12330867989757648	ICC5	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001846	-0.15520442502486884	ICC6	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001848	-0.04118205133159684	ICC8	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001849	-0.060352303966662885	ICC9	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001850	0.027306997524935435	G415	Gallbladder Cancer	Adenocarcinoma	Metastasis
+ACH-001852	-0.010680983547681978	HKGZCC	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001853	-0.19017906623963265	KMCH1	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001856	-0.12218771899857105	RBE	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001857	-0.16251763149663065	SG231	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001858	-0.04985284633917587	SSP25	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001861	-0.12481293405638844	TGBC1TKB	Gallbladder Cancer	Adenocarcinoma	Metastasis
+ACH-001863	-0.029294731346872823	TKKK	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001864	-0.30060349024536503	YSCCC	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001959	0.05702677891680196	CCLP1	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001960	0.089427863204601	CCSW1	Bile Duct Cancer	Cholangiocarcinoma_intrahepatic	NA
+ACH-001961	-0.15513708168430262	GB2	Gallbladder Cancer	Adenocarcinoma	Metastasis
+ACH-001993	-0.011987081447906268	NALM16	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	NA
+ACH-001999	-0.13356020415188083	9505BIK	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-002001	0.013488273148873863	A375SKINCJ1	Skin Cancer	Melanoma	NA
+ACH-002002	0.057991230834922546	A375SKINCJ2	Skin Cancer	Melanoma	NA
+ACH-002004	-0.07781888036811073	UACC62SKINCJ1	Skin Cancer	Melanoma	NA
+ACH-002005	-0.019766063452696485	SKMEL19	Skin Cancer	Melanoma	NA
+ACH-002011	-0.0417512538653927	MP46	Eye Cancer	Uveal Melanoma	Primary
+ACH-002016	-0.021450697807912172	MEL290	Eye Cancer	Uveal Melanoma	Primary
+ACH-002017	-0.08002368295202676	OMM1	Eye Cancer	Uveal Melanoma	Metastasis
+ACH-002018	-0.06937684644201696	OMM25	Eye Cancer	Uveal Melanoma	Metastasis
+ACH-002019	-0.035759951347489806	HOKUG	Cervical Cancer	Glassy Cell Carcinoma	Primary
+ACH-002022	-0.15934331265415766	PMFKO14	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-002024	-0.12095857048034686	ECC4	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-002025	-0.0902977820883395	TT1TKB	Colon/Colorectal Cancer	Adenocarcinoma	Primary
+ACH-002026	-0.057999609980486866	HHUA	Endometrial/Uterine Cancer	NA	Primary
+ACH-002027	-0.13276630952132837	HOUAI	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-002029	0.17444020429275714	SAS	Head and Neck Cancer	Squamous Cell Carcinoma_tongue	Primary
+ACH-002038	-0.12439199479842318	HSKTC	Ovarian Cancer	Krukenberg Tumor	Primary
+ACH-002039	0.028630169755647653	PK8	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002042	0.37827867165570644	T3M5	Thyroid Cancer	Squamous Cell Carcinoma	Primary
+ACH-002044	-0.11219732130732386	HSQ89	Head and Neck Cancer	Squamous Cell Carcinoma_sinus	Primary
+ACH-002045	0.08204203038738074	HO1U1	Head and Neck Cancer	Squamous Cell Carcinoma_oral	Primary
+ACH-002059	0.0020105316576141063	P30OHK	Leukemia	Acute Lymphoblastic Leukemia (ALL)_B-cell	Primary
+ACH-002065	0.15454434617436055	HSPSS	Sarcoma	MPNST	Metastasis
+ACH-002069	-0.052903547442852125	HSOS1	Bone Cancer	Osteosarcoma	Primary
+ACH-002446	-0.17808052670919403	CCLFUPGI0005T	Gastric Cancer	Adenocarcinoma	Metastasis
+ACH-002458	-0.03181547681278386	HT144SKINFV1	Skin Cancer	Melanoma	NA
+ACH-002459	-0.021115318309309065	HT144SKINFV3	Skin Cancer	Melanoma	NA
+ACH-002460	-0.023920562985417015	HT144SKINFV2	Skin Cancer	Melanoma	NA
+ACH-002461	0.10239776589842417	RVH421SKINFV1	Skin Cancer	Melanoma	NA
+ACH-002463	0.032625085262213895	RPE1SS77	Engineered	NA	NA
+ACH-002464	0.04554732122132712	RPE1SS6	Engineered	NA	NA
+ACH-002466	0.09561849173142391	RPE1SS111	Engineered	NA	NA
+ACH-002467	0.07039867896962133	RPE1SS51	Engineered	NA	NA
+ACH-002475	-0.040247475060557224	HAP1	Engineered	Chronic Myelogenous Leukemia (CML)	NA
+ACH-002508	0.09901571990456233	WM3211	Skin Cancer	Melanoma_acral	Metastasis
+ACH-002510	-0.02387188356487884	M040416	Skin Cancer	Melanoma_acral	Metastasis
+ACH-002511	0.03222950069613838	M140325	Skin Cancer	Melanoma_mucosal	Primary
