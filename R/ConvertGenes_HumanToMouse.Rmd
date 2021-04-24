@@ -1,0 +1,103 @@
+---
+title: "ConvertHumanToMouse"
+author: "Aurora S Blucher"
+date: "2/17/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(BiocManager)# if needed, run #BiocManager::install(version = "3.12")
+#BiocManager::install("biomaRt")
+library(biomaRt)
+#package doc http://www.bioconductor.org/packages/release/bioc/manuals/biomaRt/man/biomaRt.pdf
+```
+
+## Converting Human Gene Symbols to Mouse Gene Symbols Using BioMart
+
+Quick script for converting from human gene symbols to mouse gene symbols. Queries BioMart software for Ensembl database and human/mouse datasets. Note that for some human gene IDs in the RSR signature, we pull back multiple mouse gene IDs. For a first pass we are keeping all of these.
+
+Notes
+02/17/21
+-convert  RSR gene list (human) to mouse so we can run for our MDST models
+02/18/21
+-add McGrail PARPness, Peng HRD signatures as well
+
+```{r}
+#McGrail RSR Genes and Coefficients
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+#View(RSRSignatureGenes) #711 genes total
+
+#McGrail PARPness Genes and Coefficients
+PARPnessSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailPARPness_Genes_Coefficients.tsv")) 
+#View(PARPnessSignatureGenes)
+#Peng HRD Genes and Coefficients
+HRDSignatureGenes<-read_tsv(here("data","RNA_Signatures", "PengHRDGenes_BRCA1_Coefficients.tsv"))
+#View(HRDSignatureGenes)
+
+
+#Query Biomart for Biomart database (Ensembl) and human/mouse datasets
+#Load human/ mouse genes
+HumanGenes = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+MouseGenes = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+
+# #test example
+# testGenesHuman<-c("ABCB6", "ABCC2", "CEBPD")
+# 
+# #run getLDS(), values should be a vector
+# genesConvert<-getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values=testGenesHuman, mart = HumanGenes, attributesL= c("mgi_symbol"), martL =MouseGenes, uniqueRows = T )
+# View(genesConvert) #looks good
+
+#MCGRAIL RSR
+#convert the RSR genes
+genesConvert<-getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values=RSRSignatureGenes$Gene, mart = HumanGenes, attributesL= c("mgi_symbol"), martL =MouseGenes, uniqueRows = T )
+View(genesConvert) #609 genes converted
+
+#join back with the coefficients
+McGrailRSR_ConvertedToMouse<-genesConvert %>%
+  dplyr::select(Gene = HGNC.symbol, MGI.symbol) #use dplyr::select because there is a conflict with another pkg select() call
+McGrailRSR_ConvertedToMouseJoin<-left_join(McGrailRSR_ConvertedToMouse, RSRSignatureGenes)
+View(McGrailRSR_ConvertedToMouseJoin)
+
+#note, in some cases the human gene ID  maps to multiple mouse gene IDS
+#for now we are keeping all of these
+
+#output to file
+write_tsv(McGrailRSR_ConvertedToMouseJoin, 
+          here("data_intermediate", "MDST", "McGrailRSR_Genes_Coefficients_ConvertedToMouse.tsv"))
+
+#MCGRAIL PARPness
+#convert the RSR genes
+genesConvertParpness<-getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values=PARPnessSignatureGenes$Gene, mart = HumanGenes, attributesL= c("mgi_symbol"), martL =MouseGenes, uniqueRows = T )
+View(genesConvertParpness) #130 genes converted
+
+#join back with the coefficients
+McGrailParpness_ConvertedToMouse<-genesConvertParpness %>%
+  dplyr::select(Gene = HGNC.symbol, MGI.symbol) #use dplyr::select because there is a conflict with another pkg select() call
+McGrailParpness_ConvertedToMouseJoin<-left_join(McGrailParpness_ConvertedToMouse, PARPnessSignatureGenes)
+View(McGrailParpness_ConvertedToMouseJoin)
+
+#output to file
+write_tsv(McGrailParpness_ConvertedToMouseJoin, 
+          here("data_intermediate", "MDST", "McGrailPARPness_Genes_Coefficients_ConvertedToMouse.tsv"))
+
+#PENG HRD
+#convert the RSR genes
+genesConvertHRD<-getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values=HRDSignatureGenes$Gene, mart = HumanGenes, attributesL= c("mgi_symbol"), martL =MouseGenes, uniqueRows = T )
+View(genesConvertHRD) 
+
+#join back with the coefficients
+McGrailParpness_ConvertedToMouse<-genesConvertParpness %>%
+  dplyr::select(Gene = HGNC.symbol, MGI.symbol) #use dplyr::select because there is a conflict with another pkg select() call
+McGrailParpness_ConvertedToMouseJoin<-left_join(McGrailParpness_ConvertedToMouse, PARPnessSignatureGenes)
+View(McGrailParpness_ConvertedToMouseJoin)
+
+#output to file
+write_tsv(McGrailParpness_ConvertedToMouseJoin, 
+          here("data_intermediate", "MDST", "McGrailPARPness_Genes_Coefficients_ConvertedToMouse.tsv"))
+
+
+```
