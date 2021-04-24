@@ -10,8 +10,10 @@ Cancer Cell Line Encyclopedia (CCLE) expression data and accompanying drug scree
 
 ## Internal Datasets
 
-Mills Lab drug screens. 
-Mills Lab MDST models. 
+Mills Lab drug screens
+
+Mills Lab MDST models
+
 Collaborators' PDX Models and ex vivo Drug screening data. 
 Please contact for data sharing inquiries. 
 
