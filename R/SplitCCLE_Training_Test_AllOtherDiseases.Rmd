@@ -23,14 +23,13 @@ Notes
 
 ```{r}
 #read in the full list of cell lines
-
 CCLE_all<-read_csv(here("data", "DepMapCCLE_data", "sample_info_cleaned_021521.csv"))
 View(CCLE_all)
 
 ExcludeDiseases<-as.data.frame(c("Breast Cancer", "Ovarian Cancer", "Endometrial/Uterine Cancer", "Pancreatic Cancer"))
 colnames(ExcludeDiseases)<-c("Disease")
 #remove any without disease or more information
-#remove breast, ovarian, endo, pancreatic
+#remove breast, ovarian, endo, pancreatics
 CCLE_additionalDiseases<-CCLE_all %>%
   filter(!primary_disease %in% ExcludeDiseases$Disease) %>%
   filter( !is.na(cell_line_name)) %>%
@@ -62,23 +61,27 @@ View(Lines_Test)
 ```
 
 ```{r}
-#TRAINING only
+###########################
+#DATA MERGE AND CLEANUP
+#Can skip this whole block
+###########################
+#TRAINING only - all ccle diseases
 CCLE_allOtherDiseases<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_OtherDiseasess_TRAINING_210421.tsv")) %>%
   select(DepMapID=DepMap_ID, CellLine_Name = cell_line_name, CellLine_Name_Cleaned = stripped_cell_line_name, 
          Cancer_Type = primary_disease, Cancer_Subtype = Subtype, DerivedFrom_Primary_or_Met=primary_or_metastasis )
-View(CCLE_allOtherDiseases)
+#View(CCLE_allOtherDiseases)
 #TRAINING - breast, ov, endo, pancreatic from main scripting work
 #merge
 CCLE_BrOvEndPanc<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
-View(CCLE_BrOvEndPanc)
+#View(CCLE_BrOvEndPanc)
 
 mergedFrames<-rbind(CCLE_allOtherDiseases, CCLE_BrOvEndPanc)
-View(mergedFrames)
+#View(mergedFrames)
 
 #RNASeq data
 #go back to full CCLE file
 DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
-View(DepMap_RNASeq)
+#View(DepMap_RNASeq)
 
 #Filter RNASeq data down to our cell lines; 
 #cell lines
@@ -138,6 +141,7 @@ View(joinRSRCorr_CellLineInfo)
 ```
 
 ```{r}
+#START HERE to read in the cleaned data frame
 #Split into separate script with clean up*
 #Read in data and run the McGrail RSR
 readInData<-read_tsv(here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_AllDiseases_RSR_JoinedCellLineInfo.tsv"))
@@ -151,7 +155,7 @@ BindScores<-readInData %>%
   mutate(Mean = mean(correlation), SD = sd(correlation), ZScore= (correlation- Mean)/SD) %>%
   dplyr::select(-Mean, -SD, -correlation) %>%
   pivot_wider(names_from = Score, values_from = ZScore) #checked, looks good
-View(BindScores)
+#View(BindScores)
 
 #graph all diseases RSR McGrail - distribution here
 plotSubtype<- BindScores%>%
@@ -168,17 +172,17 @@ plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scor
         axis.ticks.x =element_blank(),
         axis.text.x=element_blank()) 
 plotFinal
-ggsave(here("output", "TestHeatmap_All.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 #zoom in to just the high scoring RSR scores
 #zscore over 2
-plotSubtype<- BindScores%>%
+plotSubtypeHigh<- BindScores%>%
   filter(McGrail_RSR>=2.0) %>%
   arrange(desc(McGrail_RSR)) %>%
   ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
   geom_bar(stat="identity", aes(fill=Cancer_Type)) #+ 
   #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
+plotFinal<-plotSubtypeHigh + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
   xlab("") +
   ylab("Z-Score") + 
   guides(fill=guide_legend(title="Subtype")) + 
@@ -187,16 +191,16 @@ plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scor
         axis.ticks.x =element_blank(),
         axis.text.x=element_blank()) 
 plotFinal
-ggsave(here("output", "TestHeatmap_All_HighRSR.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_HighOnly.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 #z-score over 1.5
-plotSubtype<- BindScores%>%
+plotSubtype_HighExtended<- BindScores%>%
   filter(McGrail_RSR>=1.5) %>%
   arrange(desc(McGrail_RSR)) %>%
   ggplot(aes(x=reorder(CellLine_Name_Cleaned, -McGrail_RSR), y=McGrail_RSR)) +
   geom_bar(stat="identity", aes(fill=Cancer_Type)) #+ 
   #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
+plotFinal<-plotSubtype_HighExtended + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subtitle = "CCLE All - Training (80%)") +
   xlab("") +
   ylab("Z-Score") + 
   guides(fill=guide_legend(title="Subtype")) + 
@@ -206,14 +210,17 @@ plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scor
         axis.text.x=element_blank()) +
   facet_wrap(~Cancer_Type)
 plotFinal
-ggsave(here("output", "TestHeatmap_All_HighRSR_1Pt5_Facet.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
-
-
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_HighExtended.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 ```
 
 ```{r}
-#EXAMINE A FEW DISEASES OF INTERESET
+#EXAMINE A FEW DISEASES OF INTEREST
+#Breast, Ov, Endo, Panc <- Of main interest for this project
+#HNSCC and Bladder Cancer also look high - this is interesting
+
+#TODO
+#Clean up - just loop though diseases here and output graphs nicely to their own folder
 plotSubtype<- BindScores%>%
   filter(Cancer_Type== "Breast Cancer") %>%
   arrange(desc(McGrail_RSR)) %>%
@@ -225,6 +232,8 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_Breast.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
 
 #ovarian
 #EXAMINE A FEW DISEASES OF INTERESET
@@ -239,6 +248,7 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_Ovar.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 #endo
 #EXAMINE A FEW DISEASES OF INTERESET
@@ -253,6 +263,7 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_Endo.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 
 plotSubtype<- BindScores%>%
@@ -266,6 +277,8 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_Panc.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
 
 plotSubtype<- BindScores%>%
   filter(Cancer_Type== "Head and Neck Cancer") %>%
@@ -278,6 +291,7 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_HNSCC.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 
 plotSubtype<- BindScores%>%
@@ -291,6 +305,7 @@ plotSubtype + labs(title = "Distribution of McGrail RSR Score (Z-Scores)", subti
   xlab("") +
   ylab("Z-Score") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggsave(here("output", "CCLE_RSR", "CCLE_AllDiseases_RSR_Bladder.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 ```
 
