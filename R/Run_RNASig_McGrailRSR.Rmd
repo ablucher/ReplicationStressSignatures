@@ -1,0 +1,227 @@
+---
+title: "RNASignatureMcGrailRSR"
+author: "Aurora S Blucher"
+date: "2/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(ggpubr)
+```
+
+## R Markdown
+
+Run McGrail RSR signature on RNAseq Data. For CCLE Training Lines. 
+
+Notes
+-04/04/21:update the drug list, re-run the drug plots with gemcitabine added, fix AZD6738* typo
+
+
+```{r}
+########################################################
+#MCGRAIL RSR Signature
+########################################################
+
+#McGrail RSR Genes and Coefficient
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(RSRSignatureGenes)
+
+#read in the intermediate file for CCLE/DepMap RNASeq
+DepMap_TrainingLines_RNASeq<-read_tsv(here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_RNASeq_LONG.tsv"))
+
+#our training set
+CCLE_Lines<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+#rsr drug list - mills lab compiled
+RSR_drugs<-read_csv(here("data", "Drugs", "RSR_PARPness_DrugsOfInterest.csv"))
+View(RSR_drugs)
+
+#now need to clean the Gene field and filter to our genes
+DepMap_RNASeq_RSRGenes<-DepMap_TrainingLines_RNASeq %>%
+ filter( Gene %in% RSRSignatureGenes$Gene) 
+#View(DepMap_RNASeq_RSRGenes)
+
+#MCGRAIL RSR
+#TODO figure out why we only have 581/711 genes total??
+ #first, filter the RSR gene set to what was found in DepMap/ CCLE RNA-seq
+RSRSignatureGenes_filtered<-RSRSignatureGenes %>%
+   filter(Gene %in% DepMap_RNASeq_RSRGenes$Gene)
+#View(RSRSignatureGenes_filtered)
+
+#re-structure, then run against corelation of RSR
+DepMap_RNASeq_RSRGenes_cleaned_dataframe<-DepMap_RNASeq_RSRGenes %>%
+  select(DepMapID = DepMap_ID, Gene, Log2_TPM ) %>%
+  arrange(Gene) 
+#View(DepMap_RNASeq_RSRGenes_cleaned_dataframe)
+
+#join with our gene co-efficients  
+Joined_DepMapRNASeq_RSRCoefficients<-left_join(DepMap_RNASeq_RSRGenes_cleaned_dataframe,RSRSignatureGenes_filtered )
+#View(Joined_DepMapRNASeq_RSRCoefficients)
+
+#run correlations on full data frame
+dataFrame_corr<-Joined_DepMapRNASeq_RSRCoefficients %>%
+  group_by(DepMapID) %>%
+  summarize(correlation = cor(Log2_TPM, Coefficient )) 
+View(dataFrame_corr)
+#intermediate output correlations; these can go in the intermediate files
+#write_tsv(dataFrame_corr, here("data_intermediate", "McGrail_RSR", "CCLEDepMap_TrainingLines_RSR.tsv"))
+
+#join with cell line information (cancer type)
+#boxplot of correlations, facet by disease
+#View(CCLE_Lines)
+joinRSRCorr_CellLineInfo<-left_join(dataFrame_corr, CCLE_Lines) %>%
+  select(DepMapID, correlation, CellLine_Name_Cleaned, Cancer_Type, Cancer_Subtype, DerivedFrom_Primary_or_Met)
+View(joinRSRCorr_CellLineInfo)
+
+####
+#added 02/14/21 - output cell lines with RSR score for soonyoung
+outputRSRScoresForSoonyoung<-joinRSRCorr_CellLineInfo %>%
+  select(DepMapID, CellLine_Name_Cleaned, Cancer_Type, Cancer_Subtype, DerivedFrom_Primary_or_Met, 
+         McGrailRSR_Score = correlation)
+View(outputRSRScoresForSoonyoung)
+write_tsv(outputRSRScoresForSoonyoung, here("data_intermediate", "forSoonyoung", "CCLEDepMap_BrOvEndPanc_withRSRScore.tsv"))
+
+
+#####
+#boxplot
+boxplot_cellLines <- ggboxplot(joinRSRCorr_CellLineInfo, x = "Cancer_Type", y = "correlation",
+      color = "Cancer_Type")
+ggpar(boxplot_cellLines, main = "", submain = "",
+      ylab = "Corr with RSR Signature", 
+      font.x = 10, font.y = 10)
+
+
+```
+
+```{r}
+#MCGRAIL RSR Correlation - Example Cell Lines; Best and Worst Scores
+#ACH-000243 r = 0.24, ACH-000759 r = -0.34
+
+#EXAMPLE 1 - HIGH SCORE
+testCase<-Joined_DepMapRNASeq_RSRCoefficients%>%
+  select(DepMapID, Gene, Log2_TPM) %>%
+  arrange(Gene) %>%
+  filter(DepMapID =="ACH-000243") 
+
+#join with the correlation coefficients; so we can have 1 data frame
+joinFrame<-left_join(testCase, RSRSignatureGenes_filtered)
+View(joinFrame)
+
+#run correlation
+#testCor<-cor(testCase$Log2_TPM, RSRSignatureGenes_filtered$Coefficient)
+#testCor
+
+#test scatter of individual cell line genes
+
+scatter_test<-joinFrame %>%
+  ggscatter(x = "Coefficient", y = "Log2_TPM", 
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE) + 
+  stat_cor(method = "pearson",color = "dodgerblue2", label.x=3.5, label.y = 10)
+ggpar(scatter_test, main = "DANG (ACH-000243)", submain = "Pancreatic",
+      xlab = "RSR Gene Signature - Coefficient", ylab = "Log2_TPM")
+
+#EXAMPLE 2 LOW SCORE
+testCase2<-Joined_DepMapRNASeq_RSRCoefficients%>%
+  select(DepMapID, Gene, Log2_TPM) %>%
+  arrange(Gene) %>%
+  filter(DepMapID =="ACH-000759") 
+
+#join with the correlation coefficients; so we can have 1 data frame
+joinFrame2<-left_join(testCase2, RSRSignatureGenes_filtered)
+View(joinFrame2)
+
+scatter_test<-joinFrame2 %>%
+  ggscatter(x = "Coefficient", y = "Log2_TPM", 
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE) + 
+  stat_cor(method = "pearson",color = "dodgerblue2", label.x=3.5, label.y = 10)
+ggpar(scatter_test, main = "MDAMB175VII (ACH-000759)", submain = "Breast",
+      xlab = "RSR Gene Signature - Coefficient", ylab = "Log2_TPM")
+
+```
+
+
+
+```{r} 
+####JOIN WITH GDSC infomation
+#read in GDSC drug info
+GDSC_drugs_filtered<-read_tsv(here("data_intermediate", "GDSCv2", "CCLEDepMap_TrainingLInes_GDSCv2_RSRDrugs_040421.tsv"))
+
+#join our cell line/ correlations data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinRSRCorr_CellLineInfo_wDrug<-left_join(joinRSRCorr_CellLineInfo, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+View(joinRSRCorr_CellLineInfo_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+View(RSR_drugs_namesOnly)
+joinRSRCorr_CellLineInfo_wDrug_Names<-left_join(joinRSRCorr_CellLineInfo_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+View(joinRSRCorr_CellLineInfo_wDrug_Names)
+
+
+#SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinRSRCorr_CellLineInfo_wDrug_Names %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", #color="Cancer_Type",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of RSR Score and Drug AUC", subtitle = "Breast/Ov/Endo/Pancr Lines",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#then split for each cancer type
+
+#BREAST SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinRSRCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Breast Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="olivedrab3",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of RSR Score and Drug AUC", subtitle = "Breast Only",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#OV SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinRSRCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Ovarian Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of RSR Score and Drug AUC", subtitle = "Ovarian Only",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#ENDO SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinRSRCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Endometrial/Uterine Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="darkorchid1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of RSR Score and Drug AUC", subtitle = "Endometrial Only",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.075, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#PANC SCATTER PLOT, with correlations
+scatter_drugAUC<-joinRSRCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Pancreatic Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="turquoise",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of RSR Score and Drug AUC", subtitle = "Pancreatic Only",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.15, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+
+```

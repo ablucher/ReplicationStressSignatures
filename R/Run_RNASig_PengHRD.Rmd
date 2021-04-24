@@ -1,0 +1,216 @@
+---
+title: "RunRNASignaturePeng"
+author: "Aurora S Blucher"
+date: "2/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(ggpubr)
+```
+
+## R Markdown
+
+```{r}
+########################################################
+#Peng HRD Signature
+########################################################
+
+#Repeat for Peng, et al HRD signature
+PengHRDSignatureGenes<-read_tsv(here("data","RNA_Signatures", "PengHRDGenes_BRCA1_Coefficients.tsv")) %>%
+  arrange(Gene)%>%
+  mutate(Gene = str_trim(Gene)) #trailing white space for genes *check how this happened
+#View(PengHRDSignatureGenes)
+
+#read in the intermediate file for CCLE/DepMap RNASeq
+DepMap_TrainingLines_RNASeq<-read_tsv(here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_RNASeq_LONG.tsv"))
+
+
+#our training set
+CCLE_Lines<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+#rsr drug list - mills lab compiled
+RSR_drugs<-read_csv(here("data", "Drugs", "RSR_PARPness_DrugsOfInterest.csv"))
+
+
+#Filter RNASeq genes to our Peng genes
+DepMap_RNASeq_PengHRDGenes<-DepMap_TrainingLines_RNASeq %>%
+  filter(Gene %in% PengHRDSignatureGenes$Gene) 
+dim(DepMap_RNASeq_PengHRDGenes)
+#View(DepMap_RNASeq_PengHRDGenes)
+#View(unique(DepMap_RNASeq_PengHRDGenes$Name)) #188, much better
+
+#Run full correelations
+#first, filter the RSR gene set to what was found in DepMap/ CCLE RNA-seq
+PengHRDSignatureGenes_filtered<-PengHRDSignatureGenes %>%
+  filter(Gene %in% DepMap_RNASeq_PengHRDGenes$Gene)
+#View(PengHRDSignatureGenes_filtered)
+
+#re-structure
+DepMap_RNASeq_PengHRDGenes_cleaned_dataframe<-DepMap_RNASeq_PengHRDGenes %>%
+  select(DepMapID = DepMap_ID, Gene, Log2_TPM ) %>%
+  arrange(Gene) 
+#View(DepMap_RNASeq_PengHRDGenes_cleaned_dataframe)
+
+#join with our gene co-efficients  
+Joined_DepMapRNASeq_PengHRDCoefficients<-left_join(DepMap_RNASeq_PengHRDGenes_cleaned_dataframe,PengHRDSignatureGenes_filtered )
+#View(Joined_DepMapRNASeq_PengHRDCoefficients)
+
+class(Joined_DepMapRNASeq_PengHRDCoefficients$Log2_TPM)#numeric
+class(Joined_DepMapRNASeq_PengHRDCoefficients$Coefficient)#character -> convert to numeric
+Joined_DepMapRNASeq_PengHRDCoefficients$Coefficient<-as.numeric(Joined_DepMapRNASeq_PengHRDCoefficients$Coefficient)
+#View(Joined_DepMapRNASeq_PengHRDCoefficients)
+#run correlations
+dataFrame_Pengcorr<-Joined_DepMapRNASeq_PengHRDCoefficients %>%
+  group_by(DepMapID) %>%
+  summarize(correlation = cor(Log2_TPM, Coefficient )) # try this, will it work?
+#View(dataFrame_Pengcorr)
+#intermediate output correlations; these can go in the intermediate files
+write_tsv(dataFrame_Pengcorr, here("data_intermediate", "Peng_HRD", "CCLEDepMap_TrainingLines_PengHRD.tsv"))
+
+#
+#join with cell line information (cancer type)
+#boxplot of correlations, facet by disease
+
+joinPengCorr_CellLineInfo<-left_join(dataFrame_Pengcorr, CCLE_Lines) %>%
+  select(DepMapID, correlation, CellLine_Name_Cleaned, Cancer_Type)
+#View(joinPengCorr_CellLineInfo)
+
+#boxplot
+boxplot_PengcellLines <- ggboxplot(joinPengCorr_CellLineInfo, x = "Cancer_Type", y = "correlation",
+      color = "Cancer_Type")
+ggpar(boxplot_PengcellLines, main = "", submain = "",
+      #scatter_test, main = "MDAMB175VII (ACH-000759)", submain = "Breast",
+      
+      ylab = "Corr with RSR Signature", 
+      font.x = 10, font.y = 10)
+#boxplot_cellLines
+```
+
+```{r}
+#Peng HRD Correlation - Example Cell Lines; Best and Worst Scores
+##ACH-00138 r = 0.35 , ACH-001145 r = `0.34
+
+#EXAMPLE 1 - HIGH SCORE
+testCase<-Joined_DepMapRNASeq_PengHRDCoefficients%>%
+  select(DepMapID, Gene, Log2_TPM) %>%
+  arrange(Gene) %>%
+  filter(DepMapID =="ACH-001388") 
+
+#join with the correlation coefficients; so we can have 1 data frame
+joinFrame<-left_join(testCase, PengHRDSignatureGenes_filtered)
+View(joinFrame)
+
+#run correlation
+#testCor<-cor(testCase$Log2_TPM, RSRSignatureGenes_filtered$Coefficient)
+#testCor
+
+PengHRDSignatureGenes_filtered$Coefficient<-as.numeric(PengHRDSignatureGenes_filtered$Coefficient)
+joinFrame$Coefficient<-as.numeric(joinFrame$Coefficient)
+
+#test scatter of individual cell line genes
+scatter_test<-joinFrame %>%
+  ggscatter(x = "Coefficient", y = "Log2_TPM", 
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE) + 
+  stat_cor(method = "pearson",color = "dodgerblue2", label.x=3.5, label.y = 10)
+ggpar(scatter_test,  main = "SUM102PT (ACH-001388)", submain = "Breast",
+      xlab = "Peng HRD Gene Signature - Coefficient", ylab = "Log2_TPM")
+
+#EXAMPLE 2 LOW SCORE
+testCase2<-Joined_DepMapRNASeq_PengHRDCoefficients%>%
+  select(DepMapID, Gene, Log2_TPM) %>%
+  arrange(Gene) %>%
+  filter(DepMapID =="ACH-001145") 
+
+#join with the correlation coefficients; so we can have 1 data frame
+joinFrame2<-left_join(testCase2, PengHRDSignatureGenes_filtered)
+View(joinFrame2)
+
+scatter_test<-joinFrame2 %>%
+  ggscatter(x = "Coefficient", y = "Log2_TPM", 
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE) + 
+  stat_cor(method = "pearson",color = "dodgerblue2", label.x=3.5, label.y = 10)
+ggpar(scatter_test, main = "OC316 (ACH-001145)", submain = "Ovarian",
+      xlab = "Peng HRD Gene Signature - Coefficient", ylab = "Log2_TPM")
+```
+
+```{r}
+#PENG HRD VERSUS DRUG AUC
+#read in GDSC drug info
+GDSC_drugs_filtered<-read_tsv(here("data_intermediate", "GDSCv2", "CCLEDepMap_TrainingLInes_GDSCv2_RSRDrugs.tsv"))
+
+#join our cell line/ correlations data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinPengCorr_CellLineInfo_wDrug<-left_join(joinPengCorr_CellLineInfo, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+#View(joinPengCorr_CellLineInfo_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+joinPengCorr_CellLineInfo_wDrug_Names<-left_join(joinPengCorr_CellLineInfo_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+#View(joinPengCorr_CellLineInfo_wDrug_Names)
+#test -> can we facet by drug?
+
+#SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinPengCorr_CellLineInfo_wDrug_Names %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", #color="Cancer_Type",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of Peng HRD Score and Drug AUC", subtitle = "Breast/Ov/Endo/Pancr Lines",
+            xlab = "HRD Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#then split for each cancer type
+#BREAST SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinPengCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Breast Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="olivedrab3",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of Peng HRD Score and Drug AUC", subtitle = "Breast Only",
+            xlab = "HRD Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#OV SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinPengCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Ovarian Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of Peng HRD Score and Drug AUC", subtitle = "Ovarian Only",
+            xlab = "HRD Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#ENDO SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinPengCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Endometrial/Uterine Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="darkorchid1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of Peng HRD Score and Drug AUC", subtitle = "Endometrial Only",
+            xlab = "HRD Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.4, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+#PANC SCATTER PLOT, with correlatons
+scatter_drugAUC<-joinPengCorr_CellLineInfo_wDrug_Names %>%
+  filter(Cancer_Type=="Pancreatic Cancer") %>%
+  ggscatter(x = "correlation", y = "AUC_PUBLISHED", color="turquoise",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of Peng HRD Score and Drug AUC", subtitle = "Pancreatic Only",
+            xlab = "HRD Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.15, label.y = 0.35)
+facet(scatter_drugAUC, facet.by = "DrugName_Class")
+
+```
