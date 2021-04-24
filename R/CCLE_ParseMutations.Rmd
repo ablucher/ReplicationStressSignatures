@@ -1,0 +1,76 @@
+---
+title: "CCLE_ParseMutations"
+author: "Aurora S Blucher"
+date: "2/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+```
+
+## CCLE Parsing Gene Mutations
+
+Script for parsing selected gene mutations, outputing to file. 
+For use with heatmaps and plots - to add gene mutation annotation for key genes like BRCA1/2, TP53, etc.
+
+See CCLE README for mutations; mutations calls are aggregated across sequencing technologies for these cell lines. Using 20Q4 mutation data. Mutation CSV includes mutation call and additional functional calls: TCGA hotspot, COSMIC hotspot, etc.
+
+Notes
+02/15/21
+-Script created, just running BRCA1/2 for now
+
+02/23/21 
+-updates, output BRCA1/2 mutation file  for Alfonso - to  add annotation
+
+```{r}
+#read in cell lines - our training set
+CCLE_Lines<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+View(CCLE_Lines)
+
+#readin mutation data
+CCLE_mutation<-read_csv(here("data", "DepmapCCLE_data", "CCLE_mutations.csv"))
+View(CCLE_mutation)
+
+#filter to our TRAINING set lines
+#and our genes of interest - BRCA1/2 for breast/ovarian, TP53 for ovarian?
+
+BRCA_calls<-CCLE_mutation %>%
+  filter(Hugo_Symbol=="BRCA1" | Hugo_Symbol=="BRCA2") %>%
+  select(DepMapID = DepMap_ID, Hugo_Symbol, Entrez_Gene_Id, Start_position, End_position, Variant_Type,  Variant_Classification, Reference_Allele, Tumor_Seq_Allele1, Protein_Change, isDeleterious, isTCGAhotspot, isCOSMIChotspot)
+View(BRCA_calls)
+
+#filter BRCA calls to our list
+BRCA_calls_TrainingLines<-BRCA_calls %>%
+  filter(DepMapID %in% CCLE_Lines$DepMapID)
+View(BRCA_calls_TrainingLines)
+#join with cell line information <- for Alfonso training
+BRCA_calls_TrainingLinesJoinInfo<-left_join(BRCA_calls_TrainingLines, CCLE_Lines) %>%
+  select(DepMapID, CellLine_Name, CellLine_Name_Cleaned, Cancer_Type, Cancer_Subtype, DerivedFrom_Primary_or_Met, Hugo_Symbol, Entrez_Gene_Id, Start_position, End_position, Variant_Type,  Variant_Classification, Reference_Allele, Tumor_Seq_Allele1, Protein_Change, isDeleterious, isTCGAhotspot, isCOSMIChotspot)
+View(BRCA_calls_TrainingLinesJoinInfo)
+#output here for Alfonso 2/23/21
+write_tsv(BRCA_calls_TrainingLinesJoinInfo, here("data_intermediate", "CCLEDepMap_TrainingLines_BRCA_Mutations.tsv"))
+
+##check below here -> still compatible?
+
+#split BRCA1 and BRCA2
+BRCA1_calls_TrainingLines<-BRCA_calls_TrainingLines %>%
+  filter(Hugo_Symbol=="BRCA1")
+BRCA2_calls_TrainingLines<-BRCA_calls_TrainingLines %>%
+  filter(Hugo_Symbol=="BRCA2")
+
+#okay now take our cell lines and add BRCA annotation as "BRCA1" or "BRCA2"
+#output file, 
+#feed back into the file for consensus heatmap
+CCLE_Lines_annotateBRCA<-CCLE_Lines %>%
+  mutate(BRCA_Status_1 = ifelse(DepMapID %in% BRCA1_calls_TrainingLines$DepMapID, "BRCA1", "No"), 
+         BRCA_Status_12 = ifelse(DepMapID %in% BRCA2_calls_TrainingLines$DepMapID, "BRCA2", BRCA_Status_1)) %>%
+  select(-BRCA_Status_1) #clean-up
+View(CCLE_Lines_annotateBRCA)
+
+#output file for consensus heatmap
+write_tsv(CCLE_Lines_annotateBRCA, here("data_intermediate", "CCLEDepMap_TrainingLines_BRCA_Annotation.tsv"))
+
+```
