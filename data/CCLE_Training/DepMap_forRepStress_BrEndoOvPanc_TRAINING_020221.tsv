@@ -1,0 +1,198 @@
+DepMapID	CellLine_Name	CellLine_Name_Cleaned	Cancer_Type	Cancer_Subtype	DerivedFrom_Primary_or_Met
+ACH-000984	HEC-6	HEC6	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000042	Panc 02.03	PANC0203	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000223	HCC1937	HCC1937	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000857	CAL-85-1	CAL851	Breast Cancer	Carcinoma	Primary
+ACH-000691	HCC2157	HCC2157	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000430	TYK-nu	TYKNU	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-001376	PACADD-135	PACADD135	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002322	HCC2185	HCC2185	Breast Cancer	NA	Metastasis
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000941	HEC-1-B	HEC1B	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000213	HUP-T4	HUPT4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000443	OVKATE	OVKATE	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000699	HCC1395	HCC1395	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000909	JHUEM-2	JHUEM2	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000524	KURAMOCHI	KURAMOCHI	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-002181	OVCA420	OVCA420	Ovarian Cancer	Adenocarcinoma_serous	NA
+ACH-002186	PL4	PL4	Pancreatic Cancer	Ductal Adenocarcinoma	NA
+ACH-000574	FU-OV-1	FUOV1	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000966	IGROV1	IGROV1	Ovarian Cancer	Adenocarcinoma_mixed	Primary
+ACH-000885	TOV-21G	TOV21G	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000307	PK-1	PK1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000192	MFE-280	MFE280	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000278	COV362	COV362	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000568	UACC-812	UACC812	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000256	COV318	COV318	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000031	Panc 02.13	PANC0213	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000117	EFM-192A	EFM192A	Breast Cancer	Adenocarcinoma	Metastasis
+ACH-000248	AU565	AU565	Breast Cancer	Adenocarcinoma	Metastasis
+ACH-000701	RMUG-S	RMUGS	Ovarian Cancer	Cystadenocarcinoma_mucinous	Primary
+ACH-001651	SKG-I	SKGI	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-000542	Hey-A8	HEYA8	Ovarian Cancer	Adenocarcinoma_low grade serous	Metastasis
+ACH-002026	HHUA	HHUA	Endometrial/Uterine Cancer	NA	Primary
+ACH-000755	HCC2218	HCC2218	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000114	SU.86.86	SU8686	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000831	HEC-50B	HEC50B	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-002319	184A1	184A1	Breast Cancer	Unknown	NA
+ACH-000435	EFE-184	EFE184	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-001395	SUM-44PE	SUM44PE	Breast Cancer	Carcinoma	Metastasis
+ACH-000978	EN	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000972	HEC-151	HEC151	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000085	T3M-4	T3M4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000768	MDA-MB-231	MDAMB231	Breast Cancer	Carcinoma	Metastasis
+ACH-000936	EFO-27	EFO27	Ovarian Cancer	Adenocarcinoma_endometrioid	Metastasis
+ACH-000934	MDA-MB-361	MDAMB361	Breast Cancer	Carcinoma	Metastasis
+ACH-000097	ZR-75-1	ZR751	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000205	PK-59	PK59	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002185	PL18	PL18	Pancreatic Cancer	Ductal Adenocarcinoma	NA
+ACH-001374	PA-1 [PA1]	PA1	Ovarian Cancer	NA	Metastasis
+ACH-002039	PK-8	PK8	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000397	TEN	TEN	Endometrial/Uterine Cancer	Clear Cell Carcinoma	Primary
+ACH-000759	MDA-MB-175-VII	MDAMB175VII	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000711	JIMT-1	JIMT1	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000624	HCC1806	HCC1806	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-001375	PACADD-119	PACADD119	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000164	PANC-1	PANC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000320	PSN1	PSN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000094	HPAF-II	HPAFII	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000178	Hs 766T	HS766T	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000859	HCC1954	HCC1954	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000022	PA-TU-8988S	PATU8988S	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001390	SUM-149PT	SUM149PT	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-002183	OVMIU	OVMIU	Ovarian Cancer	Adenocarcinoma_high grade serous	NA
+ACH-001048	COV504	COV504	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-001820	COLO-824	COLO824	Breast Cancer	NA	Metastasis
+ACH-000277	HCC1419	HCC1419	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000988	MFE-319	MFE319	Endometrial/Uterine Cancer	NA	NA
+ACH-000933	SNU-324	SNU324	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-001379	PACADD-161	PACADD161	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002399	21NT	21NT	Breast Cancer	Carcinoma	Primary
+ACH-001388	SUM-102PT	SUM102PT	Breast Cancer	Carcinoma	Primary
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000704	OAW42	OAW42	Ovarian Cancer	Carcinoma	Metastasis
+ACH-001279	SCCOHT-1	SCCOHT1	Ovarian Cancer	Small Cell Carcinoma of the Ovary Hypercalcemic Type (SCCOHT)	NA
+ACH-000048	TOV-112D	TOV112D	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-001403	TO14	TO14	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-000352	HCC1428	HCC1428	Breast Cancer	Carcinoma	Metastasis
+ACH-000646	OVMANA	OVMANA	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000940	AN3 CA	AN3CA	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-001145	OC 316	OC316	Ovarian Cancer	Adenocarcinoma_serous	Metastasis
+ACH-000354	Capan-1	CAPAN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000332	YAPC	YAPC	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002140	Hey	HEY	Ovarian Cancer	Adenocarcinoma_high grade serous	NA
+ACH-002163	MRK-nu-1	MRKNU1	Breast Cancer	Carcinoma	NA
+ACH-000212	CAL-120	CAL120	Breast Cancer	Carcinoma	Metastasis
+ACH-000910	MDA-MB-453	MDAMB453	Breast Cancer	Carcinoma	Metastasis
+ACH-001378	PACADD-159	PACADD159	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-001418	UWB1.289	UWB1289	Ovarian Cancer	Adenocarcinoma_serous	Primary
+ACH-000554	UACC-893	UACC893	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000138	CFPAC-1	CFPAC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002325	LY2	LY2	Breast Cancer	NA	Metastasis
+ACH-000222	AsPC-1	ASPC1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000527	OVISE	OVISE	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000856	CAL-51	CAL51	Breast Cancer	Carcinoma	Metastasis
+ACH-000291	OV-90	OV90	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-001719	OCI-C4P	OCIC4P	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-002038	HSKTC	HSKTC	Ovarian Cancer	Krukenberg Tumor	Primary
+ACH-001391	SUM-159PT	SUM159PT	Breast Cancer	Carcinoma	Primary
+ACH-001063	DOV13	DOV13	Ovarian Cancer	Adenocarcinoma	Primary
+ACH-000374	HCC1143	HCC1143	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-001632	PEO4	PEO4	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-002326	MACLS2	MACLS2	Breast Cancer	NA	Metastasis
+ACH-000721	HMC-1-8	HMC18	Breast Cancer	Carcinoma	Metastasis
+ACH-001380	PACADD-165	PACADD165	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000270	HPAC	HPAC	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000132	JHOS-2	JHOS2	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-001630	PEO1	PEO1	Ovarian Cancer	Cystadenocarcinoma	Metastasis
+ACH-002208	YMB-1-E	YMB1E	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-000196	HCC1599	HCC1599	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000017	SK-BR-3	SKBR3	Breast Cancer	Carcinoma	Metastasis
+ACH-000946	HEC-265	HEC265	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000584	JHOS-4	JHOS4	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-000107	Capan-2	CAPAN2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-002329	SKBR5	SKBR5	Breast Cancer	NA	NA
+ACH-000308	EFO-21	EFO21	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000663	OVTOKO	OVTOKO	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000965	RL95-2	RL952	Endometrial/Uterine Cancer	Endometrial Adenosquamous Carcinoma	Primary
+ACH-001151	OVCAR-5	OVCAR5	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000173	JHUEM-3	JHUEM3	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	NA
+ACH-000535	BxPC-3	BXPC3	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-002327	MCF12A	MCF12A	Breast Cancer	NA	NA
+ACH-000879	MFE-296	MFE296	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-002323	HCC2688	HCC2688	Breast Cancer	NA	NA
+ACH-001108	KP-1NL	KP1NL	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001358	MDA-MB-330	MDAMB330	Breast Cancer	Carcinoma	Metastasis
+ACH-000123	COV434	COV434	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-001098	KCI-MOH1	KCIMOH1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-000818	BT-483	BT483	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000460	SNU-8	SNU8	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000502	TCC-PAN2	TCCPAN2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000954	HEC-1-A	HEC1A	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000652	SUIT-2	SUIT2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002146	JHOS-3	JHOS3	Ovarian Cancer	Adenocarcinoma_serous	NA
+ACH-001514	HCC1008	HCC1008	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001652	SKG-II	SKGII	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-002324	HCC3153	HCC3153	Breast Cancer	NA	NA
+ACH-000001	NIH:OVCAR-3	NIHOVCAR3	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-002179	OCUB-M	OCUBM	Breast Cancer	Carcinoma	Metastasis
+ACH-000906	ES-2	ES2	Ovarian Cancer	Adenocarcinoma_clear cell	Primary
+ACH-000028	KPL-1	KPL1	Breast Cancer	Carcinoma	Metastasis
+ACH-001392	SUM-185PE	SUM185PE	Breast Cancer	Carcinoma	Metastasis
+ACH-000796	MCAS	MCAS	Ovarian Cancer	Cystadenocarcinoma_mucinous	Primary
+ACH-001278	BIN-67	BIN67	Ovarian Cancer	Small Cell Carcinoma of the Ovary Hypercalcemic Type (SCCOHT)	Metastasis
+ACH-000349	HCC1500	HCC1500	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-001370	OCI-P5x	OCIP5X	Ovarian Cancer	Adenocarcinoma_serous	Primary
+ACH-001042	COLO-704	COLO704	Ovarian Cancer	Adenocarcinoma	Metastasis
+ACH-000091	OV56	OV56	Ovarian Cancer	Adenocarcinoma_serous	Metastasis
+ACH-000330	EFM-19	EFM19	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001340	COV413A	COV413A	Ovarian Cancer	Carcinoma	Metastasis
+ACH-000347	QGP-1	QGP1	Pancreatic Cancer	Somatostatinoma	Primary
+ACH-000517	SNU-410	SNU410	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000643	HDQ-P1	HDQP1	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-001394	SUM-229PE	SUM229PE	Breast Cancer	Carcinoma	Metastasis
+ACH-000696	OVCAR-8	OVCAR8	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary
+ACH-001393	SUM-190PT	SUM190PT	Breast Cancer	Carcinoma	Primary
+ACH-000961	Ishikawa (Heraklio) 02 ER-	ISHIKAWAHERAKLIO02ER	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000266	SNU-213	SNU213	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-001389	SUM-1315MO2	SUM1315MO2	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-002320	600MPE	600MPE	Breast Cancer	NA	Metastasis
+ACH-000657	A2780	A2780	Ovarian Cancer	Adenocarcinoma_endometrioid	Primary
+ACH-000725	HCC202	HCC202	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000719	RMG-I	RMGI	Ovarian Cancer	Adenocarcinoma_clear cell	Metastasis
+ACH-000044	MDA-MB-134-VI	MDAMB134VI	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001819	MFM-223	MFM223	Breast Cancer	Breast Ductal Carcinoma	Metastasis
+ACH-001529	JAR	JAR	Endometrial/Uterine Cancer	Choriocarcinoma	Primary
+ACH-001382	PACADD-188	PACADD188	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-002328	MX1	MX1	Breast Cancer	NA	NA
+ACH-000023	PA-TU-8988T	PATU8988T	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-001999	950-5-BIK	9505BIK	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-000520	59M	59M	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis
+ACH-000536	BT-20	BT20	Breast Cancer	Breast Ductal Carcinoma	Primary
+ACH-000974	SNG-M	SNGM	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Metastasis
+ACH-000118	HUP-T3	HUPT3	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000265	KP4	KP4	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000783	CAMA-1	CAMA1	Breast Cancer	Carcinoma	Metastasis
+ACH-001495	EMTOKA	EMTOKA	Endometrial/Uterine Cancer	Uterine Carcinosarcoma	Primary
+ACH-000811	SK-OV-3	SKOV3	Ovarian Cancer	Cystadenocarcinoma_endometrioid	Metastasis
+ACH-000608	COV644	COV644	Ovarian Cancer	Adenocarcinoma_mucinous	Primary
+ACH-000148	Hs 578T	HS578T	Breast Cancer	Carcinoma	Primary
+ACH-000281	KP-2	KP2	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000243	DAN-G	DANG	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA
+ACH-001655	SKN	SKN	Endometrial/Uterine Cancer	Endometrial Squamous Cell Carcinoma	Primary
+ACH-000864	COLO 684	COLO684	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-002149	KGN	KGN	Ovarian Cancer	Granulosa Cell Tumor	NA
+ACH-000237	JHOM-1	JHOM1	Ovarian Cancer	Adenocarcinoma_mucinous	Primary
+ACH-000573	MDA-MB-436	MDAMB436	Breast Cancer	Carcinoma	Metastasis
+ACH-000060	Panc 10.05	PANC1005	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-001377	PACADD-137	PACADD137	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary
+ACH-000635	SNU-119	SNU119	Ovarian Cancer	Cystadenocarcinoma_high grade serous	Metastasis
+ACH-000913	ESS-1	ESS1	Endometrial/Uterine Cancer	Endometrial Stromal Sarcoma	Primary
+ACH-000688	OV7	OV7	Ovarian Cancer	Adenocarcinoma_mixed	Primary
+ACH-000849	MDA-MB-468	MDAMB468	Breast Cancer	Carcinoma	Metastasis
+ACH-000302	SNU-1077	SNU1077	Endometrial/Uterine Cancer	Mullerian Carcinoma	Primary
+ACH-000293	KLE	KLE	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000947	OVK18	OVK18	Ovarian Cancer	Adenocarcinoma_endometrioid	Metastasis
+ACH-002027	HOUA-I	HOUAI	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary
+ACH-000621	MDA-MB-157	MDAMB157	Breast Cancer	Breast Ductal Carcinoma	Metastasis
