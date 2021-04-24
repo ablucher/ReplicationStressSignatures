@@ -40,11 +40,11 @@ View(DepMap_RNASeq)
 #cell lines
 DepMap_TrainingLines_RNASeq<-DepMap_RNASeq %>%
   pivot_longer(-X1, names_to = "Gene", values_to = "Log2_TPM") %>%
-  select(DepMap_ID = X1, Gene, Log2_TPM) %>%
+  dplyr::select(DepMap_ID = X1, Gene, Log2_TPM) %>%
   filter(DepMap_ID %in% CCLE_Lines$DepMapID) %>% #need to use DepMapID across data types
   separate(Gene, c("Name", "ID_ToClean"), " ") %>%
   mutate(ID = str_sub(ID_ToClean, 2, -2)) %>%#start at second char, end on 2nd to last chat -> remove "()"
-  select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
+  dplyr::select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
 View(DepMap_TrainingLines_RNASeq)
 #intermediate, output to file
 write_tsv(DepMap_TrainingLines_RNASeq, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_RNASeq_LONG.tsv"))
@@ -68,7 +68,7 @@ GDSC_drugs_filtered<-GDSC_drugs %>%
   filter(ARXSPAN_ID %in% DepMap_TrainingLines_RNASeq$DepMap_ID) %>% #filter to our lines (this is training; w/ RNA-seq data so we ran correlations)
   filter(DRUG_ID %in% RSR_drugs$GDSC2_ID) %>%
   filter(DATASET=="GDSC2") %>%
-  select(DRUG_ID, DRUG_NAME,DepMapID = ARXSPAN_ID, AUC_PUBLISHED) #rename ID for join
+  dplyr::select(DRUG_ID, DRUG_NAME,DepMapID = ARXSPAN_ID, AUC_PUBLISHED) #rename ID for join
 View(GDSC_drugs_filtered)
 
 #intermediate, output to file
