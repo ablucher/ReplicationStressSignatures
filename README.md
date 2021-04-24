@@ -14,20 +14,29 @@ Mills Lab drug screens
 
 Mills Lab MDST models
 
-Collaborators' PDX Models and ex vivo Drug screening data. 
+Collaborators' PDX Models and ex vivo Drug screening data
+
 Please contact for data sharing inquiries. 
 
 ## Signatures
-McGrail, et al. Replication Stress signature. 
-McGrail, et al. PARPness signature. 
-Peng, et al. homologous repair signature. 
-GSVA Gene Set Variation Analysis using the MSIGDB Cancer Hallmars. 
+[McGrail, et al. Replication Stress signature](https://pubmed.ncbi.nlm.nih.gov/29768207/)
+
+[McGrail, et al. PARPness signature](https://www.nature.com/articles/s41540-017-0011-6)
+
+[Peng, et al. homologous repair signature](https://pubmed.ncbi.nlm.nih.gov/24553445/)
+
+GSVA Gene Set Variation Analysis using the MSIGDB Cancer Hallmarks
+
 
 ## DNA Damage Drugs of Interest
-Gemcitabine. 
-ATR/ATM inhibitors. 
-CHK1 inhibitors. 
-WEE1 inhibitors. 
+Gemcitabine
+
+ATR/ATM inhibitors
+
+CHK1 inhibitors
+
+WEE1 inhibitors
+
 PARP inhibitors  
 
 ## Contact
