@@ -31,13 +31,13 @@ GSVA Gene Set Variation Analysis using the [MSIGDB Cancer Hallmarks](http://www.
 ## DNA Damage Drugs of Interest
 Gemcitabine
 
-ATR/ATM inhibitors
+ATR/ATM inhibitors ( AZD6738 (Ceralazertib), KU-55933, KU-60019, VE-821 )
 
-CHK1 inhibitors
+CHK1 inhibitors ( AZD7762, MK-8776, LY2603618, PF-477736, CHIR-124 )
 
-WEE1 inhibitors
+WEE1 inhibitors ( 681640, MK-1775 )
 
-PARP inhibitors  
+PARP inhibitors  ( Olaparib, Niraparib, Rucaparib, Talazoparib, Veliparib )
 
 ## Contact
 Please email [Aurora Blucher](blucher@ohsu.edu) for questions, comments, or inquirues about internal dataset access. 
