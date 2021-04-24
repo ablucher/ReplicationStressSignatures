@@ -1,0 +1,92 @@
+---
+title: "Rep Stress- Main Data Cleaning Script - Outputs Intermediate Files"
+author: "Aurora S Blucher"
+date: "2/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(stringr)
+library(ggpubr)
+```
+
+## R Markdown
+
+This script reads in and cleans up DepMap CCLE data - RNASeq, GDSC drugs. 
+
+Notes
+-02/14/21 Clean-up and re-factoring; split signatures into their own scripts
+runs the RNA signatures for our DepMap/CCLE Lines. For each sample (cell line), we calculate the correlation across genes in each gene signature. 
+
+Then we assess relationship (scatter plot; correlation) between correlations and drug AUC. 
+
+This script is exploratory/ EDA for relationship of our RSR/PARPness signatures and drug AUC; uses the 
+
+-04/02/21 - add gemcitabine to our list of drugs of interest, fixed AZD6738 (was *83 typo)
+
+```{r}
+#TRAINING SET
+CCLE_Lines<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_BrEndoOvPanc_TRAINING_020221.tsv"))
+View(CCLE_Lines)
+
+#Read in DepMap/CCLE RNASeq, subset to genes in signatures
+DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
+View(DepMap_RNASeq)
+
+#Filter RNASeq data down to our cell lines; 
+#cell lines
+DepMap_TrainingLines_RNASeq<-DepMap_RNASeq %>%
+  pivot_longer(-X1, names_to = "Gene", values_to = "Log2_TPM") %>%
+  select(DepMap_ID = X1, Gene, Log2_TPM) %>%
+  filter(DepMap_ID %in% CCLE_Lines$DepMapID) %>% #need to use DepMapID across data types
+  separate(Gene, c("Name", "ID_ToClean"), " ") %>%
+  mutate(ID = str_sub(ID_ToClean, 2, -2)) %>%#start at second char, end on 2nd to last chat -> remove "()"
+  select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
+View(DepMap_TrainingLines_RNASeq)
+#intermediate, output to file
+write_tsv(DepMap_TrainingLines_RNASeq, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_RNASeq_LONG.tsv"))
+
+```
+
+```{r}
+####################
+###GDSC DRUG AUCs
+######################
+#read in the gdsc drug auc file
+GDSC_drugs<-read_csv(here("data", "DepMapCCLE_data", "sanger-dose-response.csv"))
+View(GDSC_drugs)
+
+#rsr drug list - mills lab compiled
+RSR_drugs<-read_csv(here("data", "Drugs", "RSR_PARPness_DrugsOfInterest.csv"))
+View(RSR_drugs)
+
+#filter to RSR drugs; our cell lines
+GDSC_drugs_filtered<-GDSC_drugs %>%
+  filter(ARXSPAN_ID %in% DepMap_TrainingLines_RNASeq$DepMap_ID) %>% #filter to our lines (this is training; w/ RNA-seq data so we ran correlations)
+  filter(DRUG_ID %in% RSR_drugs$GDSC2_ID) %>%
+  filter(DATASET=="GDSC2") %>%
+  select(DRUG_ID, DRUG_NAME,DepMapID = ARXSPAN_ID, AUC_PUBLISHED) #rename ID for join
+View(GDSC_drugs_filtered)
+
+#intermediate, output to file
+write_tsv(GDSC_drugs_filtered, here("data_intermediate", "GDSCv2", "CCLEDepMap_TrainingLines_GDSCv2_RSRDrugs_040421.tsv"))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
