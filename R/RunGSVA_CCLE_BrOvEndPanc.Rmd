@@ -1,0 +1,1101 @@
+---
+title: "RunGSVA_CCLE"
+author: "Aurora S Blucher"
+date: "3/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+library(msigdbr)
+library(BiocManager)
+library(Biobase)
+library(readxl)
+library(GSVA)
+library(ComplexHeatmap)
+library(circlize)
+library(ggpubr)
+library(broom)
+library(ggrepel)
+
+```
+
+## Run GSVA for CCLE datasets- breast, ovarian, endometrial, pancreatic
+
+Notes for developing the script for running GSVA on RNASeq data. The Molecular Signatures Database (MSigDB) houses genes sets that were created for use with GSEA (Gene Set Enrichment Analysis). Here we are interested in using the focused set of Cancer Hallmarks (50 gene sets) with GSVA (Gene Set Variation Analysis), and in particular these genee sets of interest for replication stress:
+-G2M_CHECKPOINT
+-E2F_TARGETS
+-MYC_TARGETS (1 and 2)
+-DNA Repair
+-OxPhos ~maybe
+
+
+Notes
+03/14/21; 03/18/21;
+-for each cancer type, take rna-seq data, run GSVA; compiled heatmap (with everything we have now)
+-correlation GSVA hallmarks (RSR focused) with Mcgrail RSR/PARPness score;
+-output the GSVA joined with cell line info
+
+next
+-cyclin E
+
+```{r}
+hallmark_GeneSets<-msigdbr(species = "Homo sapiens", category = "H")
+class(hallmark_GeneSets)
+#View(hallmark_GeneSets)
+
+msigdbr_list = split(x = hallmark_GeneSets$gene_symbol, f = hallmark_GeneSets$gs_name)
+class(msigdbr_list)#list
+#View(msigdbr_list) 
+#contains 1 list for each hallmark-> gene sets
+class(msigdbr_list$HALLMARK_G2M_CHECKPOINT) #character?
+#View(msigdbr_list$HALLMARK_G2M_CHECKPOINT)#data frame 1 column/ vector of all the genes in this set here
+
+#Load RNA_Seq data training lines (LONG)
+CCLE_Training_RNASeq_LONG<-read_tsv(here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_RNASeq_LONG.tsv"))
+#View(CCLE_Training_RNASeq_LONG)
+
+#Load breast cell line_joined with scores, brca information
+breastLines_andScores<-read_tsv(here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Breast_BRCA.tsv"))
+View(breastLines_andScores)
+
+#subset rna-seq to just our cell lines  from b) -> wide
+#TODO - clean up our duplicate removal - make automatic to check and pull out
+#PINX1	94
+#19180	TBCE
+#use group_by(gene) -> then tally, then pull off the duplicates
+CCLE_Training_RNASeq_Breast<-CCLE_Training_RNASeq_LONG %>%
+  filter(DepMap_ID %in% breastLines_andScores$DepMapID) %>%
+  select(DepMap_ID, Gene, Log2_TPM) %>%
+  filter(Gene!="PINX1") %>% #remove genes where we have 2
+  filter(Gene!="TBCE") %>%
+  pivot_wider(names_from = DepMap_ID, values_from = Log2_TPM)
+  #pivot_wider(names_from = Gene, values_from = Log2_TPM) #try this way
+View(CCLE_Training_RNASeq_Breast)
+
+#SET UP FOR GSVA
+#run for our full MDST data frame
+exprsFullBreast<-as.matrix(CCLE_Training_RNASeq_Breast[, 2:48]) #NEED TO SKIP the first column=gene names
+dim(exprsFullBreast) #19178 genes X 47 samples (cell lines)
+colnames(exprsFullBreast)#cell line names
+rownames(exprsFullBreast)<-t(CCLE_Training_RNASeq_Breast[,1])# done
+head(exprsFullBreast)
+
+#create a minimal ExpressionSet object
+mdstSet<-ExpressionSet(assayData=exprsFullBreast[1:19178, 1:47]) #this works but not passing the full object??
+
+#RUN GSVA
+gsva_ccle_breast<-gsva(mdstSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+gsva_ccle_breast
+
+#extract th expression matrix -> should this now be 
+ccleBreast_MatrixES<-exprs(gsva_ccle_breast)
+View(ccleBreast_MatrixES)
+
+#rep stress hallmarks of interest*
+repStress_hallmarks<-as.data.frame(c("HALLMARK_G2M_CHECKPOINT", "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+                       "HALLMARK_E2F_TARGETS", "HALLMARK_DNA_REPAIR", 
+                       "HALLMARK_MYC_TARGETS_V1", "HALLMARK_MYC_TARGETS_V2"))
+colnames(repStress_hallmarks)<-c("Hallmark")
+View(repStress_hallmarks)
+
+#need to add back in this section so we have it for our heatmap - 03/18/21
+forHeatmap_RepStress_HallMarks<-as.data.frame(ccleBreast_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  filter(Hallmark %in% repStress_hallmarks$Hallmark)
+View(forHeatmap_RepStress_HallMarks)
+
+#output file 03/18/21
+forHeatmap_RepStress_HallMarksFullBreast<-as.data.frame(ccleBreast_MatrixES) %>%
+  rownames_to_column("Hallmark")
+View(forHeatmap_RepStress_HallMarksFullBreast)
+write_tsv(forHeatmap_RepStress_HallMarksFullBreast, here("data_intermediate", "GSVA_Results",
+                                                         "GSVA_CCLE_Breast_AllHallmarksES.tsv"))
+
+```
+
+```{r}
+#COMPARE GSVA with other scores - HEATMAP and CORRELATION PLOTS
+
+#breast cell line and score information
+View(breastLines_andScores)
+
+#need to re-arrange here
+LinesToHallmarks_Br<-forHeatmap_RepStress_HallMarks %>%
+ # select(-RepStress_Hallmark) %>%
+  pivot_longer(-Hallmark, names_to = "DepMapID", values_to="Value") %>%
+  mutate(Hallmark = str_sub(Hallmark, 10, length(Hallmark))) %>%
+  pivot_wider(names_from = Hallmark, values_from = Value)
+View(LinesToHallmarks_Br)
+
+#JOINED SCORES HAS THE HALLMARKS AND THE BREAST LINE INFO
+joined_Scores<-left_join(LinesToHallmarks_Br, breastLines_andScores)
+View(joined_Scores)
+
+#heatmap should be here
+#set up for heatmap
+hallmarksOnly<-joined_Scores %>%
+  select(DNA_REPAIR, E2F_TARGETS, G2M_CHECKPOINT, 
+         MYC_TARGETS_V1, MYC_TARGETS_V2, OXIDATIVE_PHOSPHORYLATION)
+#View(hallmarksOnly)
+matrix_forHeatMap<-as.matrix(hallmarksOnly)
+#don't use DepMap ID< - use Cleaned cell name here for our heatmap below
+rownames(matrix_forHeatMap)<-joined_Scores$CellLine_Name_Cleaned
+
+
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise1","wheat","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise1","wheat","darkorange1"))
+#col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#row annotation
+#from our concensus heatmaps before
+#now add the RSR /PARPness score to our annotation
+#body of heatmap will be the GSVA ES scores
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = joined_Scores$Cancer_Type, 
+                       Derived_from = joined_Scores$DerivedFrom_Primary_or_Met,
+                       Subtype = joined_Scores$Cancer_Molecular_Subtype,
+                       BRCA_Status = joined_Scores$BRCA_Status_12,
+                       Mc_RSR = joined_Scores$McGrail_RSR, 
+                       Mc_PARP = joined_Scores$McGrail_PARPness,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype = c("basal" = "royalblue2", "basal_A" = "royalblue2", "basal_B" = "royalblue2", 
+                                            "HER2_amp" ="springgreen4", "luminal"="goldenrod2"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ),
+                                Mc_RSR = col_RSR, 
+                                Mc_PARP = col_PARP
+                                )
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "CCLE_Breast_GSVA_RepStressHallmarks.png"), width = 800, height = 1600)
+#works but branches small
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "GSVA ES", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 10, fontface = "bold"),
+        column_names_gp= gpar(fontsize =10, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(4, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+
+```{r}
+#CORRELATION
+#format just for GSVA versus RSR/PARPness scores
+#get hallmarks-> wide | keep model and mcgrail RSR/PARPness/CCNE1 info in own columns (will be doubled up)
+#then make hallmarks WIDE so we can iterate through/facet in our plots
+joined_Scores_forScatter<-joined_Scores %>%
+  pivot_longer(-c(DepMapID, McGrail_RSR, McGrail_PARPness, Peng_HRD, CellLine_Name, CellLine_Name_Cleaned, 
+                  Cancer_Type, Cancer_Subtype, Cancer_Subtype_Specific, Cancer_Molecular_Subtype,  
+                  DerivedFrom_Primary_or_Met, BRCA_Status_12),
+               names_to= "Hallmark", values_to = "ES")
+View(joined_Scores_forScatter)
+
+#CCLE RSR versus GSVA sets of interest
+scatter_GSVA_vsRSR<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_RSR", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail RSR", subtitle = "CCLE Breast",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-0.50, label.y = 0.75)
+#scatter_GSVA_vsRSR
+facet(scatter_GSVA_vsRSR, facet.by = "Hallmark")
+
+#CCLE PARPness versus GSVA sets of interest
+scatter_GSVA_vsPARPness<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_PARPness", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail PARPness", subtitle = "CCLE Breast",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-1.0, label.y = 0.75)
+#scatter_GSVA_vsPARPness
+facet(scatter_GSVA_vsPARPness, facet.by = "Hallmark")
+
+```
+
+```{r}
+#GSVA scores versus GDSC drug
+#04/04/21 added section; pulled code from RSR v GDSC script
+
+#read in GDSC drug info
+GDSC_drugs_filtered<-read_tsv(here("data_intermediate", "GDSCv2", "CCLEDepMap_TrainingLInes_GDSCv2_RSRDrugs_040421.tsv"))
+
+#join our GSVA data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinGSVA_wDrug<-left_join(joined_Scores_forScatter, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+View(joinGSVA_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+#View(RSR_drugs_namesOnly)
+joinGSVA_wDrug_Names<-left_join(joinGSVA_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+#View(joinGSVA_wDrug_Names)
+
+#check subset
+testBreast_DNARepair<-scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(Cancer_Type=="Breast Cancer") %>%
+  filter(Hallmark=="DNA_REPAIR")
+View(testBreast_DNARepair)
+
+#BREAST SCATTER PLOT, with correlatons
+scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(Cancer_Type=="Breast Cancer") %>%
+  filter(Hallmark=="DNA_REPAIR") %>%
+  ggscatter(x = "ES", y = "AUC_PUBLISHED", color="olivedrab3",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Score DNA_REPAIR and Drug AUC", subtitle = "Breast Only; ",
+            xlab = "RSR Score", ylab = "Drug AUC") + 
+  stat_cor(method = "pearson",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_GSVAdrugAUC, facet.by = "DrugName_Class")
+
+#okay, let's set this up as a corr. test
+#group by, correlation call
+#then make a volcano plot so we can pull off top entries
+runCorrelationGSVA_GDSC<-joinGSVA_wDrug_Names %>%
+  group_by(Hallmark, DrugName_Class) %>%
+  do(tidy(cor.test(.$ES, .$AUC_PUBLISHED, method="spearman"))) %>%
+  ungroup() %>%
+  mutate(P_Adjusted= p.adjust(p.value, method="fdr"), 
+         Significant = ifelse(P_Adjusted<0.05, "Yes", "No"),
+         Label = paste0(Hallmark, "_X_", DrugName_Class)) 
+  
+View(runCorrelationGSVA_GDSC)
+
+#volcano plot add
+Volcano_GSVA_Breast<-runCorrelationGSVA_GDSC %>%
+  ggplot( aes(x = estimate, y = -log10(P_Adjusted), fill=Significant)) +
+  geom_point(aes(size = estimate), shape=21 ) + 
+  geom_hline(yintercept = -log10(0.20), linetype= "dashed", color="red")+
+  geom_hline(yintercept = -log10(0.05), linetype= "dashed", color="red")+
+  scale_fill_manual(values = c("grey", "red"))+
+  labs(title = "GSVA Hallmarks of Interest Correlated with GDSC Drug Response", subtitle = "CCLE Breast Lines") + 
+  xlab("Spearman Correlation Coefficient") + 
+  geom_text_repel(data =subset(runCorrelationGSVA_GDSC, P_Adjusted<0.05), 
+                  aes(label=Label), size = 2, box.padding=unit(0.35, "lines"), point.padding=unit(0.3, "lines"))
+Volcano_GSVA_Breast
+
+
+```
+
+```{r}
+#OVARIAN
+
+#Load ov cell line_joined with scores, brca information
+ovLines_andScores<-read_tsv(here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Ov_BRCA.tsv"))
+View(ovLines_andScores)
+
+#subset rna-seq to just our cell lines  from b) -> wide
+#TODO - clean up our duplicate removal - make automatic to check and pull out
+#PINX1	94
+#19180	TBCE
+#use group_by(gene) -> then tally, then pull off the duplicates
+CCLE_Training_RNASeq_Ov<-CCLE_Training_RNASeq_LONG %>%
+  filter(DepMap_ID %in% ovLines_andScores$DepMapID) %>%
+  select(DepMap_ID, Gene, Log2_TPM) %>%
+  filter(Gene!="PINX1") %>% #remove genes where we have 2
+  filter(Gene!="TBCE") %>%
+  pivot_wider(names_from = DepMap_ID, values_from = Log2_TPM)
+View(CCLE_Training_RNASeq_Ov)
+
+#SET UP FOR GSVA
+#run for our full MDST data frame
+exprsFullOv<-as.matrix(CCLE_Training_RNASeq_Ov[, 2:51]) #NEED TO SKIP the first column=gene names
+dim(exprsFullOv) #19178 genes X 50 samples (cell lines)
+colnames(exprsFullOv)#cell line names
+rownames(exprsFullOv)<-t(CCLE_Training_RNASeq_Ov[,1])# done
+head(exprsFullOv)
+
+#create a minimal ExpressionSet object
+mdstSet<-ExpressionSet(assayData=exprsFullOv[1:19178, 1:50]) #this works but not passing the full object??
+
+#RUN GSVA
+gsva_ccle_ov<-gsva(mdstSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+gsva_ccle_ov
+
+#extract th expression matrix -> should this now be 
+ccleOv_MatrixES<-exprs(gsva_ccle_ov)
+View(ccleOv_MatrixES)
+
+#need to add back in this section so we have it for our heatmap - 03/18/21
+forHeatmap_RepStress_HallMarks_Ov<-as.data.frame(ccleOv_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  filter(Hallmark %in% repStress_hallmarks$Hallmark)
+View(forHeatmap_RepStress_HallMarks_Ov)
+
+#output file 03/18/21
+forHeatmap_RepStress_HallMarksFullOv<-as.data.frame(ccleOv_MatrixES) %>%
+  rownames_to_column("Hallmark")
+View(forHeatmap_RepStress_HallMarksFullOv)
+write_tsv(forHeatmap_RepStress_HallMarksFullOv, here("data_intermediate", "GSVA_Results",
+                                                         "GSVA_CCLE_Ov_AllHallmarksES.tsv"))
+
+
+```
+
+```{r}
+#COMPARE GSVA with other scores - HEATMAP and CORRELATION PLOTS
+#OVARIAN
+View(ovLines_andScores)
+
+#need to re-arrange here
+LinesToHallmarks_ov<-forHeatmap_RepStress_HallMarks_Ov %>%
+  pivot_longer(-Hallmark, names_to = "DepMapID", values_to="Value") %>%
+  mutate(Hallmark = str_sub(Hallmark, 10, length(Hallmark))) %>%
+  pivot_wider(names_from = Hallmark, values_from = Value)
+View(LinesToHallmarks_ov)
+
+#JOINED SCORES HAS THE HALLMARKS AND THE BREAST LINE INFO
+joined_Scores_Ov<-left_join(LinesToHallmarks_ov, ovLines_andScores)
+View(joined_Scores_Ov)
+
+#heatmap should be here
+#set up for heatmap
+hallmarksOnly_Ov<-joined_Scores_Ov %>%
+  select(DNA_REPAIR, E2F_TARGETS, G2M_CHECKPOINT, 
+         MYC_TARGETS_V1, MYC_TARGETS_V2, OXIDATIVE_PHOSPHORYLATION)
+#View(hallmarksOnly)
+matrix_forHeatMapOv<-as.matrix(hallmarksOnly_Ov)
+#don't use DepMap ID< - use Cleaned cell name here for our heatmap below
+rownames(matrix_forHeatMapOv)<-joined_Scores_Ov$CellLine_Name_Cleaned
+
+
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise1","wheat","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise1","wheat","darkorange1"))
+#col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#row annotation
+#from our concensus heatmaps before
+#now add the RSR /PARPness score to our annotation
+#body of heatmap will be the GSVA ES scores
+
+#row annotation 
+#disease type
+#primary/metastatic
+row_ha = rowAnnotation(Disease = joined_Scores_Ov$Cancer_Type, 
+                       Derived_from = joined_Scores_Ov$DerivedFrom_Primary_or_Met,
+                       Subtype = joined_Scores_Ov$Cancer_Subtype_Specific,
+                       BRCA_Status = joined_Scores_Ov$BRCA_Status_12,
+                       Mc_RSR = joined_Scores_Ov$McGrail_RSR, 
+                       Mc_PARP = joined_Scores_Ov$McGrail_PARPness,
+                       col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype = c("clear_cell"="thistle2", "endometrioid"="springgreen4", "high_grade_serous"="royalblue2", "low_grade_serous"="steelblue2", "mixed_endometrioid_clear_cell"="plum1", "mixed_serous_clear_cell"="plum1", "mucinous" ="darkgoldenrod2" , "serous"="tan"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ),
+                                Mc_RSR = col_RSR, 
+                                Mc_PARP = col_PARP
+                                )
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "CCLE_Ovarian_GSVA_RepStressHallmarks.png"), width = 800, height = 1600)
+#works but branches small
+Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "GSVA ES", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 10, fontface = "bold"),
+        column_names_gp= gpar(fontsize =10, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(4, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#CORRELATION 
+#OVARIAN
+
+#format just for GSVA versus RSR/PARPness scores
+#get hallmarks-> wide | keep model and mcgrail RSR/PARPness/CCNE1 info in own columns (will be doubled up)
+#then make hallmarks WIDE so we can iterate through/facet in our plots
+joined_Scores_forScatter<-joined_Scores_Ov %>%
+  pivot_longer(-c(DepMapID, McGrail_RSR, McGrail_PARPness, Peng_HRD, CellLine_Name, CellLine_Name_Cleaned, 
+                  Cancer_Type, Cancer_Subtype, Cancer_Subtype_Specific, Cancer_Molecular_Subtype,  
+                  DerivedFrom_Primary_or_Met, BRCA_Status_12),
+               names_to= "Hallmark", values_to = "ES")
+View(joined_Scores_forScatter)
+
+#CCLE RSR versus GSVA sets of interest
+scatter_GSVA_vsRSR_Ov<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_RSR", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail RSR", subtitle = "CCLE Ovarian",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-0.50, label.y = 0.75)
+facet(scatter_GSVA_vsRSR_Ov, facet.by = "Hallmark")
+
+#CCLE PARPness versus GSVA sets of interest
+scatter_GSVA_vsPARPness_Ov<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_PARPness", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail PARPness", subtitle = "CCLE Ovarian",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-1.0, label.y = 0.75)
+facet(scatter_GSVA_vsPARPness_Ov, facet.by = "Hallmark")
+
+
+#FOR OVARIAN
+#GSVA scores versus GDSC drug
+#04/04/21 added section; pulled code from RSR v GDSC script
+
+#join our GSVA data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinGSVA_wDrug<-left_join(joined_Scores_forScatter, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+View(joinGSVA_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+#View(RSR_drugs_namesOnly)
+joinGSVA_wDrug_Names<-left_join(joinGSVA_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+#View(joinGSVA_wDrug_Names)
+
+#okay, let's set this up as a corr. test
+#group by, correlation call
+#then make a volcano plot so we can pull off top entries
+runCorrelationGSVA_GDSC<-joinGSVA_wDrug_Names %>%
+  group_by(Hallmark, DrugName_Class) %>%
+  do(tidy(cor.test(.$ES, .$AUC_PUBLISHED, method="spearman"))) %>%
+  ungroup() %>%
+  mutate(P_Adjusted= p.adjust(p.value, method="fdr"), 
+         Significant = ifelse(P_Adjusted<0.05, "Yes", "No"),
+         Label = paste0(Hallmark, "_X_", DrugName_Class)) 
+  
+View(runCorrelationGSVA_GDSC)
+
+#volcano plot add
+Volcano_GSVA_Ovarian<-runCorrelationGSVA_GDSC %>%
+  ggplot( aes(x = estimate, y = -log10(P_Adjusted), fill=Significant)) +
+  geom_point(aes(size = estimate), shape=21 ) + 
+  geom_hline(yintercept = -log10(0.05), linetype= "dashed", color="red")+
+  scale_fill_manual(values = c("grey", "red"))+
+  labs(title = "GSVA Hallmarks of Interest Correlated with GDSC Drug Response", subtitle = "CCLE Ovarian Lines") + 
+  xlab("Spearman Correlation Coefficient") + 
+  geom_text_repel(data =subset(runCorrelationGSVA_GDSC, P_Adjusted<0.01), 
+                  aes(label=Label), size = 2, box.padding=unit(0.35, "lines"), point.padding=unit(0.3, "lines"))
+Volcano_GSVA_Ovarian
+
+#scatter plots for selected drugs of interest 
+#PARPi TALAZOPARIB
+scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(DrugName_Class=="PARPi (Talazoparib)") %>%
+  ggscatter(x = "ES", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Sets and Talazoparib AUC", subtitle = "CCLE Ovarian ",
+            xlab = "Enrichment Score", ylab = "Drug AUC") + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_GSVAdrugAUC, facet.by = "Hallmark")
+
+#RSRi GEMCITABINE
+scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(DrugName_Class=="RSRi (Gemcitabine)") %>%
+  ggscatter(x = "ES", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Sets and Gemcitabine AUC", subtitle = "CCLE Ovarian ",
+            xlab = "Enrichment Score", ylab = "Drug AUC") + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_GSVAdrugAUC, facet.by = "Hallmark")
+
+#Wee1i (681640)
+scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(DrugName_Class=="Wee1i (681640)") %>%
+  ggscatter(x = "ES", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Sets and Wee1 681640 AUC", subtitle = "CCLE Ovarian ",
+            xlab = "Enrichment Score", ylab = "Drug AUC") + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_GSVAdrugAUC, facet.by = "Hallmark")
+
+#Niraparib
+scatter_GSVAdrugAUC<-joinGSVA_wDrug_Names %>%
+  filter(DrugName_Class=="PARPi (Niraparib)") %>%
+  ggscatter(x = "ES", y = "AUC_PUBLISHED", color="tomato1",
+            add = "reg.line",  
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Sets and Niraparib AUC", subtitle = "CCLE Ovarian ",
+            xlab = "Enrichment Score", ylab = "Drug AUC") + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-.35, label.y = 0.35)
+facet(scatter_GSVAdrugAUC, facet.by = "Hallmark")
+
+
+```
+
+
+
+```{r}
+#ENDOMETRIAL
+
+#Load endo cell line_joined with scores, brca information
+EndoLines_andScores<-read_tsv(here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Endo_BRCA.tsv"))
+View(EndoLines_andScores)
+
+#subset rna-seq to just our cell lines  from b) -> wide
+#TODO - clean up our duplicate removal - make automatic to check and pull out
+#PINX1	94
+#19180	TBCE
+#use group_by(gene) -> then tally, then pull off the duplicates
+CCLE_Training_RNASeq_Endo<-CCLE_Training_RNASeq_LONG %>%
+  filter(DepMap_ID %in% EndoLines_andScores$DepMapID) %>%
+  select(DepMap_ID, Gene, Log2_TPM) %>%
+  filter(Gene!="PINX1") %>% #remove genes where we have 2
+  filter(Gene!="TBCE") %>%
+  pivot_wider(names_from = DepMap_ID, values_from = Log2_TPM)
+View(CCLE_Training_RNASeq_Endo)
+
+#SET UP FOR GSVA
+#run for our full MDST data frame
+exprsFullEndo<-as.matrix(CCLE_Training_RNASeq_Endo[, 2:33]) #NEED TO SKIP the first column=gene names
+dim(exprsFullEndo) #19178 genes X 50 samples (cell lines)
+colnames(exprsFullEndo)#cell line names
+rownames(exprsFullEndo)<-t(CCLE_Training_RNASeq_Endo[,1])# done
+head(exprsFullEndo)
+
+#create a minimal ExpressionSet object
+mdstSet<-ExpressionSet(assayData=exprsFullEndo[1:19178, 1:32]) #this works but not passing the full object??
+
+#RUN GSVA
+gsva_ccle_endo<-gsva(mdstSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+gsva_ccle_endo
+
+#extract th expression matrix -> should this now be 
+ccleEndo_MatrixES<-exprs(gsva_ccle_endo)
+View(ccleEndo_MatrixES)
+
+#need to add back in this section so we have it for our heatmap - 03/18/21
+forHeatmap_RepStress_HallMarks_Endo<-as.data.frame(ccleEndo_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  filter(Hallmark %in% repStress_hallmarks$Hallmark)
+View(forHeatmap_RepStress_HallMarks_Endo)
+
+#output file 03/18/21
+forHeatmap_RepStress_HallMarksFullEndo<-as.data.frame(ccleEndo_MatrixES) %>%
+  rownames_to_column("Hallmark")
+View(forHeatmap_RepStress_HallMarksFullEndo)
+#write_tsv(forHeatmap_RepStress_HallMarksFullEndo, here("data_intermediate", "GSVA_Results",
+#                                                         "GSVA_CCLE_Endo_AllHallmarksES.tsv"))
+
+
+```
+
+```{r}
+#COMPARE GSVA with other scores - HEATMAP and CORRELATION PLOTS
+#ENDOMETRIAL
+View(EndoLines_andScores)
+
+#need to re-arrange here
+LinesToHallmarks_endo<-forHeatmap_RepStress_HallMarks_Endo %>%
+  pivot_longer(-Hallmark, names_to = "DepMapID", values_to="Value") %>%
+  mutate(Hallmark = str_sub(Hallmark, 10, length(Hallmark))) %>%
+  pivot_wider(names_from = Hallmark, values_from = Value)
+View(LinesToHallmarks_endo)
+
+#JOINED SCORES HAS THE HALLMARKS AND THE BREAST LINE INFO
+joined_Scores_Endo<-left_join(LinesToHallmarks_endo, EndoLines_andScores)
+View(joined_Scores_Endo)
+
+#heatmap should be here
+#set up for heatmap
+hallmarksOnly_Endo<-joined_Scores_Endo %>%
+  select(DNA_REPAIR, E2F_TARGETS, G2M_CHECKPOINT, 
+         MYC_TARGETS_V1, MYC_TARGETS_V2, OXIDATIVE_PHOSPHORYLATION)
+#View(hallmarksOnly)
+matrix_forHeatMapEndo<-as.matrix(hallmarksOnly_Endo)
+#don't use DepMap ID< - use Cleaned cell name here for our heatmap below
+rownames(matrix_forHeatMapEndo)<-joined_Scores_Endo$CellLine_Name_Cleaned
+
+
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise1","wheat","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise1","wheat","darkorange1"))
+#col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#row annotation
+#from our concensus heatmaps before
+#now add the RSR /PARPness score to our annotation
+#body of heatmap will be the GSVA ES scores
+
+#row annotation 
+#disease type
+#primary/metastatic
+#USE THE SAME SUBTYPE COLORS AS IN OUR CONSENSUS HEATMAP WORK
+row_ha = rowAnnotation(Disease = joined_Scores_Endo$Cancer_Type, 
+                       Derived_from = joined_Scores_Endo$DerivedFrom_Primary_or_Met,
+                       Subtype = joined_Scores_Endo$Cancer_Subtype,
+                       BRCA_Status = joined_Scores_Endo$BRCA_Status_12,
+                       Mc_RSR = joined_Scores_Endo$McGrail_RSR, 
+                       Mc_PARP = joined_Scores_Endo$McGrail_PARPness,
+                          col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                Subtype=c("Choriocarcinoma"="lightsalmon1", "Clear Cell Carcinoma"="orange2",
+                                          "Endometrial Adenocarcinoma"="royalblue2" ,
+                                          "Endometrial Adenosquamous Carcinoma"="springgreen2",
+                                          "Endometrial Squamous Cell Carcinoma"="springgreen4",
+                                          "Endometrial Stromal Sarcoma"="maroon1",
+                                          "Mullerian Carcinoma"="goldenrod2",
+                                          "Uterine Carcinosarcoma"="slateblue1"),
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ),
+                                Mc_RSR = col_RSR, 
+                                Mc_PARP = col_PARP
+                                )
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "CCLE_Endo_GSVA_RepStressHallmarks.png"), width = 800, height = 1600)
+#works but branches small
+Heatmap(matrix_forHeatMapEndo, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "GSVA ES", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 10, fontface = "bold"),
+        column_names_gp= gpar(fontsize =10, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(4, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+```{r}
+#CORRELATION 
+#ENDOMETRIAL
+
+#format just for GSVA versus RSR/PARPness scores
+#get hallmarks-> wide | keep model and mcgrail RSR/PARPness/CCNE1 info in own columns (will be doubled up)
+#then make hallmarks WIDE so we can iterate through/facet in our plots
+joined_Scores_forScatter<-joined_Scores_Endo %>%
+  pivot_longer(-c(DepMapID, McGrail_RSR, McGrail_PARPness, Peng_HRD, CellLine_Name, CellLine_Name_Cleaned, 
+                  Cancer_Type, Cancer_Subtype, Cancer_Subtype_Specific, Cancer_Molecular_Subtype,  
+                  DerivedFrom_Primary_or_Met, BRCA_Status_12),
+               names_to= "Hallmark", values_to = "ES")
+View(joined_Scores_forScatter)
+
+#CCLE RSR versus GSVA sets of interest
+scatter_GSVA_vsRSR_Endo<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_RSR", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail RSR", subtitle = "CCLE Endometrial",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-0.50, label.y = 0.75)
+facet(scatter_GSVA_vsRSR_Endo, facet.by = "Hallmark")
+
+#CCLE PARPness versus GSVA sets of interest
+scatter_GSVA_vsPARPness_Endo<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_PARPness", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail PARPness", subtitle = "CCLE Endometrial",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-1.0, label.y = 0.75)
+facet(scatter_GSVA_vsPARPness_Endo, facet.by = "Hallmark")
+
+#FOR ENDO
+#GSVA scores versus GDSC drug
+#04/04/21 added section; pulled code from RSR v GDSC script
+
+#join our GSVA data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinGSVA_wDrug<-left_join(joined_Scores_forScatter, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+View(joinGSVA_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+#View(RSR_drugs_namesOnly)
+joinGSVA_wDrug_Names<-left_join(joinGSVA_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+#View(joinGSVA_wDrug_Names)
+
+#okay, let's set this up as a corr. test
+#group by, correlation call
+#then make a volcano plot so we can pull off top entries
+runCorrelationGSVA_GDSC<-joinGSVA_wDrug_Names %>%
+  group_by(Hallmark, DrugName_Class) %>%
+  do(tidy(cor.test(.$ES, .$AUC_PUBLISHED, method="spearman"))) %>%
+  ungroup() %>%
+  mutate(P_Adjusted= p.adjust(p.value, method="fdr"), 
+         Significant = ifelse(P_Adjusted<0.05, "Yes", "No"),
+         Label = paste0(Hallmark, "_X_", DrugName_Class)) 
+  
+View(runCorrelationGSVA_GDSC)
+
+#volcano plot add
+Volcano_GSVA_Endo<-runCorrelationGSVA_GDSC %>%
+  ggplot( aes(x = estimate, y = -log10(P_Adjusted), fill=Significant)) +
+  geom_point(aes(size = estimate), shape=21 ) + 
+  geom_hline(yintercept = -log10(0.05), linetype= "dashed", color="red")+
+  geom_hline(yintercept = -log10(0.20), linetype= "dashed", color="red")+
+  scale_fill_manual(values = c("grey", "red"))+
+  labs(title = "GSVA Hallmarks of Interest Correlated with GDSC Drug Response", subtitle = "CCLE Endometrial Lines") + 
+  xlab("Spearman Correlation Coefficient") + 
+  geom_text_repel(data =subset(runCorrelationGSVA_GDSC, P_Adjusted<0.01), 
+                  aes(label=Label), size = 2, box.padding=unit(0.35, "lines"), point.padding=unit(0.3, "lines"))
+Volcano_GSVA_Endo
+
+```
+
+```{r}
+#PANCREATIC
+
+#Load endo cell line_joined with scores, brca information
+PancLines_andScores<-read_tsv(here("data_intermediate", "CellLines_JoinScores", "TrainingLines_JoinInfo_Scores_Panc_BRCA.tsv"))
+View(PancLines_andScores)
+
+#subset rna-seq to just our cell lines  from b) -> wide
+#TODO - clean up our duplicate removal - make automatic to check and pull out
+#PINX1	94
+#19180	TBCE
+#use group_by(gene) -> then tally, then pull off the duplicates
+CCLE_Training_RNASeq_Panc<-CCLE_Training_RNASeq_LONG %>%
+  filter(DepMap_ID %in% PancLines_andScores$DepMapID) %>%
+  select(DepMap_ID, Gene, Log2_TPM) %>%
+  filter(Gene!="PINX1") %>% #remove genes where we have 2
+  filter(Gene!="TBCE") %>%
+  pivot_wider(names_from = DepMap_ID, values_from = Log2_TPM)
+View(CCLE_Training_RNASeq_Panc)
+
+#SET UP FOR GSVA
+#run for our full MDST data frame
+exprsFullPanc<-as.matrix(CCLE_Training_RNASeq_Panc[, 2:42]) #NEED TO SKIP the first column=gene names
+dim(exprsFullPanc) #19178 genes X 41 samples (cell lines)
+colnames(exprsFullPanc)#cell line names
+rownames(exprsFullPanc)<-t(CCLE_Training_RNASeq_Panc[,1])# done
+head(exprsFullPanc)
+
+#create a minimal ExpressionSet object
+mdstSet<-ExpressionSet(assayData=exprsFullPanc[1:19178, 1:41]) #this works but not passing the full object??
+
+#RUN GSVA
+gsva_ccle_panc<-gsva(mdstSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+gsva_ccle_panc
+
+#extract th expression matrix -> should this now be 
+cclePanc_MatrixES<-exprs(gsva_ccle_panc)
+#View(cclePanc_MatrixES)
+
+#need to add back in this section so we have it for our heatmap - 03/18/21
+forHeatmap_RepStress_HallMarks_Panc<-as.data.frame(cclePanc_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  filter(Hallmark %in% repStress_hallmarks$Hallmark)
+#View(forHeatmap_RepStress_HallMarks_Panc)
+
+#output file 03/18/21
+forHeatmap_RepStress_HallMarksFullPanc<-as.data.frame(cclePanc_MatrixES) %>%
+  rownames_to_column("Hallmark")
+#View(forHeatmap_RepStress_HallMarksFullPanc)
+#write_tsv(forHeatmap_RepStress_HallMarksFullPanc, here("data_intermediate", "GSVA_Results",
+ #                                                        "GSVA_CCLE_Panc_AllHallmarksES.tsv"))
+
+
+```
+
+```{r}
+#COMPARE GSVA with other scores - HEATMAP and CORRELATION PLOTS
+#ENDOMETRIAL
+View(PancLines_andScores)
+
+#need to re-arrange here
+LinesToHallmarks_Panc<-forHeatmap_RepStress_HallMarks_Panc%>%
+  pivot_longer(-Hallmark, names_to = "DepMapID", values_to="Value") %>%
+  mutate(Hallmark = str_sub(Hallmark, 10, length(Hallmark))) %>%
+  pivot_wider(names_from = Hallmark, values_from = Value)
+View(LinesToHallmarks_Panc)
+
+#JOINED SCORES HAS THE HALLMARKS AND THE BREAST LINE INFO
+joined_Scores_Panc<-left_join(LinesToHallmarks_Panc, PancLines_andScores)
+View(joined_Scores_Panc)
+
+#heatmap should be here
+#set up for heatmap
+hallmarksOnly_Panc<-joined_Scores_Panc %>%
+  select(DNA_REPAIR, E2F_TARGETS, G2M_CHECKPOINT, 
+         MYC_TARGETS_V1, MYC_TARGETS_V2, OXIDATIVE_PHOSPHORYLATION)
+#View(hallmarksOnly)
+matrix_forHeatMapPanc<-as.matrix(hallmarksOnly_Panc)
+#don't use DepMap ID< - use Cleaned cell name here for our heatmap below
+rownames(matrix_forHeatMapPanc)<-joined_Scores_Panc$CellLine_Name_Cleaned
+
+
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise1","wheat","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise1","wheat","darkorange1"))
+#col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#row annotation
+#from our concensus heatmaps before
+#now add the RSR /PARPness score to our annotation
+#body of heatmap will be the GSVA ES scores
+
+#row annotation 
+#disease type
+#primary/metastatic
+#no subtype for pancreatic here
+row_ha = rowAnnotation(Disease = joined_Scores_Panc$Cancer_Type, 
+                       Derived_from = joined_Scores_Panc$DerivedFrom_Primary_or_Met,
+                       BRCA_Status = joined_Scores_Panc$BRCA_Status_12,
+                       Mc_RSR = joined_Scores_Panc$McGrail_RSR, 
+                       Mc_PARP = joined_Scores_Panc$McGrail_PARPness,
+                          col=list(Disease=c("Breast Cancer"="olivedrab3", "Ovarian Cancer"="tomato1", 
+                                          "Endometrial/Uterine Cancer" = "darkorchid1", 
+                                          "Pancreatic Cancer" = "turquoise"),
+                                Derived_from= c("Primary" = "paleturquoise", "Metastasis" = "turquoise4"), 
+                                BRCA_Status= c("BRCA1"="orangered2", "BRCA2"="salmon1","No"="gray75" ),
+                                Mc_RSR = col_RSR, 
+                                Mc_PARP = col_PARP
+                                )
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "CCLE_Panc_GSVA_RepStressHallmarks.png"), width = 800, height = 1600)
+#works but branches small
+Heatmap(matrix_forHeatMapPanc, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "GSVA ES", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 10, fontface = "bold"),
+        column_names_gp= gpar(fontsize =10, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(4, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+dev.off()
+```
+
+
+```{r}
+#CORRELATION 
+#PANCREATIC
+
+#format just for GSVA versus RSR/PARPness scores
+#get hallmarks-> wide | keep model and mcgrail RSR/PARPness/CCNE1 info in own columns (will be doubled up)
+#then make hallmarks WIDE so we can iterate through/facet in our plots
+joined_Scores_forScatter<-joined_Scores_Panc %>%
+  pivot_longer(-c(DepMapID, McGrail_RSR, McGrail_PARPness, Peng_HRD, CellLine_Name, CellLine_Name_Cleaned, 
+                  Cancer_Type, Cancer_Subtype, Cancer_Subtype_Specific, Cancer_Molecular_Subtype,  
+                  DerivedFrom_Primary_or_Met, BRCA_Status_12),
+               names_to= "Hallmark", values_to = "ES")
+View(joined_Scores_forScatter)
+
+#CCLE RSR versus GSVA sets of interest
+scatter_GSVA_vsRSR_Panc<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_RSR", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail RSR", subtitle = "CCLE Pancreatic",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-0.50, label.y = 0.75)
+facet(scatter_GSVA_vsRSR_Panc, facet.by = "Hallmark")
+
+#CCLE PARPness versus GSVA sets of interest
+scatter_GSVA_vsPARPness_Panc<-joined_Scores_forScatter%>%
+  ggscatter(x = "McGrail_PARPness", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail PARPness", subtitle = "CCLE Pancreatic",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=-1.0, label.y = 0.75)
+facet(scatter_GSVA_vsPARPness_Panc, facet.by = "Hallmark")
+
+#FOR PANCREATIC
+#GSVA scores versus GDSC drug
+#04/04/21 added section; pulled code from RSR v GDSC script
+
+#join our GSVA data frame with drugs
+#try just LEFT join, so we can keep it all in LONG Format, need to nest
+joinGSVA_wDrug<-left_join(joined_Scores_forScatter, GDSC_drugs_filtered)%>%
+    filter(DRUG_NAME!="NA")#if no drug data then remove for that line
+View(joinGSVA_wDrug)
+
+#join with nice drug/class compound name for our plots
+RSR_drugs_namesOnly<-RSR_drugs %>% select(DrugName_Class, DRUG_ID = GDSC2_ID, Class)
+#View(RSR_drugs_namesOnly)
+joinGSVA_wDrug_Names<-left_join(joinGSVA_wDrug, RSR_drugs_namesOnly) %>%
+  arrange(Class)
+#View(joinGSVA_wDrug_Names)
+
+#okay, let's set this up as a corr. test
+#group by, correlation call
+#then make a volcano plot so we can pull off top entries
+runCorrelationGSVA_GDSC<-joinGSVA_wDrug_Names %>%
+  group_by(Hallmark, DrugName_Class) %>%
+  do(tidy(cor.test(.$ES, .$AUC_PUBLISHED, method="spearman"))) %>%
+  ungroup() %>%
+  mutate(P_Adjusted= p.adjust(p.value, method="fdr"), 
+         Significant = ifelse(P_Adjusted<0.05, "Yes", "No"),
+         Label = paste0(Hallmark, "_X_", DrugName_Class)) 
+  
+View(runCorrelationGSVA_GDSC)
+
+#volcano plot add
+Volcano_GSVA_Panc<-runCorrelationGSVA_GDSC %>%
+  ggplot( aes(x = estimate, y = -log10(P_Adjusted), fill=Significant)) +
+  geom_point(aes(size = estimate), shape=21 ) + 
+  geom_hline(yintercept = -log10(0.05), linetype= "dashed", color="red")+
+  geom_hline(yintercept = -log10(0.20), linetype= "dashed", color="red")+
+  scale_fill_manual(values = c("grey", "red"))+
+  labs(title = "GSVA Hallmarks of Interest Correlated with GDSC Drug Response", subtitle = "CCLE Pancreatic Lines") + 
+  xlab("Spearman Correlation Coefficient") + 
+  geom_text_repel(data =subset(runCorrelationGSVA_GDSC, P_Adjusted<0.01), 
+                  aes(label=Label), size = 2, box.padding=unit(0.35, "lines"), point.padding=unit(0.3, "lines"))
+Volcano_GSVA_Panc
+
+```
+
+```{r}
+#ASSESS GENE SET OVERLAP RSR AND GSVA SETS
+#can be moved to a separate script
+
+#our msigdb hallmark sets
+#View(hallmark_GeneSets)
+
+
+#filter to just our sets of interest for rep stress
+hallmarks_RSR_ofInterest<-hallmark_GeneSets %>%
+  filter(gs_name %in% repStress_hallmarks$Hallmark)
+View(hallmarks_RSR_ofInterest)
+
+#use viewer to assess how many in each set
+GSVA_RSR_uniqueGenes<-unique(hallmarks_RSR_ofInterest$gene_symbol)
+View(GSVA_RSR_uniqueGenes)
+GSVA_RSR_uniqueGenes<-as.data.frame((GSVA_RSR_uniqueGenes))
+colnames(GSVA_RSR_uniqueGenes)<-c("Gene")
+
+#look at a few of the overlaps* not all
+#E2F and G2M overlap
+hallmarks_E2F_G2M<-hallmarks_RSR_ofInterest %>%
+  filter(gs_name =="HALLMARK_E2F_TARGETS" | gs_name =="HALLMARK_G2M_CHECKPOINT") %>%
+  select(gs_name, gene_symbol) %>%
+  group_by(gene_symbol) %>%
+  count() %>%
+  filter(n==2)
+View(hallmarks_E2F_G2M)
+
+#MYC1 and 2 ovarlap
+hallmarks_MYC_1_2<-hallmarks_RSR_ofInterest %>%
+  filter(gs_name =="HALLMARK_MYC_TARGETS_V1" | gs_name =="HALLMARK_MYC_TARGETS_V2") %>%
+  select(gs_name, gene_symbol) %>%
+  group_by(gene_symbol) %>%
+  count() %>%
+  filter(n==2)
+View(hallmarks_MYC_1_2)
+
+#MYC1 and 2 ovarlap
+hallmarks_DNARepair_OxPhos<-hallmarks_RSR_ofInterest %>%
+  filter(gs_name =="HALLMARK_DNA_REPAIR" | gs_name =="HALLMARK_OXIDATIVE_PHOSPHORYLATION") %>%
+  select(gs_name, gene_symbol) %>%
+  group_by(gene_symbol) %>%
+  count() %>%
+  filter(n==2)
+View(hallmarks_DNARepair_OxPhos)
+
+#cyclin E in any of these sets?
+#cyclin E is only in E2F targets*
+View(hallmarks_RSR_ofInterest)
+
+#compare with McGrail RSR genes
+#McGrail RSR Genes and Coefficients
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(RSRSignatureGenes)
+
+GSVA_RSR_uniqueGenes_compareRSR<-GSVA_RSR_uniqueGenes %>%
+  filter(Gene %in% RSRSignatureGenes$Gene)
+View(GSVA_RSR_uniqueGenes_compareRSR)
+
+
+#compare with McGrail PARPness genes
+#read in McGrail PARPness Genes and Coefficients
+PARPnessSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailPARPness_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(PARPnessSignatureGenes)
+
+GSVA_RSR_uniqueGenes_comparePARPness<-GSVA_RSR_uniqueGenes %>%
+  filter(Gene %in% PARPnessSignatureGenes$Gene)
+View(GSVA_RSR_uniqueGenes_comparePARPness)
+
+#overlap of RSR and PARPness?
+overlap_RSR_PARPness<-RSRSignatureGenes %>%
+  filter(Gene %in% PARPnessSignatureGenes$Gene)
+View(overlap_RSR_PARPness)
+
+```
+
+```{r}
+#ADD SECTION FOR CORRELATION GSVA HALLMARKS AND GDSC DRUGS
+
+
+#read in the drug data for our set
+#plus add gemcitabine
+
+#
+
+
+
+```

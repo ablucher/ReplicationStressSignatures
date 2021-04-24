@@ -1,0 +1,500 @@
+---
+title: "RunGSVA"
+author: "Aurora S Blucher"
+date: "3/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("msigdbr")
+library(msigdbr)
+library(here)
+library(tidyverse)
+library(ggpubr)
+library(ComplexHeatmap)
+```
+
+## Run GSVA
+
+Notes for developing the script for running GSVA on RNASeq data. The Molecular Signatures Database (MSigDB) houses genes sets that were created for use with GSEA (Gene Set Enrichment Analysis). Here we are interested in using the focused set of Cancer Hallmarks (50 gene sets) with GSVA (Gene Set Variation Analysis), and in particular these genee sets of interest for replication stress:
+-G2M_CHECKPOINT
+-E2F_TARGETS
+-MYC_TARGETS
+-DNA Repair
+-OxPhos ~maybe
+
+TODO: Meet and discuss with Allie
+
+Notes 
+Mon 03/01/21
+-get msigDB hallmarks sets
+-convert MDST expression into eSet
+-set up GSVA
+
+Thurs 03/11/21-Sun 03/14/21*
+-running GSVA on MDST models; output ES scores; create heatmap for selectd pathways
+-overall heatmap - all 50 hallmarks
+-rep stress focused heatmap-> for slides
+
+
+
+
+```{r}
+#MSIGDB CANCER HALLMARKS
+#following documentation here
+#https://cran.r-project.org/web/packages/msigdbr/vignettes/msigdbr-intro.html
+
+#see all the msigdbr collctions
+#msigdbr_collections()
+
+hallmark_GeneSets<-msigdbr(species = "Mus musculus", category = "H")
+class(hallmark_GeneSets)
+View(hallmark_GeneSets)
+
+#number of hallmarks -  should be 50
+View(unique(hallmark_GeneSets$gs_name)) #50 total
+
+#select hallmarks of interest and get our list
+#G2M_CheckPoints, E2F
+
+RepStressSets_OfInterest<-hallmark_GeneSets%>%
+  filter(gs_name=="HALLMARK_G2M_CHECKPOINT"|gs_name=="HALLMARK_E2F_TARGETS" | gs_name=="HALLMARK_DNA_REPAIR" | 
+         gs_name=="HALLMARK_MYC_TARGETS_V1" | gs_name=="HALLMARK_MYC_TARGETS_V2")
+View(RepStressSets_OfInterest) #808 entries, but likely contains overlap
+
+View(unique(RepStressSets_OfInterest$gene_symbol)) #645 unique genes, for human #644 for mouse
+
+#so interestinly the RSR set and the GSVA set are both very large
+#how much overlap in these? *compute
+#check overlap, unique
+#check correlations 
+#
+#
+
+#syntax for using gene sets in GSVA
+#msigdbr_list = split(x = msigdbr_df$gene_symbol, f = msigdbr_df$gs_name)
+#gsva(gset.idx.list = msigdbr_list, ...)
+
+#what does this do?
+msigdbr_list = split(x = hallmark_GeneSets$gene_symbol, f = hallmark_GeneSets$gs_name)
+class(msigdbr_list)#list
+View(msigdbr_list) 
+#contains 1 list for each hallmark-> gene sets
+class(msigdbr_list$HALLMARK_G2M_CHECKPOINT) #character?
+View(msigdbr_list$HALLMARK_G2M_CHECKPOINT)#data frame 1 column/ vector of all the genes in this set here
+#gsva(gset.idx.list = msigdbr_list, ...)
+
+```
+
+```{r}
+###SET UP
+#expression set syntax
+#following bioconductor documentation here #https://www.bioconductor.org/packages/release/bioc/vignettes/Biobase/inst/doc/ExpressionSetIntroduction.pdf
+
+#we need to load our MDST data into an expression set
+library(BiocManager)
+library(Biobase)
+library(readxl)
+#load in our MDST data; RNASeq matrix
+MDST_RNASeq_dataFrame<-read_excel(here("data", "MDST_Models", "MDST_RNASeq_cpm_annotated.xlsx"), range = "A6:AA16186") %>%
+  dplyr::select(-gene_ID, -...3)
+head(MDST_RNASeq_dataFrame)
+View(MDST_RNASeq_dataFrame)
+
+class(MDST_RNASeq_dataFrame$Gene_name) #char
+class(MDST_RNASeq_dataFrame$Control1_FatPad_F2) #numeric -> wonder what is causing the problem
+
+#convert to matrix
+exprs<-as.matrix(MDST_RNASeq_dataFrame[, 2:25]) #NEED TO SKIP the first column of genes
+class(exprs)
+dim(exprs) #16180 genes X 24 samples (mice)
+colnames(exprs)#MDST names
+rownames(exprs)<-t(MDST_RNASeq_dataFrame[,1])# not set? #added tues
+
+head(exprs)
+
+#create a minimal ExpressionSet object
+minimalSet<-ExpressionSet(assayData=exprs[1:100, 1:5])
+minimalSet
+View(minimalSet)
+#if we wanted to set phenotypic data then we would do so with 
+#pData<-dataFramePhenotypicInfo
+
+#exploratory GSVA work
+#following pg 8 here
+#https://www.bioconductor.org/packages/release/bioc/vignettes/GSVA/inst/doc/GSVA.pdf
+
+library(GSVA)
+#feed in our expressionSet
+#feed in cancer hallmarks as the msigdbr_list object, list of gene set name -> genes; see if that works
+#no annotation arg; "in the case of calling gsva() on a ExpressionSet object, the annotation argument is ignored
+test_gsva<-gsva(minimalSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+test_gsva
+#did not work / ran for test sample set!
+
+#okay, how do we access the data
+#unclear
+test_gsva
+featureNames(test_gsva)#features = hallmarks, 39 ran here
+sampleNames(test_gsva) #samples we ran
+experimentData(test_gsva)#not informative
+
+#extract th expression matrix -> should this now be 
+testMatrixES<-exprs(test_gsva)
+View(testMatrixES)
+
+#if you want to subset, it is similar to subsetting the expression matrix contained inside ExpressionSet
+subsetMatrixES<-test_gsva[1:5, 1:3]
+dim(subsetMatrixES) #5 features, 3 samples
+featureNames(subsetMatrixES) #5 hallmarks
+sampleNames(subsetMatrixES) #3 samples
+seeSubsetMatrix<-exprs(subsetMatrixES) #get just the expression matirx -> which here is enrichment scores
+View(seeSubsetMatrix)
+
+```
+
+```{r}
+#03/14/21 - MDST run GSVA and create heatmaps
+
+#MDST data frame, remove duplicate row namese
+#not sure why we have 2 listings for these genes
+MDST_RNASeq_dataFrame_RemoveDups<-MDST_RNASeq_dataFrame %>%
+  select(Gene_name) %>%
+  group_by(Gene_name) %>%
+  tally() %>%
+  filter(n==1)
+View(MDST_RNASeq_dataFrame_RemoveDups)
+
+#restrict our full data frame to just our genes with only 1 count
+MDST_RNASeq_dataFrame_cleaned<-MDST_RNASeq_dataFrame %>%
+  filter(Gene_name %in% MDST_RNASeq_dataFrame_RemoveDups$Gene_name)
+View(MDST_RNASeq_dataFrame_cleaned)
+
+#run for our full MDST data frame
+exprsFull<-as.matrix(MDST_RNASeq_dataFrame_cleaned[, 2:25]) #NEED TO SKIP the first column of genes
+class(exprsFull)
+dim(exprsFull) #16002 genes X 24 samples (mice)
+colnames(exprsFull)#MDST names
+rownames(exprsFull)<-t(MDST_RNASeq_dataFrame_cleaned[,1])# not set? #added tues
+
+head(exprsFull)
+
+#create a minimal ExpressionSet object
+mdstSet<-ExpressionSet(assayData=exprsFull[1:16002, 1:24]) #this works but not passing the full object??
+
+#run gsva
+gsva_mdst<-gsva(mdstSet,gset.idx.list=msigdbr_list, method=c("gsva"), verbose=TRUE) #testing 03/01/21
+gsva_mdst
+
+#extract th expression matrix -> should this now be 
+mdst_MatrixES<-exprs(gsva_mdst)
+View(mdst_MatrixES)
+
+repStress_hallmarks<-as.data.frame(c("HALLMARK_G2M_CHECKPOINT", "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+                       "HALLMARK_E2F_TARGETS", "HALLMARK_DNA_REPAIR", 
+                       "HALLMARK_MYC_TARGETS_V1", "HALLMARK_MYC_TARGETS_V2"))
+colnames(repStress_hallmarks)<-c("Hallmark")
+View(repStress_hallmarks)
+
+#correlation of hallmark scores for controls
+#label pathways of interest
+#controls_ES<-as.data.frame(mdst_MatrixES)%>%
+#  dplyr::select(Control1_FatPad_F1, Control1_FatPad_F2)
+#View(controls_ES)
+
+forScatterPlot<-as.data.frame(mdst_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  mutate(RepStress_Hallmark=ifelse((Hallmark %in% repStress_hallmarks$Hallmark), "Yes", "No"))
+
+View(forScatterPlot)
+
+scatter_GSVA_controls<-forScatterPlot%>%
+  ggscatter(x = "Control1_FatPad_F1", y = "Control1_FatPad_F2", color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA enrichment scores", subtitle = "for MDST Models- Controls",
+            xlab = "Control1 FatPad F1 ", ylab = "Control1 FatPad F2", 
+            #label.select = ifelse(RepStress_Hallmark=="Yes"),
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 4.5, label.x=0.30, label.y = 0.75)
+scatter_GSVA_controls
+
+#facet(scatter_CyclinE, facet.by = "Signature")
+
+```
+
+```{r}
+#SET UP FOR HEATMAP
+
+#just our subset of hallmarks here
+forHeatmap_RepStress_HallMarks<-as.data.frame(mdst_MatrixES) %>%
+  rownames_to_column("Hallmark") %>%
+  mutate(RepStress_Hallmark=ifelse((Hallmark %in% repStress_hallmarks$Hallmark), "Yes", "No"))%>%
+  filter(RepStress_Hallmark=="Yes")#%>%
+  #mutate(Hallmark_Cl = str_sub(Hallmark, 10, length(Hallmark))) #not working?
+View(forHeatmap_RepStress_HallMarks)
+
+#set up for heatmap
+removeHallmarkNames<-forHeatmap_RepStress_HallMarks %>%
+  dplyr::select(-Hallmark, -RepStress_Hallmark)
+#View(removeHallmarkNames)
+matrix_forHeatMap<-as.matrix(removeHallmarkNames)
+rownames(matrix_forHeatMap)<-forHeatmap_RepStress_HallMarks$Hallmark
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "MDST_GSVA_RepStressHallmarks.png"), width = 1200, height = 400)
+#works but branches small
+htmp_rsr<-Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Enrichment Score", 
+        #right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 8, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(2, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+draw(htmp_rsr, heatmap_legend_side = "left", annotation_legend_side = "bottom")
+dev.off()
+```
+```{r}
+#HEATMAP GSVA MDST -  ALL
+
+#just our subset of hallmarks here
+forHeatmap_RepStress_HallMarksAll<-as.data.frame(mdst_MatrixES) %>%
+  rownames_to_column("Hallmark")%>%
+  mutate(Hallmark = str_sub(Hallmark, 10, length(Hallmark)))
+
+View(forHeatmap_RepStress_HallMarksAll)
+
+#set up for heatmap
+removeHallmarkNames<-forHeatmap_RepStress_HallMarksAll %>%
+  dplyr::select(-Hallmark)
+#View(removeHallmarkNames)
+matrix_forHeatMap<-as.matrix(removeHallmarkNames)
+rownames(matrix_forHeatMap)<-forHeatmap_RepStress_HallMarksAll$Hallmark
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "MDST_GSVA_AllHallmarks.png"), width = 1800, height =1200)
+#works but branches small
+htmp<-Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Enrichment Score", 
+        #right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 8.5, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(3, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+draw(htmp, heatmap_legend_side = "left", annotation_legend_side = "bottom")
+dev.off()
+```
+
+```{r}
+#COMPARE GSVA HALLMARKS REP STRESS WITH RSR SCORE (and PARPness score)
+
+#join with RSR mcgrail scores
+#these are z-scores, and cyclin E log2cpm* should we z-score this
+MDST_Zscores<-read_tsv(here("data_intermediate", "MDST", "MDST_RSR_PARPness_CCE1_WIDE.tsv"))
+View(MDST_Zscores)
+
+#long format score (hallmark)
+#correlation is hallmark vs RSR
+#correlation of each hallmark and RSR score
+#facet by hallmark
+#mutate(Hallmark_Cl = str_sub(Hallmark, 10, length(Hallmark))) #not working?
+View(forHeatmap_RepStress_HallMarks)
+#need to re-arrange here
+ModelsToHallmarks<-forHeatmap_RepStress_HallMarks %>%
+  select(-RepStress_Hallmark) %>%
+  pivot_longer(-Hallmark, names_to = "Model", values_to="Value") %>%
+  pivot_wider(names_from = Hallmark, values_from = Value)
+View(ModelsToHallmarks)
+
+joinedMDST_Scores<-left_join(ModelsToHallmarks, MDST_Zscores)
+View(joinedMDST_Scores)
+
+#format just for GSVA versus RSR/PARPness scores
+#get hallmarks-> wide | keep model and mcgrail RSR/PARPness/CCNE1 info in own columns (will be doubled up)
+#then make hallmarks WIDE so we can iterate through/facet in our plots
+joinedMDST_Scores_forScatter<-joinedMDST_Scores %>%
+  pivot_longer(-c(Model, McGrail_RSR, McGrail_PARPness, Ccne1_Log2CPM) , names_to= "Hallmark", values_to = "ES")
+View(joinedMDST_Scores_forScatter)
+
+#MDST RSR versus GSVA sets of interest
+scatter_GSVA_vsRSR<-joinedMDST_Scores_forScatter%>%
+  ggscatter(x = "McGrail_RSR", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail RSR", subtitle = "MDST Models",
+            xlab = "McGrail RSR Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=0.0, label.y = 0.75)
+#scatter_GSVA_vsRSR
+facet(scatter_GSVA_vsRSR, facet.by = "Hallmark")
+
+#MDST PARPness versus GSVA sets of interest
+scatter_GSVA_vsPARPness<-joinedMDST_Scores_forScatter%>%
+  ggscatter(x = "McGrail_PARPness", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  McGrail PARPness", subtitle = "MDST Models",
+            xlab = "McGrail PARPness Z-Score", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=0.0, label.y = 0.75)
+#scatter_GSVA_vsPARPness
+facet(scatter_GSVA_vsPARPness, facet.by = "Hallmark")
+
+#MDST cyclin E vs GSVA sets of interest
+scatter_GSVA_vsCCNE1<-joinedMDST_Scores_forScatter%>%
+  ggscatter(x = "Ccne1_Log2CPM", y = "ES", #color="RepStress_Hallmark",
+            #label="Hallmark",repel=TRUE,
+            add = "reg.line", 
+            add.params = list(color = "dodgerblue2", fill = "lightgray"),
+            conf.int = FALSE, title = "Correlation of GSVA Scores with  Cyclin E Expression", subtitle = "MDST Models",
+            xlab = "CCCNE1 Log2(CPM)", ylab = "HallMark ES", 
+            font.label = c(6, "bold")) + 
+  stat_cor(method = "spearman",color = "dodgerblue2", size = 2.5, label.x=0.0, label.y = 0.75)
+#scatter_GSVA_vsCCNE1
+facet(scatter_GSVA_vsCCNE1, facet.by = "Hallmark")
+```
+
+```{r}
+#Updated heatmap GSVA RSR - add scores and cyclin E
+#View(joinedMDST_Scores) #use this data frame, hallmarks plus scores
+
+
+######
+#set up for heatmap START HERE*
+removeNames<-joinedMDST_Scores %>%
+  dplyr::select(-Model, -McGrail_RSR, -McGrail_PARPness, -Ccne1_Log2CPM)
+#View(removeHallmarkNames)
+matrix_forHeatMap<-as.matrix(removeNames)
+rownames(matrix_forHeatMap)<-joinedMDST_Scores$Model
+
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise1","wheat","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise1","wheat","darkorange1"))
+col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#row annotation
+#McGrail RSR | McGrail PARPness  | CyclinE
+row_ha = rowAnnotation(Mc_RSR = joinedMDST_Scores$McGrail_RSR, 
+                       Mc_PARP = joinedMDST_Scores$McGrail_PARPness,
+                       CCNE1 = joinedMDST_Scores$Ccne1_Log2CPM,
+                       col=list(Mc_RSR = col_RSR, 
+                                Mc_PARP = col_PARP,
+                                CCNE1=col_CCNE1)
+                       )
+
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "MDST_GSVA_RSRHallmarks_AddScores.png"), width = 1000, height =1400)
+#works but branches small
+htmp_withScores<-Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Enrichment Score", 
+        right_annotation = row_ha, 
+        row_names_gp = gpar(fontsize = 12, fontface = "bold"),
+        column_names_gp= gpar(fontsize =12, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(2, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+draw(htmp_withScores, heatmap_legend_side = "left", annotation_legend_side = "bottom")
+dev.off()
+```
+
+```{r}
+#FIX ORIENTATION OF HEATMAP
+#quick try - fix orientation to match gsva heatmap
+View(joinedMDST_Scores)
+changeOrientation<-joinedMDST_Scores %>%
+  pivot_longer(-Model) %>%
+  pivot_wider(names_from= Model, values_from = value)
+View(changeOrientation)
+
+matrixOnly<-changeOrientation[1:6,]
+View(matrixOnly)
+
+#set up for heatmap
+removeHallmarkNames<-matrixOnly%>%
+  dplyr::select(-name)
+#View(removeHallmarkNames)
+matrix_forHeatMap<-as.matrix(removeHallmarkNames)
+rownames(matrix_forHeatMap)<-matrixOnly$name
+
+#problem - we need rows to be our annotation, may have to grab each one* kind of a pain
+Mc_RSR <-as.data.frame(changeOrientation[8,2:25])
+View(t(Mc_RSR))
+
+Mc_PARP <-as.data.frame(changeOrientation[9,2:25])
+View(t(Mc_PARP))
+
+CCNE1 <-as.data.frame(changeOrientation[7,2:25])
+View(t(CCNE1))
+
+#color palettes
+col_RSR = colorRamp2(c(-4, 0,4), c("turquoise4","grey75","darkorange1"))
+col_PARP = colorRamp2(c(-4,0,4), c("turquoise4","grey75","darkorange1"))
+col_CCNE1 = colorRamp2(c(0,6), c("forestgreen","orange1"))
+
+#
+#column annotation in this orientation
+col_ha = HeatmapAnnotation(McGrail_RSR = t(Mc_RSR), 
+                         McGrail_PARP = t(Mc_PARP),
+                         CCNE1_Exp = t(CCNE1),
+                          col=list(McGrail_RSR  = col_RSR, 
+                                McGrail_PARP = col_PARP,
+                                CCNE1_Exp=col_CCNE1)
+                       )
+```
+
+```{r}
+#heatmap 
+png(filename = here("output", "GSVA", "MDST_GSVA_RepStressHallmarks_AddScores_Orientation.png"), width = 1400, height = 500)
+#works but branches small
+htmp_rsr<-Heatmap(matrix_forHeatMap, 
+        cluster_rows = TRUE,
+        cluster_columns = TRUE, 
+        show_column_names = TRUE, 
+        show_row_names = TRUE,
+        name= "Enrichment Score", 
+        bottom_annotation = col_ha, 
+        row_names_gp = gpar(fontsize = 8, fontface = "bold"),
+        column_names_gp= gpar(fontsize =16, fontface = "bold"),
+        row_dend_width = unit(4, "cm"),
+        column_dend_height = unit(2, "cm")
+        #width = unit(72, "cm"), #heatmap body width
+        #height = unit(56, "cm") ) #heatmap body height
+        )
+draw(htmp_rsr, heatmap_legend_side = "left", annotation_legend_side = "left")
+dev.off()
+```
+
+
+
+
+```
