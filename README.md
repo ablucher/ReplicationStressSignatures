@@ -19,13 +19,13 @@ Collaborators' PDX Models and ex vivo Drug screening data
 Please contact for data sharing inquiries. 
 
 ## Signatures
-[McGrail, et al. Replication Stress signature](https://pubmed.ncbi.nlm.nih.gov/29768207/)
+[McGrail, et al. 2018 Replication Stress signature](https://pubmed.ncbi.nlm.nih.gov/29768207/)
 
-[McGrail, et al. PARPness signature](https://www.nature.com/articles/s41540-017-0011-6)
+[McGrail, et al. 2017 PARPness signature](https://www.nature.com/articles/s41540-017-0011-6)
 
-[Peng, et al. homologous repair signature](https://pubmed.ncbi.nlm.nih.gov/24553445/)
+[Peng, et al. 2014 Homologous Repair Deficiency (HRD) signature](https://pubmed.ncbi.nlm.nih.gov/24553445/)
 
-GSVA Gene Set Variation Analysis using the MSIGDB Cancer Hallmarks
+GSVA Gene Set Variation Analysis using the [MSIGDB Cancer Hallmarks](http://www.gsea-msigdb.org/gsea/msigdb/collections.jsp)
 
 
 ## DNA Damage Drugs of Interest
