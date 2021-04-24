@@ -1,0 +1,81 @@
+DepMapID	CellLine_Name	CellLine_Name_Cleaned	Cancer_Type	Cancer_Subtype	DerivedFrom_Primary_or_Met	Hugo_Symbol	Entrez_Gene_Id	Start_position	End_position	Variant_Type	Variant_Classification	Reference_Allele	Tumor_Seq_Allele1	Protein_Change	isDeleterious	isTCGAhotspot	isCOSMIChotspot
+ACH-000028	KPL-1	KPL1	Breast Cancer	Carcinoma	Metastasis	BRCA2	675	32912787	32912787	SNP	Missense_Mutation	G	A	p.S1432N	FALSE	FALSE	FALSE
+ACH-000060	Panc 10.05	PANC1005	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary	BRCA1	672	41245836	41245836	SNP	Missense_Mutation	A	G	p.I571T	FALSE	FALSE	FALSE
+ACH-000118	HUP-T3	HUPT3	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis	BRCA2	675	32914623	32914623	SNP	Missense_Mutation	G	T	p.G2044V	FALSE	FALSE	FALSE
+ACH-000132	JHOS-2	JHOS2	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary	BRCA1	672	41276113	41276113	SNP	Start_Codon_SNP	T	C	p.M1V	FALSE	FALSE	FALSE
+ACH-000196	HCC1599	HCC1599	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA2	675	32913042	32913051	DEL	Frame_Shift_Del	AAGAACCTAC	-	p.KEPT1517fs	TRUE	FALSE	FALSE
+ACH-000205	PK-59	PK59	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis	BRCA2	675	32914623	32914623	SNP	Missense_Mutation	G	T	p.G2044V	FALSE	FALSE	FALSE
+ACH-000278	COV362	COV362	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis	BRCA1	672	41243451	41243451	SNP	Splice_Site	C	A	NA	TRUE	FALSE	FALSE
+ACH-000354	Capan-1	CAPAN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis	BRCA2	675	32913079	32913080	INS	Frame_Shift_Ins	-	A	p.K1530fs	TRUE	FALSE	FALSE
+ACH-000354	Capan-1	CAPAN1	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Metastasis	BRCA2	675	32914438	32914438	DEL	Frame_Shift_Del	T	-	p.S1982fs	TRUE	FALSE	FALSE
+ACH-000524	KURAMOCHI	KURAMOCHI	Ovarian Cancer	Adenocarcinoma_high grade serous	Metastasis	BRCA2	675	32920978	32920978	SNP	Nonsense_Mutation	C	T	p.R2318*	TRUE	FALSE	FALSE
+ACH-000573	MDA-MB-436	MDAMB436	Breast Cancer	Carcinoma	Metastasis	BRCA1	672	41209068	41209068	SNP	Splice_Site	C	T	NA	TRUE	FALSE	FALSE
+ACH-000584	JHOS-4	JHOS4	Ovarian Cancer	Adenocarcinoma_high grade serous	Primary	BRCA1	672	41203135	41203135	SNP	Splice_Site	C	T	NA	TRUE	FALSE	FALSE
+ACH-000646	OVMANA	OVMANA	Ovarian Cancer	Adenocarcinoma_clear cell	Primary	BRCA2	675	32910767	32910767	SNP	Missense_Mutation	C	G	p.L759V	FALSE	FALSE	FALSE
+ACH-000691	HCC2157	HCC2157	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA1	672	41267787	41267787	SNP	Missense_Mutation	C	A	p.L30F	FALSE	FALSE	FALSE
+ACH-000699	HCC1395	HCC1395	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA2	675	32913269	32913269	SNP	Nonsense_Mutation	G	T	p.E1593*	TRUE	FALSE	FALSE
+ACH-000699	HCC1395	HCC1395	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA1	672	41209095	41209095	SNP	Nonsense_Mutation	G	A	p.R1751*	TRUE	FALSE	FALSE
+ACH-000725	HCC202	HCC202	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA2	675	32913079	32913080	INS	Frame_Shift_Ins	-	A	p.K1530fs	TRUE	FALSE	FALSE
+ACH-000849	MDA-MB-468	MDAMB468	Breast Cancer	Carcinoma	Metastasis	BRCA2	675	32911387	32911387	SNP	Missense_Mutation	G	C	p.M965I	FALSE	FALSE	FALSE
+ACH-000856	CAL-51	CAL51	Breast Cancer	Carcinoma	Metastasis	BRCA2	675	32911443	32911443	DEL	Frame_Shift_Del	A	-	p.E984fs	TRUE	TRUE	FALSE
+ACH-000857	CAL-85-1	CAL851	Breast Cancer	Carcinoma	Primary	BRCA2	675	32912870	32912870	DEL	Frame_Shift_Del	T	-	p.F1460fs	TRUE	FALSE	FALSE
+ACH-000859	HCC1954	HCC1954	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA1	672	41199701	41199702	DEL	Frame_Shift_Del	AC	-	p.V1810fs	TRUE	FALSE	FALSE
+ACH-000879	MFE-296	MFE296	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32906610	32906610	SNP	Missense_Mutation	T	A	p.I332N	FALSE	FALSE	FALSE
+ACH-000909	JHUEM-2	JHUEM2	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32914035	32914035	SNP	Missense_Mutation	G	A	p.S1848N	FALSE	FALSE	FALSE
+ACH-000909	JHUEM-2	JHUEM2	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41215914	41215914	SNP	Missense_Mutation	C	T	p.G1710E	FALSE	FALSE	FALSE
+ACH-000933	SNU-324	SNU324	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA	BRCA2	675	32930609	32930609	SNP	Nonsense_Mutation	C	T	p.R2494*	TRUE	FALSE	FALSE
+ACH-000933	SNU-324	SNU324	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	NA	BRCA1	672	41247903	41247903	SNP	Silent	T	C	p.Q210Q	FALSE	FALSE	FALSE
+ACH-000934	MDA-MB-361	MDAMB361	Breast Cancer	Carcinoma	Metastasis	BRCA2	675	32913462	32913462	SNP	Missense_Mutation	A	G	p.N1657S	FALSE	FALSE	FALSE
+ACH-000936	EFO-27	EFO27	Ovarian Cancer	Adenocarcinoma_endometrioid	Metastasis	BRCA2	675	32912944	32912944	SNP	Silent	C	T	p.D1484D	FALSE	FALSE	FALSE
+ACH-000946	HEC-265	HEC265	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41244583	41244583	SNP	Missense_Mutation	A	G	p.F989L	FALSE	FALSE	FALSE
+ACH-000961	Ishikawa (Heraklio) 02 ER-	ISHIKAWAHERAKLIO02ER	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41199722	41199722	SNP	Splice_Site	T	C	NA	TRUE	FALSE	FALSE
+ACH-000965	RL95-2	RL952	Endometrial/Uterine Cancer	Endometrial Adenosquamous Carcinoma	Primary	BRCA2	675	32912770	32912771	INS	Frame_Shift_Ins	-	T	p.F1427fs	TRUE	FALSE	FALSE
+ACH-000965	RL95-2	RL952	Endometrial/Uterine Cancer	Endometrial Adenosquamous Carcinoma	Primary	BRCA2	675	32913952	32913953	INS	Frame_Shift_Ins	-	A	p.K1821fs	TRUE	FALSE	FALSE
+ACH-000965	RL95-2	RL952	Endometrial/Uterine Cancer	Endometrial Adenosquamous Carcinoma	Primary	BRCA2	675	32931912	32931912	SNP	Missense_Mutation	A	G	p.K2551E	FALSE	FALSE	FALSE
+ACH-000966	IGROV1	IGROV1	Ovarian Cancer	Adenocarcinoma_mixed	Primary	BRCA2	675	32912806	32912806	SNP	Silent	C	T	p.V1438V	FALSE	FALSE	FALSE
+ACH-000966	IGROV1	IGROV1	Ovarian Cancer	Adenocarcinoma_mixed	Primary	BRCA2	675	32969017	32969017	SNP	Missense_Mutation	C	A	p.P3150T	FALSE	FALSE	FALSE
+ACH-000966	IGROV1	IGROV1	Ovarian Cancer	Adenocarcinoma_mixed	Primary	BRCA1	672	41245587	41245587	DEL	Frame_Shift_Del	T	-	p.K654fs	TRUE	FALSE	FALSE
+ACH-000978	EN	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32912953	32912953	SNP	Silent	A	G	p.K1487K	FALSE	FALSE	FALSE
+ACH-000978	EN	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913064	32913064	SNP	Silent	T	C	p.F1524F	FALSE	FALSE	FALSE
+ACH-000978	EN	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32953632	32953633	INS	Frame_Shift_Ins	-	A	p.SK2978fs	TRUE	FALSE	FALSE
+ACH-000978	EN	EN	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32954022	32954023	INS	Frame_Shift_Ins	-	A	p.TK3030fs	TRUE	FALSE	FALSE
+ACH-000984	HEC-6	HEC6	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913079	32913080	INS	Frame_Shift_Ins	-	A	p.K1530fs	TRUE	FALSE	FALSE
+ACH-000984	HEC-6	HEC6	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41244996	41244996	SNP	Missense_Mutation	T	C	p.E851G	FALSE	FALSE	FALSE
+ACH-000988	MFE-319	MFE319	Endometrial/Uterine Cancer	NA	NA	BRCA2	675	32900739	32900739	SNP	Missense_Mutation	C	A	p.T207N	FALSE	FALSE	FALSE
+ACH-000988	MFE-319	MFE319	Endometrial/Uterine Cancer	NA	NA	BRCA2	675	32905082	32905082	SNP	Silent	T	C	p.H236H	FALSE	FALSE	FALSE
+ACH-000988	MFE-319	MFE319	Endometrial/Uterine Cancer	NA	NA	BRCA2	675	32950913	32950913	SNP	Silent	C	T	p.D2913D	FALSE	FALSE	FALSE
+ACH-000988	MFE-319	MFE319	Endometrial/Uterine Cancer	NA	NA	BRCA1	672	41201141	41201141	SNP	Silent	G	A	p.G1801G	FALSE	FALSE	FALSE
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32914875	32914875	SNP	Missense_Mutation	A	G	p.K2128R	FALSE	FALSE	FALSE
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32915060	32915060	SNP	Missense_Mutation	G	A	p.V2190I	FALSE	FALSE	FALSE
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32929322	32929322	SNP	Silent	T	C	p.D2444D	FALSE	FALSE	FALSE
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41243578	41243578	SNP	Missense_Mutation	T	C	p.M1324V	FALSE	FALSE	FALSE
+ACH-000990	HEC-108	HEC108	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41267767	41267767	SNP	Missense_Mutation	G	A	p.T37I	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32907410	32907410	SNP	Missense_Mutation	T	G	p.S599A	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32910443	32910443	SNP	Missense_Mutation	G	T	p.D651Y	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913079	32913080	INS	Frame_Shift_Ins	-	A	p.K1530fs	TRUE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913240	32913240	SNP	Missense_Mutation	T	C	p.I1583T	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913348	32913348	SNP	Missense_Mutation	A	C	p.N1619T	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32937657	32937657	SNP	Missense_Mutation	C	A	p.S2773Y	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32950860	32950860	SNP	Missense_Mutation	C	T	p.R2896C	FALSE	FALSE	FALSE
+ACH-000993	JHUEM-7	JHUEM7	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41246724	41246724	SNP	Missense_Mutation	C	T	p.G275D	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32893437	32893437	SNP	Missense_Mutation	A	C	p.E97D	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32911973	32911973	SNP	Missense_Mutation	G	A	p.D1161N	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32912239	32912239	SNP	Missense_Mutation	G	T	p.E1249D	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32913023	32913023	SNP	Missense_Mutation	G	A	p.E1511K	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32914082	32914082	SNP	Missense_Mutation	G	T	p.D1864Y	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32914526	32914526	SNP	Missense_Mutation	T	A	p.S2012T	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32914783	32914783	SNP	Silent	G	A	p.T2097T	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32915177	32915177	SNP	Nonsense_Mutation	G	T	p.E2229*	TRUE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA2	675	32972469	32972469	SNP	Missense_Mutation	C	A	p.F3273L	FALSE	FALSE	FALSE
+ACH-000996	HEC-251	HEC251	Endometrial/Uterine Cancer	Endometrial Adenocarcinoma	Primary	BRCA1	672	41246336	41246336	SNP	Missense_Mutation	T	G	p.E404D	FALSE	FALSE	FALSE
+ACH-001145	OC 316	OC316	Ovarian Cancer	Adenocarcinoma_serous	Metastasis	BRCA2	675	32913836	32913837	INS	Frame_Shift_Ins	-	A	p.Q1782fs	TRUE	TRUE	FALSE
+ACH-001377	PACADD-137	PACADD137	Pancreatic Cancer	Ductal Adenocarcinoma_exocrine	Primary	BRCA1	672	41244386	41244386	SNP	Silent	C	A	p.V1054V	FALSE	FALSE	FALSE
+ACH-001390	SUM-149PT	SUM149PT	Breast Cancer	Breast Ductal Carcinoma	Primary	BRCA1	672	41245379	41245379	DEL	Frame_Shift_Del	A	-	p.N723fs	TRUE	FALSE	FALSE
+ACH-001418	UWB1.289	UWB1289	Ovarian Cancer	Adenocarcinoma_serous	Primary	BRCA1	672	41245073	41245073	DEL	Frame_Shift_Del	G	-	p.D825fs	TRUE	FALSE	FALSE
+ACH-001529	JAR	JAR	Endometrial/Uterine Cancer	Choriocarcinoma	Primary	BRCA2	675	32921024	32921024	SNP	Missense_Mutation	T	C	p.V2333A	FALSE	FALSE	FALSE
+ACH-001719	OCI-C4P	OCIC4P	Ovarian Cancer	Adenocarcinoma_clear cell	Primary	BRCA2	675	32920996	32920996	SNP	Missense_Mutation	C	T	p.H2324Y	FALSE	FALSE	FALSE
+ACH-001719	OCI-C4P	OCIC4P	Ovarian Cancer	Adenocarcinoma_clear cell	Primary	BRCA1	672	41223104	41223104	SNP	Missense_Mutation	T	G	p.E1609D	FALSE	FALSE	FALSE
+ACH-002038	HSKTC	HSKTC	Ovarian Cancer	Krukenberg Tumor	Primary	BRCA2	675	32890650	32890650	SNP	Missense_Mutation	G	A	p.R18H	FALSE	FALSE	FALSE
+ACH-002146	JHOS-3	JHOS3	Ovarian Cancer	Adenocarcinoma_serous	NA	BRCA1	672	41243932	41243945	DEL	Frame_Shift_Del	CCCCTCTTCGGTAA	-	p.YRRGA1202fs	TRUE	FALSE	FALSE
+ACH-002163	MRK-nu-1	MRKNU1	Breast Cancer	Carcinoma	NA	BRCA2	675	32944693	32944693	SNP	Splice_Site	A	C	p.Q2829P	TRUE	FALSE	FALSE
+ACH-002183	OVMIU	OVMIU	Ovarian Cancer	Adenocarcinoma_high grade serous	NA	BRCA2	675	32906847	32906847	SNP	Missense_Mutation	T	C	p.I411T	FALSE	FALSE	FALSE
