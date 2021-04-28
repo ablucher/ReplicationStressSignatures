@@ -70,7 +70,7 @@ hallMarkGenes<-hallmark_GeneSets%>%
   unique()
 View(hallMarkGenes) #829 total genes
 
-#WED PICK UP HERE
+#COLLECT ALL RSR GENES OF INTEREST ACROSS OUR SETS
 
 #get gene list across these signatures -> merge all 3 here
 RSRGenes<-as.data.frame(RSRSignatureGenes$Gene)
@@ -80,7 +80,18 @@ colnames(PARPGenes)<-c("Gene")
 View(RSRGenes)
 View(PARPGenes)
 
-merge_signatures<-rbind(as.data.frame(RSRSignatureGenes$Gene), as.data.frame(PARPnessSignatureGenes$Gene))
+merge_signatures<-rbind(RSRGenes, PARPGenes)
+merge_sig_gsva<-rbind(merge_signatures, hallMarkGenes)
+View(merge_sig_gsva)
+
+merge_sig_gsva_unique<-merge_sig_gsva %>%
+  unique()
+View(merge_sig_gsva_unique) #1652 total genes
+write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLE_DepMap_expression", "CCLEDepMap_TrainingLines_All_RNASeq_LONG.tsv"))
+
+
+
+
 
 #subset expression matrix to just these genes
 
