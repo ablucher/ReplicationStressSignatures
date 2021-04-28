@@ -7,9 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(here)
+library(msigdbr)
 ```
 
-## R Markdown
+## CCLE Training -  All; Subset RNA expression matrix to our RSR genes of interest
 
 For the CCLE Training set, subset RNA data to just our lines of interest, genes of interest
 
@@ -21,9 +25,8 @@ Genes - across McGrail RSR, McGrail PARPness, and GSVA Hallmarks
 #CCLE TRAINING SET, read in merged brca/ov/end/panc with all other diseases
 training_all<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_AllDiseases_TRAINING_210427.tsv"))
 
-
 #CCLE RNASeq data
-#go back to oru full CCLE file
+#go back to our full CCLE file
 DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
 #View(DepMap_RNASeq)
 
@@ -39,8 +42,47 @@ DepMap_TrainingLines_RNASeq_All<-DepMap_RNASeq %>%
 dim(DepMap_TrainingLines_RNASeq_All) #20371284 x 4
 #View(DepMap_TrainingLines_RNASeq)
 #intermediate, output to file
-write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_AllDiseases_RNASeq_LONG.tsv"))
+write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLE_DepMap_expression", "CCLEDepMap_TrainingLines_All_RNASeq_LONG.tsv"))
+
+#Read in for our signatures
+#McGrail RSR
+#McGrail RSR Genes and Coefficients
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) 
+View(RSRSignatureGenes)
+
+#McGrail PARPness
+PARPnessSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailPARPness_Genes_Coefficients.tsv")) 
+View(PARPnessSignatureGenes)
+
+#GSVA hallmarks
+hallmark_GeneSets<-msigdbr(species = "Homo sapiens", category = "H")
+
+#rep stress hallmarks of interest*
+repStress_hallmarks<-as.data.frame(c("HALLMARK_G2M_CHECKPOINT", "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+                       "HALLMARK_E2F_TARGETS", "HALLMARK_DNA_REPAIR", 
+                       "HALLMARK_MYC_TARGETS_V1", "HALLMARK_MYC_TARGETS_V2"))
+colnames(repStress_hallmarks)<-c("Hallmark")
+#View(repStress_hallmarks)
+
+hallMarkGenes<-hallmark_GeneSets%>%
+  filter(gs_name %in% repStress_hallmarks$Hallmark) %>%
+  select(Gene = gene_symbol) %>%
+  unique()
+View(hallMarkGenes) #829 total genes
+
+#get gene list across these signatures, print out for Alfonso
+#he will subset the PANGEA dataset down
+RSRGenes<-as.data.frame(RSRSignatureGenes$Gene)
+colnames(RSRGenes)<-c("Gene")
+PARPGenes<-as.data.frame(PARPnessSignatureGenes$Gene)
+colnames(PARPGenes)<-c("Gene")
+View(RSRGenes)
+View(PARPGenes)
+
+merge_signatures<-rbind(as.data.frame(RSRSignatureGenes$Gene), as.data.frame(PARPnessSignatureGenes$Gene))
 
 
+
+#subset RNA to just these gense
 
 ```

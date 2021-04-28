@@ -84,10 +84,6 @@ write_tsv(mergedFrames, here("data", "CCLE_Training", "DepMap_forRepStress_AllDi
 ```{r}
 
 
-#McGrail RSR Genes and Coefficients
-RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
-  arrange(Gene)
-View(RSRSignatureGenes)
 
 #now need to clean the Gene field and filter to our genes
 DepMap_RNASeq_RSRGenes<-DepMap_TrainingLines_RNASeq_All %>%
