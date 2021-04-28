@@ -18,8 +18,8 @@ library(caret)
 This is an additional script for splitting the full CCLE data into training and test sets. First we need to pull off breast/ovarian/endometrial/pancreatic lines, which have previously been split; then select a random 80% of the lines for training.  Require an equal distribution by disease type. 
 
 Notes
-04/20/20 - split other diseases into training/ test, run the McGrail RSR RNA signature
-
+04/20/21 - split other diseases into training/ test, run the McGrail RSR RNA signature
+04/27/21 - add McGrail PARPness
 
 ```{r}
 #read in the full list of cell lines
@@ -67,7 +67,7 @@ View(Lines_Test)
 ###########################
 #TRAINING only - all ccle diseases
 CCLE_allOtherDiseases<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_OtherDiseasess_TRAINING_210421.tsv")) %>%
-  select(DepMapID=DepMap_ID, CellLine_Name = cell_line_name, CellLine_Name_Cleaned = stripped_cell_line_name, 
+  dplyr::select(DepMapID=DepMap_ID, CellLine_Name = cell_line_name, CellLine_Name_Cleaned = stripped_cell_line_name, 
          Cancer_Type = primary_disease, Cancer_Subtype = Subtype, DerivedFrom_Primary_or_Met=primary_or_metastasis )
 #View(CCLE_allOtherDiseases)
 #TRAINING - breast, ov, endo, pancreatic from main scripting work
@@ -77,25 +77,11 @@ CCLE_BrOvEndPanc<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_Br
 
 mergedFrames<-rbind(CCLE_allOtherDiseases, CCLE_BrOvEndPanc)
 #View(mergedFrames)
+write_tsv(mergedFrames, here("data", "CCLE_Training", "DepMap_forRepStress_AllDiseases_TRAINING_210427.tsv"))
 
-#RNASeq data
-#go back to full CCLE file
-DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
-#View(DepMap_RNASeq)
+```
 
-#Filter RNASeq data down to our cell lines; 
-#cell lines
-DepMap_TrainingLines_RNASeq_All<-DepMap_RNASeq %>%
-  pivot_longer(-X1, names_to = "Gene", values_to = "Log2_TPM") %>%
-  select(DepMap_ID = X1, Gene, Log2_TPM) %>%
-  filter(DepMap_ID %in% mergedFrames$DepMapID) %>% #need to use DepMapID across data types
-  separate(Gene, c("Name", "ID_ToClean"), " ") %>%
-  mutate(ID = str_sub(ID_ToClean, 2, -2)) %>%#start at second char, end on 2nd to last chat -> remove "()"
-  select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
-dim(DepMap_TrainingLines_RNASeq_All) #20371284 x 4
-#View(DepMap_TrainingLines_RNASeq)
-#intermediate, output to file
-write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_AllDiseases_RNASeq_LONG.tsv"))
+```{r}
 
 
 #McGrail RSR Genes and Coefficients

@@ -1,0 +1,46 @@
+---
+title: "CCLE_All_RNASubset"
+author: "Aurora S Blucher"
+date: "4/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+For the CCLE Training set, subset RNA data to just our lines of interest, genes of interest
+
+Genes - across McGrail RSR, McGrail PARPness, and GSVA Hallmarks 
+
+04/27/21  - Script set up, move section from previous scripts; write to file
+
+```{r}
+#CCLE TRAINING SET, read in merged brca/ov/end/panc with all other diseases
+training_all<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_AllDiseases_TRAINING_210427.tsv"))
+
+
+#CCLE RNASeq data
+#go back to oru full CCLE file
+DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
+#View(DepMap_RNASeq)
+
+#Filter RNASeq data down to our cell lines; 
+#cell lines
+DepMap_TrainingLines_RNASeq_All<-DepMap_RNASeq %>%
+  pivot_longer(-X1, names_to = "Gene", values_to = "Log2_TPM") %>%
+  dplyr::select(DepMap_ID = X1, Gene, Log2_TPM) %>%
+  filter(DepMap_ID %in% training_all$DepMapID) %>% #need to use DepMapID across data types
+  separate(Gene, c("Name", "ID_ToClean"), " ") %>%
+  mutate(ID = str_sub(ID_ToClean, 2, -2)) %>%#start at second char, end on 2nd to last chat -> remove "()"
+  dplyr::select(DepMap_ID, Gene= Name, Gene_ID = ID, Log2_TPM)
+dim(DepMap_TrainingLines_RNASeq_All) #20371284 x 4
+#View(DepMap_TrainingLines_RNASeq)
+#intermediate, output to file
+write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLEDepMap_expression", "CCLEDepMap_TrainingLines_AllDiseases_RNASeq_LONG.tsv"))
+
+
+
+```
