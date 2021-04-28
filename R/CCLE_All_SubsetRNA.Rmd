@@ -85,9 +85,10 @@ merge_sig_gsva<-rbind(merge_signatures, hallMarkGenes)
 View(merge_sig_gsva)
 
 merge_sig_gsva_unique<-merge_sig_gsva %>%
+  arrange(Gene)%>%
   unique()
 View(merge_sig_gsva_unique) #1652 total genes
-write_tsv(DepMap_TrainingLines_RNASeq_All, here("data_intermediate", "CCLE_DepMap_expression", "CCLEDepMap_TrainingLines_All_RNASeq_LONG.tsv"))
+write_tsv(merge_sig_gsva_unique, here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
 
 
 
