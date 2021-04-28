@@ -70,8 +70,9 @@ hallMarkGenes<-hallmark_GeneSets%>%
   unique()
 View(hallMarkGenes) #829 total genes
 
-#get gene list across these signatures, print out for Alfonso
-#he will subset the PANGEA dataset down
+#WED PICK UP HERE
+
+#get gene list across these signatures -> merge all 3 here
 RSRGenes<-as.data.frame(RSRSignatureGenes$Gene)
 colnames(RSRGenes)<-c("Gene")
 PARPGenes<-as.data.frame(PARPnessSignatureGenes$Gene)
@@ -81,8 +82,10 @@ View(PARPGenes)
 
 merge_signatures<-rbind(as.data.frame(RSRSignatureGenes$Gene), as.data.frame(PARPnessSignatureGenes$Gene))
 
+#subset expression matrix to just these genes
 
-
-#subset RNA to just these gense
+#output -> Alfonso needs these files for mining in perturbation sets
+#and for comparison to CPPA
+write_tsv()
 
 ```
