@@ -20,6 +20,46 @@ R markdown for mining perturbed RNA data; collaborators' data.
 ```{r}
 #collaborator dataset = PANGEA
 #diff expression calls
+PANGEA_de<-read_csv(here("data", "Alfonso_PANGEA", "Expression_Gene_query_output.csv"))
+View(PANGEA_de)
+```
+
+```{r}
+#PANGEA de all
+PANGEA_all<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-diff-expression.csv"))
+View(head(PANGEA_all))
+
+Cell_line<-c("aspc", "bt20", "du145", "efo21", "h1793", "hcc1143", "hf2597", "hsts", 
+             "krj1", "Incap", "panc1", "tcc", "u87")
+Cell_line<-as.data.frame(Cell_line)
+colnames(Cell_line)<-c("Name")
+
+PANGEA_observations<-as.data.frame(t(PANGEA_all[1, ])) %>%
+  rownames_to_column(var = "Observation_Full") %>%
+  select(-V1) %>% #remove
+  separate(Observation_Full, sep = "_", into = c("Drug", "Dose", "Time", "Cell_Line"),
+           remove = FALSE) %>%
+  filter(Cell_Line %in% Cell_line$Name)
+View(PANGEA_observations) #4104 observations
+
+#check with alfonso's parsing/ quereying -> make sure this was handled okay
+#okay this is annoying, there are _ in some of the drug names, so we will need to fix that
+#for now we just exclude those
+
+#now split 80/20
+PANGEA_observations_training<-PANGEA_observations %>%
+  group_by(Cell_Line) %>%
+  sample_frac(0.80)
+View(PANGEA_observations_training) #3282 observations
+
+
+#select all cell lines vs drugs
+
+#split into 80/20
+
+#subset to just genes that are in our our list
+RSRgenes<-read_tsv(here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
+View(RSRgenes) #1652 total RSR genes across our sets
 
 #run the mccgrail RSR and parpness signatures
 

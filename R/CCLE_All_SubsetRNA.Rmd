@@ -26,7 +26,7 @@ Genes - across McGrail RSR, McGrail PARPness, and GSVA Hallmarks
 training_all<-read_tsv(here("data", "CCLE_Training", "DepMap_forRepStress_AllDiseases_TRAINING_210427.tsv"))
 
 #CCLE RNASeq data
-#go back to our full CCLE file
+#go back to our full CCLE fil
 DepMap_RNASeq<-read_csv(here("data", "DepMapCCLE_data", "CCLE_expression.csv"))
 #View(DepMap_RNASeq)
 
