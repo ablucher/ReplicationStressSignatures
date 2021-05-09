@@ -1,0 +1,30 @@
+---
+title: "MinePerturbedDatasets"
+author: "Aurora S Blucher"
+date: "5/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(here)
+library(tidyverse)
+
+```
+
+## R Markdown
+
+R markdown for mining perturbed RNA data; collaborators' data. 
+
+```{r}
+#collaborator dataset = PANGEA
+#diff expression calls
+
+#run the mccgrail RSR and parpness signatures
+
+#prioritization - order based on score level
+
+
+
+```
