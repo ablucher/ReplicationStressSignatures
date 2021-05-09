@@ -85,12 +85,6 @@ write_tsv(mergedFrames, here("data", "CCLE_Training", "DepMap_forRepStress_AllDi
 
 
 
-#now need to clean the Gene field and filter to our genes
-DepMap_RNASeq_RSRGenes<-DepMap_TrainingLines_RNASeq_All %>%
- filter( Gene %in% RSRSignatureGenes$Gene) 
-dim(DepMap_RNASeq_RSRGenes)
-View(unique(DepMap_RNASeq_RSRGenes$Gene)) #580 genes
-#View(DepMap_RNASeq_RSRGenes)
 
 RSRSignatureGenes_filtered<-RSRSignatureGenes %>%
    filter(Gene %in% DepMap_RNASeq_RSRGenes$Gene)

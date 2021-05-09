@@ -88,16 +88,23 @@ merge_sig_gsva_unique<-merge_sig_gsva %>%
   arrange(Gene)%>%
   unique()
 View(merge_sig_gsva_unique) #1652 total genes
-write_tsv(merge_sig_gsva_unique, here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
-
-
-
-
-
-#subset expression matrix to just these genes
-
 #output -> Alfonso needs these files for mining in perturbation sets
 #and for comparison to CPPA
-write_tsv()
+write_tsv(merge_sig_gsva_unique, here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
+```
+
+```{r}
+
+#subset expression matrix to just these genes
+#now need to clean the Gene field and filter to our genes
+DepMap_RNASeq_RSRGenes<-DepMap_TrainingLines_RNASeq_All %>%
+ filter( Gene %in% merge_sig_gsva_unique$Gene) 
+dim(DepMap_RNASeq_RSRGenes)
+View(unique(DepMap_RNASeq_RSRGenes$Gene)) #1500 genes found in CCLE RNA data
+#View(DepMap_RNASeq_RSRGenes)
+
+#output to file
+#read in -> CCLE_All_RunSignatures.Rmd
+
 
 ```
