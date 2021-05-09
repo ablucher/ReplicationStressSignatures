@@ -25,6 +25,11 @@ View(PANGEA_de)
 ```
 
 ```{r}
+#subset to just genes that are in our our list
+RSRgenes<-read_tsv(here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
+View(RSRgenes) #1652 total RSR genes across our sets
+
+
 #PANGEA de all
 PANGEA_all<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-diff-expression.csv"))
 View(head(PANGEA_all))
@@ -52,14 +57,16 @@ PANGEA_observations_training<-PANGEA_observations %>%
   sample_frac(0.80)
 View(PANGEA_observations_training) #3282 observations
 
+#filter to just our RSR genes
+#bring down the PANGEA dataframe size
+PANGEA_de_training_RSRonly<-PANGEA_all %>%
+  filter(X1 %in% RSRgenes$Gene) %>%
+  pivot_longer(-X1, names_to = "Drug_CellLine", values_to = "DE_Value") %>%
+  filter(Drug_CellLine %in% PANGEA_observations_training$Observation_Full) %>%
+  pivot_wider(names_from = "Drug_CellLine", values_from = "DE_Value")
+View(PANGEA_de_training_RSRonly)
 
-#select all cell lines vs drugs
 
-#split into 80/20
-
-#subset to just genes that are in our our list
-RSRgenes<-read_tsv(here("data_intermediate", "Signatures", "RSRPARPness_GenesOfInterest.tsv"))
-View(RSRgenes) #1652 total RSR genes across our sets
 
 #run the mccgrail RSR and parpness signatures
 
