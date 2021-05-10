@@ -63,15 +63,94 @@ PANGEA_de_training_RSRonly<-PANGEA_all %>%
   filter(X1 %in% RSRgenes$Gene) %>%
   pivot_longer(-X1, names_to = "Drug_CellLine", values_to = "DE_Value") %>%
   filter(Drug_CellLine %in% PANGEA_observations_training$Observation_Full) %>%
-  pivot_wider(names_from = "Drug_CellLine", values_from = "DE_Value")
+  #pivot_wider(names_from = "Drug_CellLine", values_from = "DE_Value") %>% #exclude this pivot
+  select(Gene = X1, everything())
 View(PANGEA_de_training_RSRonly)
 
+#McGrail RSR
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(RSRSignatureGenes)
+
+#run correlations to McGrail RSR
+PANGEA_de_training_RSRonly_McGrail<-PANGEA_de_training_RSRonly %>%
+  filter(Gene %in% RSRSignatureGenes$Gene)
+View(PANGEA_de_training_RSRonly_McGrail)
+#then join with coefficients, and re-format
+
+JoinedForCorrelationCalculation<-left_join(PANGEA_de_training_RSRonly_McGrail, RSRSignatureGenes)
+View(JoinedForCorrelationCalculation)
+
+PANGEA_McGrailRSR<-JoinedForCorrelationCalculation %>%
+  group_by(Drug_CellLine)%>%
+  summarize(McGrailRSR_Corr = cor(DE_Value, Coefficient ))
+View(PANGEA_McGrailRSR)
+
+PANGEA_McGrailRSR_ZScore<-PANGEA_McGrailRSR%>%
+  ungroup() %>%
+  mutate(Mean = mean(McGrailRSR_Corr), 
+            SD = sd(McGrailRSR_Corr), 
+         McGrailRSR_Z_Score = (McGrailRSR_Corr - Mean)/ SD) %>%
+  select(Drug_CellLine, McGrailRSR_Corr, McGrailRSR_Z_Score)
+View(PANGEA_McGrailRSR_ZScore)
+
+#clean up output and print
+PANGEA_McGrailRSR_Output<-PANGEA_McGrailRSR_ZScore %>%
+  separate(Drug_CellLine, sep = "_", into = c("Drug", "Dose", "Time", "Cell_Line"),
+           remove = FALSE) 
+View(PANGEA_McGrailRSR_Output)
 
 
-#run the mccgrail RSR and parpness signatures
+#barplot drug X cell lines over 2.0
+plotSubtype<- PANGEA_McGrailRSR_Output%>%
+  arrange(desc(McGrailRSR_Z_Score)) %>%
+  filter(McGrailRSR_Z_Score >2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  +
+  facet_wrap(~Cell_Line)
+plotFinal
+ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByCellLine.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
-#prioritization - order based on score level
+plotFinal
 
+#join with drug library information
+#then plot by drug class
+drugLibrary<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-drug-library.csv")) %>%
+  select(Drug = X1, everything())
+View(drugLibrary)
+PANGEA_McGrailRSR_Output_joinDrug<-left_join(PANGEA_McGrailRSR_Output, drugLibrary) %>%
+  select(Drug, Cell_Line, Dose, Time, McGrailRSR_Corr, McGrailRSR_Z_Score, class, pathway, target, fda, Cmap_clinical)
+View(PANGEA_McGrailRSR_Output_joinDrug)
+#write to file
+write_csv(PANGEA_McGrailRSR_Output_joinDrug, here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits.csv"))
+
+#now show by drug
+plotSubtype<- PANGEA_McGrailRSR_Output_joinDrug%>%
+  arrange(desc(McGrailRSR_Z_Score)) %>%
+  filter(McGrailRSR_Z_Score >2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=class)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Drug Class")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank()) +
+  facet_wrap(~class)
+plotFinal
+ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugClass.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 
 ```
