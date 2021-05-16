@@ -212,14 +212,19 @@ PANGEA_McGrailPARP_Output<-PANGEA_McGrailPARP_ZScore %>%
            remove = FALSE) 
 View(PANGEA_McGrailPARP_Output)
 
-#join with drug
-#output file
+#clean up for OUTPUT file
+#join with RSR file, join with drug library file
 View(drugLibrary)
-PANGEA_McGrailPARP_Output_joinDrug<-left_join(PANGEA_McGrailPARP_Output, drugLibrary) %>%
-  select(Drug, Cell_Line, Dose, Time, McGrailPARP_Corr, McGrailPARP_Z_Score, class, pathway, target, fda,Cmap_clinical)
-View(PANGEA_McGrailPARP_Output_joinDrug)
+PANGEA_JoinBoth<-left_join(PANGEA_McGrailPARP_Output, PANGEA_McGrailRSR_Output) 
+PANGEA_JoinBoth_Drug<-left_join(PANGEA_JoinBoth, drugLibrary) %>%
+  select(Drug, Cell_Line, Dose, Time, 
+         McGrailRSR_Corr, McGrailRSR_Z_Score,
+         McGrailPARP_Corr, McGrailPARP_Z_Score, 
+         class, pathway, target, fda,Cmap_clinical)
+View(PANGEA_JoinBoth_Drug)
+
 #write to file
-write_csv(PANGEA_McGrailPARP_Output_joinDrug, here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailPARPness_TopHits.csv"))
+write_csv(PANGEA_JoinBoth_Drug, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
 
 
 #plots
