@@ -107,24 +107,26 @@ View(PANGEA_McGrailRSR_Output)
 #barplot drug X cell lines over 2.0
 plotSubtype<- PANGEA_McGrailRSR_Output%>%
   arrange(desc(McGrailRSR_Z_Score)) %>%
-  filter(McGrailRSR_Z_Score >2.0) %>%
+  #filter(McGrailRSR_Z_Score >2.0) %>%
   ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
   geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
   #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores All ", subtitle = "PANGEA (80%)") +
   xlab("") +
   ylab("Z-Score") + 
   guides(fill=guide_legend(title="Cell Line")) + 
   theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         axis.title.x=element_blank(),
         axis.ticks.x =element_blank(),
-        axis.text.x=element_blank())  +
-  facet_wrap(~Cell_Line)
+        axis.text.x=element_blank())  #+
+  #facet_wrap(~Cell_Line)
 plotFinal
 ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByCellLine.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 plotFinal
+```
 
+```{r}
 #join with drug library information
 #then plot by drug class
 drugLibrary<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-drug-library.csv")) %>%
