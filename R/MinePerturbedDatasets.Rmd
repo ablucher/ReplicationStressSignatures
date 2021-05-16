@@ -262,6 +262,47 @@ ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailPARPness_TopHits_By
 ```
 
 ```{r}
+library(ggpubr)
+#scatter plot of RSR versus PARPness
+plotRSRvPARP<- PANGEA_JoinBoth_Drug%>%
+  ggplot(aes(x=McGrailPARP_Z_Score, y=McGrailPARP_Z_Score)) +
+  geom_point()   
+plotRSRvPARP
+
+
+plotRSRvPARP<-ggscatter(PANGEA_JoinBoth_Drug, x = "McGrailPARP_Z_Score", y = "McGrailRSR_Z_Score",
+   color = "black",fill="black", shape = 21, size = 1.5,, # Points color, shape and size
+   add = "reg.line",  # Add regressin line
+   add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+   conf.int = TRUE, # Add confidence interval
+   cor.coef = TRUE, # Add correlation coefficient. see ?stat_cor
+   cor.coeff.args = list(method = "spearman", label.x = 3, label.sep = "\n"),
+   title="Correlation of McGrail RSR and McGrail PARPness Z-Scores",
+   subtitle="for PANGEA Perturbation Set"
+   )
+plotRSRvPARP
+
+#then zoom in
+#require in the top RSR or the top PARPness
+PANGEA_JoinBoth_Drug_top<-PANGEA_JoinBoth_Drug %>%
+  filter(McGrailRSR_Z_Score>=2.0 | McGrailPARP_Z_Score>=2.0)
+View(PANGEA_JoinBoth_Drug_top)
+
+plotRSRvPARP<-ggscatter(PANGEA_JoinBoth_Drug, x = "McGrailPARP_Z_Score", y = "McGrailRSR_Z_Score",
+   color = "black",fill="black", shape = 21, size = 1.5,, # Points color, shape and size
+   add = "reg.line",  # Add regressin line
+   add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+   conf.int = TRUE, # Add confidence interval
+   cor.coef = TRUE, # Add correlation coefficient. see ?stat_cor
+   cor.coeff.args = list(method = "spearman", label.x = 3, label.sep = "\n"),
+   title="Correlation of McGrail RSR and McGrail PARPness Z-Scores",
+   subtitle="for PANGEA Perturbation Set"
+   )
+plotRSRvPARP
+
+```
+
+```{r}
 #add gsva
 
 
