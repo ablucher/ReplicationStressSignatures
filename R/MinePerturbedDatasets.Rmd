@@ -217,7 +217,7 @@ View(PANGEA_McGrailPARP_Output)
 View(drugLibrary)
 PANGEA_JoinBoth<-left_join(PANGEA_McGrailPARP_Output, PANGEA_McGrailRSR_Output) 
 PANGEA_JoinBoth_Drug<-left_join(PANGEA_JoinBoth, drugLibrary) %>%
-  select(Drug, Cell_Line, Dose, Time, 
+  select(Drug_CellLine, Drug, Cell_Line, Dose, Time, 
          McGrailRSR_Corr, McGrailRSR_Z_Score,
          McGrailPARP_Corr, McGrailPARP_Z_Score, 
          class, pathway, target, fda,Cmap_clinical)
@@ -228,23 +228,43 @@ write_csv(PANGEA_JoinBoth_Drug, here("output", "MinePerturbed_PANGEA", "PANGEA_M
 
 
 #plots
-#barplot drug X cell lines over 2.0
-plotSubtype<- PANGEA_McGrailRSR_Output%>%
+#McGrail barplot drug X cell lines over 2.0
+#with and without facet
+plotRSR_byCellLine<- PANGEA_JoinBoth_Drug%>%
   arrange(desc(McGrailRSR_Z_Score)) %>%
-  #filter(McGrailRSR_Z_Score >2.0) %>%
+  filter(McGrailRSR_Z_Score >=2.0) %>%
   ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
   geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
   #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores All ", subtitle = "PANGEA (80%)") +
+plotRSR_byCellLine<-plotRSR_byCellLine + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
   xlab("") +
   ylab("Z-Score") + 
   guides(fill=guide_legend(title="Cell Line")) + 
   theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         axis.title.x=element_blank(),
         axis.ticks.x =element_blank(),
-        axis.text.x=element_blank())  #+
+        axis.text.x=element_blank())  +
+  facet_wrap(~Cell_Line)
+plotRSR_byCellLine
+
+#PARPness
+plotPARP_byCellLine<- PANGEA_JoinBoth_Drug%>%
+  arrange(desc(McGrailPARP_Z_Score)) %>%
+  filter(McGrailPARP_Z_Score >=2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailPARP_Z_Score), y=McGrailPARP_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotPARP_byCellLine<-plotPARP_byCellLine + labs(title = "Distribution of McGrail PARPness Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank()) $ +
   #facet_wrap(~Cell_Line)
-plotFinal
+plotPARP_byCellLine
+
 
 ```
 
