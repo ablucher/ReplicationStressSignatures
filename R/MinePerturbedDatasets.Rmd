@@ -146,13 +146,17 @@ View(PANGEA_McGrailPARP_Output)
 View(drugLibrary)
 PANGEA_JoinBoth<-left_join(PANGEA_McGrailPARP_Output, PANGEA_McGrailRSR_Output) 
 PANGEA_JoinBoth_Drug<-left_join(PANGEA_JoinBoth, drugLibrary) %>%
+  mutate(RSR_Rank = rank(-McGrailRSR_Z_Score),
+         PARP_Rank = rank(-McGrailPARP_Z_Score)) %>%
   select(Drug_CellLine, Drug, Cell_Line, Dose, Time, 
-         McGrailRSR_Corr, McGrailRSR_Z_Score,
-         McGrailPARP_Corr, McGrailPARP_Z_Score, 
+         McGrailRSR_Corr, McGrailRSR_Z_Score,RSR_Rank,
+         McGrailPARP_Corr, McGrailPARP_Z_Score, PARP_Rank,
          class, pathway, target, fda,Cmap_clinical)
 View(PANGEA_JoinBoth_Drug)
 #write to file
-write_csv(PANGEA_JoinBoth_Drug, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
+PANGEA_JoinBoth_Drug_Simple<-PANGEA_JoinBoth_Drug %>%
+  select(-Drug_CellLine)
+write_csv(PANGEA_JoinBoth_Drug_Simple, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
 
 
 #plots
@@ -282,7 +286,9 @@ PANGEA_JoinBoth_Drug_top<-PANGEA_JoinBoth_Drug %>%
   filter(McGrailRSR_Z_Score>=2.0 | McGrailPARP_Z_Score>=2.0) %>%
   mutate(DrugClass = ifelse(class=="anti-mitotic", "Anti-Mitotic", "Other"), 
          DrugClass2 =ifelse(class=="DNA", "DNA", DrugClass), 
-         DrugClassSimple = ifelse(class=="kinase", "Kinase", DrugClass2))
+         DrugClass3 = ifelse(class=="proteosome", "Proteosome", DrugClass2), 
+         DrugClass4 = ifelse(class=="anti-metabolite", "Anti-Metabolite", DrugClass3), 
+         DrugClassSimple = ifelse(class=="kinase", "Kinase", DrugClass4))
 View(PANGEA_JoinBoth_Drug_top)
 
 plotRSRvPARP_top<-ggscatter(PANGEA_JoinBoth_Drug_top, x = "McGrailPARP_Z_Score", y = "McGrailRSR_Z_Score",
@@ -310,7 +316,7 @@ plotRSRvPARP_top
 plotRSRvPARP_top<- PANGEA_JoinBoth_Drug_top%>%
   ggplot(aes(x=McGrailPARP_Z_Score, y=McGrailRSR_Z_Score, fill=DrugClassSimple)) +
   geom_point(size = 3, shape = 21)   + 
-  scale_fill_manual(values=c("darkorange1", "turquoise", "dodgerblue2", "grey76", "grey76"))+
+  scale_fill_manual(values=c("olivedrab1", "darkorange1", "turquoise", "dodgerblue2", "grey76", "violet", "grey76"))+
   labs(title = "McGrail RSR versus McGrail PARPness ", subtitle = "for PANGEA Perturbation Set")
 plotRSRvPARP_top
 
