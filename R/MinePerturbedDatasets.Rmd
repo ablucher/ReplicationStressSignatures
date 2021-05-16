@@ -102,80 +102,9 @@ PANGEA_McGrailRSR_Output<-PANGEA_McGrailRSR_ZScore %>%
   separate(Drug_CellLine, sep = "_", into = c("Drug", "Dose", "Time", "Cell_Line"),
            remove = FALSE) 
 View(PANGEA_McGrailRSR_Output)
-
-
-#barplot drug X cell lines over 2.0
-plotSubtype<- PANGEA_McGrailRSR_Output%>%
-  arrange(desc(McGrailRSR_Z_Score)) %>%
-  #filter(McGrailRSR_Z_Score >2.0) %>%
-  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
-  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
-  #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores All ", subtitle = "PANGEA (80%)") +
-  xlab("") +
-  ylab("Z-Score") + 
-  guides(fill=guide_legend(title="Cell Line")) + 
-  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
-        axis.title.x=element_blank(),
-        axis.ticks.x =element_blank(),
-        axis.text.x=element_blank())  #+
-  #facet_wrap(~Cell_Line)
-plotFinal
-ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByCellLine.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
-
-plotFinal
-
-#plot actual correlation distribution, not the z-score
-plotSubtype<- PANGEA_McGrailRSR_Output%>%
-  arrange(desc(McGrailRSR_Corr)) %>%
-  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Corr), y=McGrailRSR_Corr)) +
-  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
-  #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Correlations All ", subtitle = "PANGEA (80%)") +
-  xlab("") +
-  ylab("McGrail RSR Correlation") + 
-  guides(fill=guide_legend(title="Cell Line")) + 
-  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
-        axis.title.x=element_blank(),
-        axis.ticks.x =element_blank(),
-        axis.text.x=element_blank())  #+
-  #facet_wrap(~Cell_Line)
-plotFinal
 ```
 
-```{r}
-#join with drug library information
-#then plot by drug class
-drugLibrary<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-drug-library.csv")) %>%
-  select(Drug = X1, everything())
-View(drugLibrary)
-PANGEA_McGrailRSR_Output_joinDrug<-left_join(PANGEA_McGrailRSR_Output, drugLibrary) %>%
-  select(Drug, Cell_Line, Dose, Time, McGrailRSR_Corr, McGrailRSR_Z_Score, class, pathway, target, fda, Cmap_clinical)
-View(PANGEA_McGrailRSR_Output_joinDrug)
-#write to file
-write_csv(PANGEA_McGrailRSR_Output_joinDrug, here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits.csv"))
-
-#now show by drug
-plotSubtype<- PANGEA_McGrailRSR_Output_joinDrug%>%
-  arrange(desc(McGrailRSR_Z_Score)) %>%
-  filter(McGrailRSR_Z_Score >2.0) %>%
-  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
-  geom_bar(stat="identity", aes(fill=class)) #+ 
-  #scale_fill_manual(values = cols, na.value = "grey")  
-plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
-  xlab("") +
-  ylab("Z-Score") + 
-  guides(fill=guide_legend(title="Drug Class")) + 
-  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
-        axis.title.x=element_blank(),
-        axis.ticks.x =element_blank(),
-        axis.text.x=element_blank()) +
-  facet_wrap(~class)
-plotFinal
-ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugClass.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
-
-
-```
+Add PARPness
 
 ```{r}
 #05/16/21
@@ -222,20 +151,33 @@ PANGEA_JoinBoth_Drug<-left_join(PANGEA_JoinBoth, drugLibrary) %>%
          McGrailPARP_Corr, McGrailPARP_Z_Score, 
          class, pathway, target, fda,Cmap_clinical)
 View(PANGEA_JoinBoth_Drug)
-
 #write to file
 write_csv(PANGEA_JoinBoth_Drug, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
 
 
 #plots
+#RAR full distribution raw correlation scores
+plotRSR_RawCorr<- PANGEA_JoinBoth_Drug%>%
+  arrange(desc(McGrailRSR_Corr)) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Corr), y=McGrailRSR_Corr)) +
+  geom_bar(stat="identity",  aes(fill=Cell_Line))   
+plotRSR_RawCorr<-plotRSR_RawCorr + labs(title = "Distribution of McGrail RSR Correlations ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Correlation") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  
+plotRSR_RawCorr
+
 #McGrail barplot drug X cell lines over 2.0
 #with and without facet
 plotRSR_byCellLine<- PANGEA_JoinBoth_Drug%>%
   arrange(desc(McGrailRSR_Z_Score)) %>%
   filter(McGrailRSR_Z_Score >=2.0) %>%
   ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
-  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
-  #scale_fill_manual(values = cols, na.value = "grey")  
+  geom_bar(stat="identity", aes(fill=Cell_Line))   
 plotRSR_byCellLine<-plotRSR_byCellLine + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
   xlab("") +
   ylab("Z-Score") + 
@@ -247,13 +189,46 @@ plotRSR_byCellLine<-plotRSR_byCellLine + labs(title = "Distribution of McGrail R
   facet_wrap(~Cell_Line)
 plotRSR_byCellLine
 
-#PARPness
+#by class
+plotRSR_byClass<- PANGEA_JoinBoth_Drug%>%
+  arrange(desc(McGrailRSR_Z_Score)) %>%
+  filter(McGrailRSR_Z_Score >=2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=class))   
+plotRSR_byClass<-plotRSR_byClass + labs(title = "Distribution of McGrail RSR Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  +
+  facet_wrap(~class)
+plotRSR_byClass
+ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugClass.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
+
+#PARPness full distribution raw correlation scores
+plotPARP_RawCorr<- PANGEA_JoinBoth_Drug%>%
+  arrange(desc(McGrailPARP_Corr)) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailPARP_Corr), y=McGrailPARP_Corr)) +
+  geom_bar(stat="identity",  aes(fill=Cell_Line))   
+plotPARP_RawCorr<-plotPARP_RawCorr + labs(title = "Distribution of McGrail PARPness Correlations ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Correlation") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  
+plotPARP_RawCorr
+
+#PARPness Z-Score >2.0 only
 plotPARP_byCellLine<- PANGEA_JoinBoth_Drug%>%
   arrange(desc(McGrailPARP_Z_Score)) %>%
   filter(McGrailPARP_Z_Score >=2.0) %>%
   ggplot(aes(x=reorder(Drug_CellLine, -McGrailPARP_Z_Score), y=McGrailPARP_Z_Score)) +
-  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
-  #scale_fill_manual(values = cols, na.value = "grey")  
+  geom_bar(stat="identity",  aes(fill=Cell_Line))   
 plotPARP_byCellLine<-plotPARP_byCellLine + labs(title = "Distribution of McGrail PARPness Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
   xlab("") +
   ylab("Z-Score") + 
@@ -261,10 +236,28 @@ plotPARP_byCellLine<-plotPARP_byCellLine + labs(title = "Distribution of McGrail
   theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         axis.title.x=element_blank(),
         axis.ticks.x =element_blank(),
-        axis.text.x=element_blank()) $ +
-  #facet_wrap(~Cell_Line)
+        axis.text.x=element_blank())  +
+  facet_wrap(~Cell_Line)
 plotPARP_byCellLine
+ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailPARPness_TopHits_ByCellLine.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
+#by class
+plotPARP_byDrugClass<- PANGEA_JoinBoth_Drug%>%
+  arrange(desc(McGrailPARP_Z_Score)) %>%
+  filter(McGrailPARP_Z_Score >=2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailPARP_Z_Score), y=McGrailPARP_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=class)) #aes(fill=Cell_Line))   
+plotPARP_byDrugClass<-plotPARP_byDrugClass + labs(title = "Distribution of McGrail PARPness Z-Scores > 2.0 ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  +
+  facet_wrap(~class)
+plotPARP_byDrugClass
+ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailPARPness_TopHits_ByDrugClass.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 ```
 
