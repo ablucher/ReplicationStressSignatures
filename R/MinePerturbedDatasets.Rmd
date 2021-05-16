@@ -13,9 +13,12 @@ library(tidyverse)
 
 ```
 
-## R Markdown
+## Mining Perturbed Datasets for RSR Signatures
 
 R markdown for mining perturbed RNA data; collaborators' data. 
+
+
+Using McGrail RSR, McGrail PARPness, and GSVA Hallmarks() of interest
 
 ```{r}
 #collaborator dataset = PANGEA
@@ -151,6 +154,22 @@ plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores > 2.
   facet_wrap(~class)
 plotFinal
 ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugClass.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
+
+
+```
+
+```{r}
+#add mcgrail parpness
+#add gsva
+
+
+#summary file across all - ranking
+#add sheets - for top RSR, top PARPness, top
+
+##
+
+
+
 
 
 ```
