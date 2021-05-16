@@ -124,6 +124,23 @@ plotFinal
 ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByCellLine.png"), width = 26, height = 20, units = c("cm"), dpi = 300)
 
 plotFinal
+
+#plot actual correlation distribution, not the z-score
+plotSubtype<- PANGEA_McGrailRSR_Output%>%
+  arrange(desc(McGrailRSR_Corr)) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Corr), y=McGrailRSR_Corr)) +
+  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Correlations All ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("McGrail RSR Correlation") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  #+
+  #facet_wrap(~Cell_Line)
+plotFinal
 ```
 
 ```{r}
@@ -161,7 +178,40 @@ ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugC
 ```
 
 ```{r}
+#05/16/21
 #add mcgrail parpness
+RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+  arrange(Gene)
+View(RSRSignatureGenes)
+
+#run correlations to McGrail RSR
+PANGEA_de_training_RSRonly_McGrail<-PANGEA_de_training_RSRonly %>%
+  filter(Gene %in% RSRSignatureGenes$Gene)
+View(PANGEA_de_training_RSRonly_McGrail)
+#then join with coefficients, and re-format
+
+JoinedForCorrelationCalculation<-left_join(PANGEA_de_training_RSRonly_McGrail, RSRSignatureGenes)
+View(JoinedForCorrelationCalculation)
+
+PANGEA_McGrailRSR<-JoinedForCorrelationCalculation %>%
+  group_by(Drug_CellLine)%>%
+  summarize(McGrailRSR_Corr = cor(DE_Value, Coefficient ))
+View(PANGEA_McGrailRSR)
+
+PANGEA_McGrailRSR_ZScore<-PANGEA_McGrailRSR%>%
+  ungroup() %>%
+  mutate(Mean = mean(McGrailRSR_Corr), 
+            SD = sd(McGrailRSR_Corr), 
+         McGrailRSR_Z_Score = (McGrailRSR_Corr - Mean)/ SD) %>%
+  select(Drug_CellLine, McGrailRSR_Corr, McGrailRSR_Z_Score)
+View(PANGEA_McGrailRSR_ZScore)
+
+#clean up output and print
+PANGEA_McGrailRSR_Output<-PANGEA_McGrailRSR_ZScore %>%
+  separate(Drug_CellLine, sep = "_", into = c("Drug", "Dose", "Time", "Cell_Line"),
+           remove = FALSE) 
+View(PANGEA_McGrailRSR_Output)
+
 #add gsva
 
 
