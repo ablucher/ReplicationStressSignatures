@@ -180,38 +180,70 @@ ggsave(here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailRSR_TopHits_ByDrugC
 ```{r}
 #05/16/21
 #add mcgrail parpness
-RSRSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailRSR_Genes_Coefficients.tsv")) %>%
+PARPSignatureGenes<-read_tsv(here("data","RNA_Signatures", "McGrailPARPness_Genes_Coefficients.tsv")) %>%
   arrange(Gene)
-View(RSRSignatureGenes)
+View(PARPSignatureGenes) #147 genes
 
 #run correlations to McGrail RSR
-PANGEA_de_training_RSRonly_McGrail<-PANGEA_de_training_RSRonly %>%
-  filter(Gene %in% RSRSignatureGenes$Gene)
-View(PANGEA_de_training_RSRonly_McGrail)
+PANGEA_de_training_PARPonly_McGrail<-PANGEA_de_training_RSRonly %>%
+  filter(Gene %in% PARPSignatureGenes$Gene)
+View(PANGEA_de_training_PARPonly_McGrail)
 #then join with coefficients, and re-format
 
-JoinedForCorrelationCalculation<-left_join(PANGEA_de_training_RSRonly_McGrail, RSRSignatureGenes)
+JoinedForCorrelationCalculation<-left_join(PANGEA_de_training_PARPonly_McGrail, PARPSignatureGenes)
 View(JoinedForCorrelationCalculation)
 
-PANGEA_McGrailRSR<-JoinedForCorrelationCalculation %>%
+PANGEA_McGrailPARP<-JoinedForCorrelationCalculation %>%
   group_by(Drug_CellLine)%>%
-  summarize(McGrailRSR_Corr = cor(DE_Value, Coefficient ))
-View(PANGEA_McGrailRSR)
+  summarize(McGrailPARP_Corr = cor(DE_Value, Coefficient ))
+View(PANGEA_McGrailPARP)
 
-PANGEA_McGrailRSR_ZScore<-PANGEA_McGrailRSR%>%
+PANGEA_McGrailPARP_ZScore<-PANGEA_McGrailPARP%>%
   ungroup() %>%
-  mutate(Mean = mean(McGrailRSR_Corr), 
-            SD = sd(McGrailRSR_Corr), 
-         McGrailRSR_Z_Score = (McGrailRSR_Corr - Mean)/ SD) %>%
-  select(Drug_CellLine, McGrailRSR_Corr, McGrailRSR_Z_Score)
-View(PANGEA_McGrailRSR_ZScore)
+  mutate(Mean = mean(McGrailPARP_Corr), 
+            SD = sd(McGrailPARP_Corr), 
+         McGrailPARP_Z_Score = (McGrailPARP_Corr - Mean)/ SD) %>%
+  select(Drug_CellLine, McGrailPARP_Corr, McGrailPARP_Z_Score)
+View(PANGEA_McGrailPARP_ZScore)
 
 #clean up output and print
-PANGEA_McGrailRSR_Output<-PANGEA_McGrailRSR_ZScore %>%
+PANGEA_McGrailPARP_Output<-PANGEA_McGrailPARP_ZScore %>%
   separate(Drug_CellLine, sep = "_", into = c("Drug", "Dose", "Time", "Cell_Line"),
            remove = FALSE) 
-View(PANGEA_McGrailRSR_Output)
+View(PANGEA_McGrailPARP_Output)
 
+#join with drug
+#output file
+View(drugLibrary)
+PANGEA_McGrailPARP_Output_joinDrug<-left_join(PANGEA_McGrailPARP_Output, drugLibrary) %>%
+  select(Drug, Cell_Line, Dose, Time, McGrailPARP_Corr, McGrailPARP_Z_Score, class, pathway, target, fda,Cmap_clinical)
+View(PANGEA_McGrailPARP_Output_joinDrug)
+#write to file
+write_csv(PANGEA_McGrailPARP_Output_joinDrug, here("output", "MinePerturbed_PANGEA", "PANGEA_McGrailPARPness_TopHits.csv"))
+
+
+#plots
+#barplot drug X cell lines over 2.0
+plotSubtype<- PANGEA_McGrailRSR_Output%>%
+  arrange(desc(McGrailRSR_Z_Score)) %>%
+  #filter(McGrailRSR_Z_Score >2.0) %>%
+  ggplot(aes(x=reorder(Drug_CellLine, -McGrailRSR_Z_Score), y=McGrailRSR_Z_Score)) +
+  geom_bar(stat="identity", aes(fill=Cell_Line)) #+ 
+  #scale_fill_manual(values = cols, na.value = "grey")  
+plotFinal<-plotSubtype + labs(title = "Distribution of McGrail RSR Z-Scores All ", subtitle = "PANGEA (80%)") +
+  xlab("") +
+  ylab("Z-Score") + 
+  guides(fill=guide_legend(title="Cell Line")) + 
+  theme(#axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.title.x=element_blank(),
+        axis.ticks.x =element_blank(),
+        axis.text.x=element_blank())  #+
+  #facet_wrap(~Cell_Line)
+plotFinal
+
+```
+
+```{r}
 #add gsva
 
 
