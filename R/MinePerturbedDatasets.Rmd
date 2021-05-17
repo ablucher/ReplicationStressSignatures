@@ -326,14 +326,16 @@ plotRSRvPARP_top
 ```
 
 ```{r}
+#notes from 05/17/21 meeting
 #add gsva
+#compare with the RSR calls
+
+#compare RSR versus other GSVA() calls
 
 
-#summary file across all - ranking
-#add sheets - for top RSR, top PARPness, top
-
-##
-
+#and we need to pull BRCA status on these lines
+#baseline - ping lab again
+#
 
 
 
