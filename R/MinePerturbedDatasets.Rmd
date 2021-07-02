@@ -16,8 +16,6 @@ library(tidyverse)
 ## Mining Perturbed Datasets for RSR Signatures
 
 R markdown for mining perturbed RNA data; collaborators' data. 
-
-
 Using McGrail RSR, McGrail PARPness, and GSVA Hallmarks() of interest
 
 ```{r}
@@ -143,8 +141,15 @@ View(PANGEA_McGrailPARP_Output)
 
 #clean up for OUTPUT file
 #join with RSR file, join with drug library file
+
+#added Fri Jul 2
+drugLibrary<-read_csv(here("data", "Alfonso_PANGEA", "PANGEA-drug-library.csv")) %>%
+  select(Drug = `X1`, everything())
 View(drugLibrary)
+
+
 PANGEA_JoinBoth<-left_join(PANGEA_McGrailPARP_Output, PANGEA_McGrailRSR_Output) 
+View(PANGEA_JoinBoth)
 PANGEA_JoinBoth_Drug<-left_join(PANGEA_JoinBoth, drugLibrary) %>%
   mutate(RSR_Rank = rank(-McGrailRSR_Z_Score),
          PARP_Rank = rank(-McGrailPARP_Z_Score)) %>%
@@ -156,7 +161,7 @@ View(PANGEA_JoinBoth_Drug)
 #write to file
 PANGEA_JoinBoth_Drug_Simple<-PANGEA_JoinBoth_Drug %>%
   select(-Drug_CellLine)
-write_csv(PANGEA_JoinBoth_Drug_Simple, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
+#write_csv(PANGEA_JoinBoth_Drug_Simple, here("output", "MinePerturbed_PANGEA", "PANGEA_MineRSR_PARPness.csv"))
 
 
 #plots
@@ -174,6 +179,9 @@ plotRSR_RawCorr<-plotRSR_RawCorr + labs(title = "Distribution of McGrail RSR Cor
         axis.ticks.x =element_blank(),
         axis.text.x=element_blank())  
 plotRSR_RawCorr
+```
+
+```{r}
 
 #McGrail barplot drug X cell lines over 2.0
 #with and without facet
@@ -279,6 +287,9 @@ plotRSRvPARP<-ggscatter(PANGEA_JoinBoth_Drug, x = "McGrailPARP_Z_Score", y = "Mc
    subtitle="for PANGEA Perturbation Set"
    )
 plotRSRvPARP
+```
+
+```{r}
 
 #then zoom in
 #require in the top RSR or the top PARPness
@@ -336,6 +347,10 @@ plotRSRvPARP_top
 #and we need to pull BRCA status on these lines
 #baseline - ping lab again
 #
+
+
+
+
 
 
 
