@@ -1,8 +1,10 @@
 # Exploring Replication Stress Signatures for Prioritizing Combination Therapies with DNA Damage Repair Drugs
 
-Replication stress, or the accumulation of double-stranded DNA breaks, presents a therapeutic opportunity in many cancers, including breasst and pancreatic tumors. When present, we can target with DNA Damage Repair (DDR) drugs, such as ATR/ATM, CHK1, and WEE1 inhibitors. Here, we explore existing expression based signatures of replication stress and assess their ability to predict in vitro drug response for this class of drugs. The replication stress phenotype is closely associated with homologous repair deficiencies (HRD), such as BRCA1/2 alterations, which can be targeted with PARP inhibitor therapies, however disentangling these two phenotypes remains a challenge. 
+Replication stress (RS), or the accumulation of double-stranded DNA breaks, presents a therapeutic opportunity in many cancers, including breast and pancreatic tumors. When RS is present, we can target replication stress response (RSR) genes and proteins with DNA Damage Repair (DDR) drugs, such as ATR/ATM, CHK1, and WEE1 inhibitors. Here, we explore existing expression-based signatures of replication stress and assess their ability to predict in vitro drug response for this class of drugs. The replication stress phenotype is closely associated with homologous repair deficiencies (HRD), such as BRCA1/2 alterations, which can be targeted with PARP inhibitor therapies, however disentangling these two phenotypes remains a challenge. 
 
-First we assess the prevalance of RSR across cancer types, and then we examine key drug sensitivity and resistance features differing between the high RSR and the low RSR groups. We then mine for these signatures in perturbed drug screening data sets to nominate drugs for using in combo therapies.
+First we assess the prevalence of RSR across cancer cell lines (using CCLE data), and then we examine key drug sensitivity and resistance features between the high RSR and the low RSR groups. We then mine for these signatures in perturbed drug screening data sets to nominate drugs for using in combo therapies.
+
+Edits 7/8/21, with git connect/ set up.
 
 ## Public Datasets
 
